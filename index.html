@@ -76,6 +76,12 @@
       height: 48px;
     }
 
+    .navbar-center {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
     @media (max-width: 650px) {
       .navbar {
         justify-content: center;
@@ -464,6 +470,8 @@
   <nav class="navbar">
     <div class="logo-group">
       <img src="scouts logo.jpg" alt="Scouts de México" loading="lazy">
+    </div>
+    <div class="logo-group navbar-center">
       <img src="red slp logo.jpg" alt="Red de Jóvenes SLP" loading="lazy">
     </div>
     <div class="logo-group">
@@ -531,6 +539,9 @@
       <label>Objetivo Principal *
         <textarea id="objetivo" placeholder="Describe el propósito central de tu iniciativa..." required></textarea>
       </label>
+      <label>Actividades propuestas *
+        <textarea id="actividades" placeholder="Enumera las actividades que realizarán..." required></textarea>
+      </label>
       <label>Clan de Rovers *
         <input type="text" id="clan" placeholder="Clan Águila" required>
       </label>
@@ -539,6 +550,9 @@
       </label>
       <label>CUM (Clave Única de Membresía) *
         <input type="text" id="cum" placeholder="CUM-12345" required>
+      </label>
+      <label>Teléfono del Clan/Rover *
+        <input type="text" id="telefono" placeholder="4441234567" required>
       </label>
       <label>Correo de contacto *
         <input type="email" id="correo" placeholder="maria@scouts.mx" required>
@@ -578,9 +592,7 @@
         const institucion = this.getAttribute('data-institucion') || 'Organización';
         institucionHidden.value = institucion;
         modalOverlay.classList.add('open');
-        // reset de campos (opcional)
         form.reset();
-        // rellenar campo oculto
       });
     });
 
@@ -593,33 +605,25 @@
       if (e.target === modalOverlay) cerrarModal();
     });
 
-    // --- filtros rápidos (hover/brillo ya en css) y buscador básico ---
+    // --- filtros rápidos y buscador ---
     const filterBtns = document.querySelectorAll('.filter-btn');
     const cards = document.querySelectorAll('.card');
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
 
     function filtrarTarjetas(filtro) {
-      let visibleCount = 0;
       cards.forEach(card => {
         const cat = card.getAttribute('data-category') || '';
         const texto = card.innerText.toLowerCase();
         const matchFiltro = !filtro || filtro === 'todos' || cat === filtro;
         const matchSearch = !searchInput.value || texto.includes(searchInput.value.toLowerCase());
-        if (matchFiltro && matchSearch) {
-          card.style.display = 'flex';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
+        card.style.display = (matchFiltro && matchSearch) ? 'flex' : 'none';
       });
-      // opcional: si no hay resultados, se podría mostrar mensaje, pero dejamos así.
     }
 
     filterBtns.forEach(btn => {
       btn.addEventListener('click', function() {
-        const filtro = this.getAttribute('data-filter') || 'todos';
-        filtrarTarjetas(filtro);
+        filtrarTarjetas(this.getAttribute('data-filter') || 'todos');
       });
     });
 
@@ -630,7 +634,6 @@
       if (e.key === 'Enter') filtrarTarjetas('todos');
     });
 
-    // reset a todos al cargar
     window.addEventListener('load', function() {
       filtrarTarjetas('todos');
     });
@@ -639,17 +642,19 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // validación simple
+      // validación
       const proyecto = document.getElementById('proyecto').value.trim();
       const objetivo = document.getElementById('objetivo').value.trim();
+      const actividades = document.getElementById('actividades').value.trim();
       const clan = document.getElementById('clan').value.trim();
       const responsable = document.getElementById('responsable').value.trim();
       const cum = document.getElementById('cum').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
       const correo = document.getElementById('correo').value.trim();
       const fecha = document.getElementById('fecha').value;
       const institucion = institucionHidden.value || 'Organización';
 
-      if (!proyecto || !objetivo || !clan || !responsable || !cum || !correo || !fecha) {
+      if (!proyecto || !objetivo || !actividades || !clan || !responsable || !cum || !telefono || !correo || !fecha) {
         alert('Por favor completa todos los campos obligatorios.');
         return;
       }
@@ -660,66 +665,96 @@
         const doc = new jsPDF('p', 'mm', 'a4');
         const pageWidth = 210;
         const margin = 20;
+        const lineHeight = 7;
+        let y = 20;
 
-        // membretado institucional (simulado)
-        doc.setFillColor(111, 45, 189); // morado
-        doc.rect(0, 0, pageWidth, 12, 'F');
-        doc.setFontSize(20);
+        // --- FUNCIÓN para agregar texto con negritas y salto de línea automático ---
+        function addTextLines(text, x, y, fontSize = 11, isBold = false, maxWidth = pageWidth - 2 * margin) {
+          doc.setFontSize(fontSize);
+          doc.setFont(undefined, isBold ? 'bold' : 'normal');
+          const lines = doc.splitTextToSize(text, maxWidth);
+          lines.forEach((line, idx) => {
+            doc.text(line, x, y + (idx * lineHeight * 0.8));
+          });
+          return y + (lines.length * lineHeight * 0.8) + 2;
+        }
+
+        // 1. ENCABEZADO con logos (simulados con texto + rectángulos)
+        // Banda morada superior
+        doc.setFillColor(111, 45, 189);
+        doc.rect(0, 0, pageWidth, 14, 'F');
+        doc.setFontSize(16);
         doc.setTextColor(255, 255, 255);
-        doc.text('Red de Jóvenes · ConectaRed', margin, 8);
-
-        doc.setFontSize(11);
-        doc.setTextColor(40, 30, 50);
-
-        // fecha actual
-        const hoy = new Date().toLocaleDateString('es-MX', { year:'numeric', month:'long', day:'numeric' });
-        doc.text(`San Luis Potosí, ${hoy}`, pageWidth - margin - 40, 24);
-
-        // dirigido a
-        doc.setFontSize(13);
-        doc.setFont(undefined, 'bold');
-        doc.text(`A la atención de: ${institucion}`, margin, 38);
-        doc.setFont(undefined, 'normal');
-
-        // cuerpo carta
-        const line1 = `Por medio de la presente, la Red de Jóvenes Scouts —a través del Clan ${clan}—`;
-        const line2 = `presenta el proyecto "${proyecto}", cuyo objetivo principal es:`;
-        const line3 = `“${objetivo}”`;
-        const line4 = `Este proyecto será liderado por ${responsable} (CUM: ${cum}), con fecha tentativa de inicio el ${fecha}.`;
-        const line5 = `Solicitamos formalmente su valiosa colaboración y apertura institucional.`;
-
-        doc.text(line1, margin, 50);
-        doc.text(line2, margin, 58);
-        doc.text(line3, margin, 66);
-        doc.text(line4, margin, 78);
-        doc.text(line5, margin, 90);
-
-        // pie membretado
+        doc.text('Asociación de Scouts de México, A.C.', margin, 10);
         doc.setFontSize(10);
-        doc.setTextColor(80);
-        doc.text('Coordinación de Relaciones Exteriores - Red de Jóvenes', margin, 115);
-        doc.setDrawColor(111, 45, 189);
-        doc.line(margin, 120, pageWidth - margin, 120);
+        doc.text('Provincia San Luis Potosí', pageWidth - margin - 40, 10);
 
-        // firma digital simulada
+        // Fecha a la derecha (dinámica)
+        const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+        const hoy = new Date();
+        const fechaStr = `San Luis Potosí, S.L.P. A ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
         doc.setFontSize(11);
-        doc.setTextColor(40);
-        doc.text('Atentamente,', margin, 135);
-        doc.setFont(undefined, 'bold');
-        doc.text('Red de Jóvenes Scouts · ConectaRed', margin, 145);
+        doc.setTextColor(30);
+        y = addTextLines(fechaStr, pageWidth - margin - 50, 22, 11, false, 50);
+
+        // Asunto en negritas
+        y = addTextLines(`Asunto: ${proyecto}`, margin, y + 4, 12, true);
+
+        // 2. DESTINATARIO
+        y = addTextLines(`Estimada oficina de ${institucion} en San Luis Potosí, por medio de la presente, reciba un cordial saludo.`, margin, y + 6, 11, false);
+
+        // 3. CUERPO
+        y = addTextLines(`Nos permitimos poner a su disposición el talento y la disposición de servicio de la Red de Jóvenes de la Provincia San Luis Potosí, organismo que representa a la juventud de la Asociación de Scouts de México, A.C. en nuestro estado.`, margin, y + 4, 11, false);
+
+        y = addTextLines(`Como es de su conocimiento, compartimos profundamente la misión de formar "buenos cristianos y honestos ciudadanos". Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
+
+        // Bullets con objetivo y actividades
+        const bullet1 = `• Objetivo principal: ${objetivo}`;
+        const bullet2 = `• Actividades propuestas: ${actividades}`;
+        y = addTextLines(bullet1, margin + 4, y + 4, 11, false);
+        y = addTextLines(bullet2, margin + 4, y + 2, 11, false);
+
+        y = addTextLines(`Agradecemos de antemano su atención a esta propuesta, con la seguridad de que nuestra participación contribuirá a fortalecer los lazos comunitarios en beneficio de quienes más lo necesitan.`, margin, y + 6, 11, false);
+
+        y = addTextLines(`Quedamos atentos a sus comentarios para coordinar una breve reunión y, en su caso, formalizar esta alianza estratégica.`, margin, y + 4, 11, false);
+
+        // 4. DOBLE FIRMA
+        y = addTextLines(`Siempre listos para servir,`, margin, y + 8, 12, true);
+
+        // Fila de firmas: dos columnas
+        const leftX = margin;
+        const rightX = pageWidth / 2 + 10;
+        const firmaY = y + 6;
+
+        // FIRMA 1: Relaciones Exteriores
+        doc.setFontSize(11);
         doc.setFont(undefined, 'normal');
-        doc.text('“Ustedes proponen, nosotros abrimos las puertas”', margin, 156);
+        doc.text('_______________________________', leftX, firmaY);
+        doc.text('Rafael Magaña Rangel', leftX, firmaY + 6);
+        doc.text('Relaciones Exteriores – Red de Jóvenes', leftX, firmaY + 12);
+        doc.text('Provincia San Luis Potosí', leftX, firmaY + 18);
+        doc.text('Asociación de Scouts de México, A.C.', leftX, firmaY + 24);
+        doc.text('Tel: 4447135378 | Email: red.jovenes.san_luis_potosi@scouts.org.mx', leftX, firmaY + 30);
+
+        // FIRMA 2: Remitente del Clan (dinámico)
+        doc.text('_______________________________', rightX, firmaY);
+        doc.text(`${responsable} (CUM: ${cum})`, rightX, firmaY + 6);
+        doc.text(`Responsable de Proyecto - Clan de Rovers: ${clan}`, rightX, firmaY + 12);
+        doc.text(`Tel: ${telefono} | Email: ${correo}`, rightX, firmaY + 18);
+
+        // Pie de página institucional
+        doc.setFontSize(9);
+        doc.setTextColor(100);
+        doc.text('Red de Jóvenes · ConectaRed · "Ustedes proponen, nosotros abrimos las puertas"', pageWidth / 2, 285, { align: 'center' });
 
         // Descargar
         doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
 
-        // mostrar toast éxito y cerrar modal
+        // toast éxito
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 5000);
         cerrarModal();
-        // reset formulario (opcional)
         form.reset();
-        // resetear institución
         institucionHidden.value = '';
       } else {
         alert('La librería jspdf no se cargó correctamente. Revisa tu conexión.');
