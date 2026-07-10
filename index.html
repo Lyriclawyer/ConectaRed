@@ -294,7 +294,7 @@
       }
     }
 
-    /* ===== MODAL PRINCIPAL (Ficha + Formulario) ===== */
+    /* ===== MODAL PRINCIPAL ===== */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -352,7 +352,7 @@
       transform: rotate(90deg);
     }
 
-    /* === VISTA FICHA === */
+    /* Ficha */
     .ficha-view {
       display: block;
       animation: fadeUp 0.3s ease;
@@ -433,7 +433,7 @@
       transform: scale(1.01);
     }
 
-    /* === VISTA FORMULARIO === */
+    /* Formulario */
     .form-view {
       display: none;
       animation: fadeUp 0.3s ease;
@@ -486,6 +486,10 @@
       min-height: 70px;
       resize: vertical;
     }
+    .form-view input[type="file"] {
+      padding: 8px 6px;
+      background: white;
+    }
 
     .form-actions {
       display: flex;
@@ -520,7 +524,7 @@
       transform: scale(1.01);
     }
 
-    /* ===== TOAST ===== */
+    /* Toast */
     .toast-success {
       position: fixed;
       bottom: 40px;
@@ -564,26 +568,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
-      .modal-panel {
-        padding: 20px 16px;
-        max-height: 96vh;
-      }
-      .ficha-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-      .mapa-container {
-        height: 160px;
-      }
-      .form-actions {
-        flex-direction: column;
-      }
-      .form-actions button {
-        flex: unset;
-        width: 100%;
-      }
+      .modal-panel { padding: 20px 16px; max-height: 96vh; }
+      .ficha-grid { grid-template-columns: 1fr; gap: 8px; }
+      .mapa-container { height: 160px; }
+      .form-actions { flex-direction: column; }
+      .form-actions button { flex: unset; width: 100%; }
     }
   </style>
 </head>
@@ -593,10 +583,10 @@
   <!-- ===== NAVBAR ===== -->
   <nav class="navbar">
     <div class="logo-group">
-      <img src="scouts logo.png" alt="Scouts de México" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%236F2DBD%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3EScouts%3C/text%3E%3C/svg%3E'">
+      <img src="as.jpg" alt="Scouts de México" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%236F2DBD%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3EAS%3C/text%3E%3C/svg%3E'">
     </div>
     <div class="logo-group navbar-center">
-      <img src="red slp logo.jpg" alt="Red de Jóvenes SLP" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%23009A44%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3ERed SLP%3C/text%3E%3C/svg%3E'">
+      <img src="Provincia.jpg" alt="Provincia SLP" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%23009A44%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3EProvincia%3C/text%3E%3C/svg%3E'">
     </div>
     <div class="logo-group">
       <img src="centenario logo.png" alt="Centenario" class="logo-centenario" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2248%22%3E%3Crect width=%22120%22 height=%2248%22 fill=%22%23f68b2c%22/%3E%3Ctext x=%226%22 y=%2232%22 fill=%22white%22 font-size=%2216%22%3ECentenario%3C/text%3E%3C/svg%3E'">
@@ -686,6 +676,9 @@
         <label>Fecha tentativa de inicio *
           <input type="date" id="fecha" required>
         </label>
+        <label>Sube una imagen de tu firma (Firma del Responsable del Proyecto)
+          <input type="file" id="firmaResponsable" accept="image/*">
+        </label>
         <input type="hidden" id="institucionHidden" value="">
 
         <div class="form-actions">
@@ -709,26 +702,26 @@
 
     // ===== BASE DE DATOS =====
     const organizations = [
-      { id: 1, nombre: "Cáritas San Luis Potosí Oficinas Centrales", sector: "Asistencia social", descripcion: "Programas de alimentación, salud, desarrollo comunitario y apoyo a personas vulnerables.", contacto: "Dirección General o Coordinación de Voluntariado", correo: "Solicitar vía oficina central", telefono: "(444) 812-2351", direccion: "Álvaro Obregón 626, Zona Centro", mapa: "https://maps.google.com/maps?q=Alvaro+Obregon+626,+Zona+Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 2, nombre: "Casa de la Caridad Hogar del Migrante Mons. Luis Morales Reyes", sector: "Migración", descripcion: "Alberga y brinda apoyo integral a personas migrantes.", contacto: "Dirección General", correo: "Solicitar vía recepción", telefono: "(444) 815-6225", direccion: "Juan Álvarez 210, Barrio de Tlaxcala", mapa: "https://maps.google.com/maps?q=Juan+Alvarez+210,+Barrio+de+Tlaxcala,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 3, nombre: "Perteneces A.C.", sector: "Inclusión", descripcion: "Programas de inclusión social y atención a personas con discapacidad.", contacto: "Dirección General", correo: "Solicitar por oficina", telefono: "(444) 811-4431", direccion: "Tangamanga, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Tangamanga,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 4, nombre: "Fundación Nutriendo", sector: "Infancia", descripcion: "Combate la desnutrición infantil y promueve alimentación saludable.", contacto: "Dirección General o Procuración de Fondos", correo: "Solicitar por oficina", telefono: "(444) 813-9913", direccion: "Villantigua, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Villantigua,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 5, nombre: "Fundación Somos Potosí", sector: "Desarrollo comunitario", descripcion: "Promueve programas sociales, voluntariado, derechos humanos y capacitación ciudadana.", contacto: "Dirección General", correo: "info@somospotosi.com", telefono: "(444) 520-9897", direccion: "San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=San+Luis+Potosi+Somos+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 6, nombre: "Fondo Potosino", sector: "Desarrollo comunitario", descripcion: "Vincula empresas, OSC y ciudadanía para financiar proyectos sociales y ambientales.", contacto: "Dirección Ejecutiva", correo: "hola@fondopotosino.org", telefono: "WhatsApp (444) 130-2140", direccion: "San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=San+Luis+Potosi+Fondo+Potosino&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 7, nombre: "Colonia Juvenil", sector: "Asistencia social", descripcion: "Formación integral y desarrollo de niñas, niños y adolescentes.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 821-2514", direccion: "Col. Gálvez, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Col.+Galvez,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 8, nombre: "Otra Oportunidad, A.C.", sector: "Inclusión", descripcion: "Atención y acompañamiento a mujeres en situación de vulnerabilidad.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 814-7231", direccion: "Barrio de San Sebastián, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Barrio+de+San+Sebastian,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 9, nombre: "Razón por la Vida", sector: "Salud", descripcion: "Apoyo a personas con enfermedades y programas de acompañamiento.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 814-9402", direccion: "Col. Francisco I. Madero, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Col.+Francisco+I.+Madero,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 10, nombre: "Casa Hogar Betesda, A.C.", sector: "Infancia", descripcion: "Atención residencial y apoyo social.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 151-5310", direccion: "Garita de Jalisco, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Garita+de+Jalisco,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 11, nombre: "Casa Hogar de Niños", sector: "Infancia", descripcion: "Atención y protección de menores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 128-0389", direccion: "Barrio San Miguelito, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Barrio+San+Miguelito,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 12, nombre: "Hogar de Niños San Luis Potosí", sector: "Infancia", descripcion: "Casa hogar para menores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 815-4530", direccion: "Barrio San Miguelito, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Barrio+San+Miguelito+Hogar+de+Ninos&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 13, nombre: "Asilo de Ancianos Santa Martha A.C.", sector: "Adulto mayor", descripcion: "Atención integral a personas mayores.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 812-6391", direccion: "Centro Histórico, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Centro+Historico+Asilo+Santa+Martha,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 14, nombre: "Asilo de Los Pobres de San Antonio A.C.", sector: "Adulto mayor", descripcion: "Atención permanente a adultos mayores.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 810-0037", direccion: "Centro Histórico, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Centro+Historico+Asilo+San+Antonio,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 15, nombre: "Casa Hogar Feliz Atardecer", sector: "Adulto mayor", descripcion: "Residencia y cuidados para personas mayores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 412-2267", direccion: "Polanco, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Polanco,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 16, nombre: "Centro Comunitario de la Familia", sector: "Desarrollo comunitario", descripcion: "Talleres, apoyo familiar y actividades comunitarias.", contacto: "Coordinación General", correo: "Solicitar vía oficina", telefono: "(444) 816-1100", direccion: "Centro, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 17, nombre: "Fundación Música Para La Vida A.C.", sector: "Cultura", descripcion: "Formación musical y desarrollo social mediante el arte.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 420-7701", direccion: "San Luis Rey, San Luis Potosí", mapa: "https://maps.google.com/maps?q=San+Luis+Rey,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 18, nombre: "Asociación Mexicana de Ayuda a Niños con Cáncer (AMANC SLP)", sector: "Salud", descripcion: "Apoya a niñas, niños y adolescentes con cáncer; cuenta con programa de voluntariado.", contacto: "Coordinación de Voluntariado", correo: "amancslp@hotmail.com", telefono: "(444) 411-1499", direccion: "Camino a la Presa San José 455, Los Filtros", mapa: "https://maps.google.com/maps?q=Camino+a+la+Presa+San+Jose+455,+Los+Filtros,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 19, nombre: "Banco de Alimentos 'De la Mano por San Luis'", sector: "Alimentación", descripcion: "Rescate y distribución de alimentos, voluntariado y apoyo comunitario.", contacto: "Coordinación de Voluntariado", correo: "contacto@bamxsanluis.org.mx", telefono: "(444) 480-7782", direccion: "Tierra Blanca, San Luis Potosí", mapa: "https://maps.google.com/maps?q=Tierra+Blanca,+San+Luis+Potosi+Banco+de+Alimentos&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 20, nombre: "Sistema DIF Estatal de San Luis Potosí", sector: "Asistencia social", descripcion: "Vincula instituciones de asistencia social, programas comunitarios y apoyo a población vulnerable.", contacto: "Dirección de Gestión y Participación Social", correo: "virginia.zuniga@difslp.gob.mx", telefono: "(444) 151-5000", direccion: "Nicolás Fernando Torre 500, Col. Burócrata", mapa: "https://maps.google.com/maps?q=Nicolas+Fernando+Torre+500,+Col.+Burocrata,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" }
+      { id: 1, nombre: "Cáritas San Luis Potosí Oficinas Centrales", sector: "Asistencia social", descripcion: "Programas de alimentación, salud, desarrollo comunitario y apoyo a personas vulnerables.", contacto: "Dirección General o Coordinación de Voluntariado", correo: "Solicitar vía oficina central", telefono: "(444) 812-2351", direccion: "Álvaro Obregón 626, Zona Centro, C.P. 78000, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Alvaro+Obregon+626,+Zona+Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 2, nombre: "Casa de la Caridad Hogar del Migrante Mons. Luis Morales Reyes", sector: "Migración", descripcion: "Alberga y brinda apoyo integral a personas migrantes.", contacto: "Dirección General", correo: "Solicitar vía recepción", telefono: "(444) 815-6225", direccion: "Juan Álvarez No. 210, Barrio de Tlaxcala, C.P. 78038, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Juan+Alvarez+210,+Barrio+de+Tlaxcala,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 3, nombre: "Perteneces A.C.", sector: "Inclusión", descripcion: "Programas de inclusión social y atención a personas con discapacidad.", contacto: "Dirección General", correo: "Solicitar por oficina", telefono: "(444) 811-4431", direccion: "Tangamanga, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Tangamanga,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 4, nombre: "Fundación Nutriendo", sector: "Infancia", descripcion: "Combate la desnutrición infantil y promueve alimentación saludable.", contacto: "Dirección General o Procuración de Fondos", correo: "Solicitar por oficina", telefono: "(444) 813-9913", direccion: "Av. Sierra Leona 360, Piso 11, Col. Villantigua, C.P. 78214, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Av.+Sierra+Leona+360,+Villantigua,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 5, nombre: "Fundación Somos Potosí", sector: "Desarrollo comunitario", descripcion: "Promueve programas sociales, voluntariado, derechos humanos y capacitación ciudadana.", contacto: "Dirección General", correo: "info@somospotosi.com", telefono: "(444) 520-9897", direccion: "San Luis Potosí, S.L.P. (sin dirección pública verificable)", mapa: "https://maps.google.com/maps?q=San+Luis+Potosi&t=&z=12&ie=UTF8&iwloc=&output=embed" },
+      { id: 6, nombre: "Fondo Potosino", sector: "Desarrollo comunitario", descripcion: "Vincula empresas, OSC y ciudadanía para financiar proyectos sociales y ambientales.", contacto: "Dirección Ejecutiva", correo: "hola@fondopotosino.org", telefono: "WhatsApp (444) 130-2140", direccion: "Alttus Corporate Center & Plaza, Av. Sierra Leona 360, Suite 944, Piso 9, C.P. 78217, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Av.+Sierra+Leona+360,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 7, nombre: "Colonia Juvenil", sector: "Asistencia social", descripcion: "Formación integral y desarrollo de niñas, niños y adolescentes.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 821-2514", direccion: "Col. Gálvez, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Col.+Galvez,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 8, nombre: "Otra Oportunidad, A.C.", sector: "Inclusión", descripcion: "Atención y acompañamiento a mujeres en situación de vulnerabilidad.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 814-7231", direccion: "Barrio de San Sebastián, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Barrio+de+San+Sebastian,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 9, nombre: "Razón por la Vida", sector: "Salud", descripcion: "Apoyo a personas con enfermedades y programas de acompañamiento.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 814-9402", direccion: "Col. Francisco I. Madero, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Col.+Francisco+I.+Madero,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 10, nombre: "Casa Hogar Betesda, A.C.", sector: "Infancia", descripcion: "Atención residencial y apoyo social.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 151-5310", direccion: "Garita de Jalisco, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Garita+de+Jalisco,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 11, nombre: "Casa Hogar de Niños", sector: "Infancia", descripcion: "Atención y protección de menores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 128-0389", direccion: "Barrio San Miguelito, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Barrio+San+Miguelito,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 12, nombre: "Hogar de Niños San Luis Potosí", sector: "Infancia", descripcion: "Casa hogar para menores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 815-4530", direccion: "Barrio San Miguelito, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Barrio+San+Miguelito+Hogar+de+Ninos&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 13, nombre: "Asilo de Ancianos Santa Martha A.C.", sector: "Adulto mayor", descripcion: "Atención integral a personas mayores.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 812-6391", direccion: "Centro Histórico, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Centro+Historico+Asilo+Santa+Martha,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 14, nombre: "Asilo de Los Pobres de San Antonio A.C.", sector: "Adulto mayor", descripcion: "Atención permanente a adultos mayores.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 810-0037", direccion: "Centro Histórico, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Centro+Historico+Asilo+San+Antonio,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 15, nombre: "Casa Hogar Feliz Atardecer", sector: "Adulto mayor", descripcion: "Residencia y cuidados para personas mayores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 412-2267", direccion: "Polanco, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Polanco,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 16, nombre: "Centro Comunitario de la Familia", sector: "Desarrollo comunitario", descripcion: "Talleres, apoyo familiar y actividades comunitarias.", contacto: "Coordinación General", correo: "Solicitar vía oficina", telefono: "(444) 816-1100", direccion: "Centro, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 17, nombre: "Fundación Música Para La Vida A.C.", sector: "Cultura", descripcion: "Formación musical y desarrollo social mediante el arte.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 420-7701", direccion: "San Luis Rey, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=San+Luis+Rey,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 18, nombre: "Asociación Mexicana de Ayuda a Niños con Cáncer (AMANC SLP)", sector: "Salud", descripcion: "Apoya a niñas, niños y adolescentes con cáncer; cuenta con programa de voluntariado.", contacto: "Coordinación de Voluntariado", correo: "amancslp@hotmail.com", telefono: "(444) 411-1499", direccion: "Camino a la Presa San José 455, Col. Lomas los Filtros, C.P. 78219, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Camino+a+la+Presa+San+Jose+455,+Los+Filtros,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 19, nombre: "Banco de Alimentos 'De la Mano por San Luis'", sector: "Alimentación", descripcion: "Rescate y distribución de alimentos, voluntariado y apoyo comunitario.", contacto: "Coordinación de Voluntariado", correo: "contacto@bamxsanluis.org.mx", telefono: "(444) 480-7782", direccion: "Calle Otomíes No. 148, Col. Industrial San Luis, C.P. 78395, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Calle+Otomies+148,+Industrial+San+Luis,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 20, nombre: "Sistema DIF Estatal de San Luis Potosí", sector: "Asistencia social", descripcion: "Vincula instituciones de asistencia social, programas comunitarios y apoyo a población vulnerable.", contacto: "Dirección de Gestión y Participación Social", correo: "virginia.zuniga@difslp.gob.mx", telefono: "(444) 151-5000", direccion: "Nicolás Fernando Torre 500, Col. Burócrata, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Nicolas+Fernando+Torre+500,+Col.+Burocrata,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" }
     ];
 
     // ===== DOM REFS =====
@@ -773,7 +766,6 @@
         `;
         cardsContainer.appendChild(card);
       });
-      // attach event listeners a los botones
       document.querySelectorAll('.btn-vinculacion').forEach(btn => {
         btn.addEventListener('click', function(e) {
           e.stopPropagation();
@@ -803,7 +795,6 @@
         filterCards();
       });
     });
-    // activar "Todas" por defecto
     document.querySelector('.filter-btn[data-filter="all"]')?.classList.add('active');
 
     searchBtn.addEventListener('click', filterCards);
@@ -822,7 +813,6 @@
       fichaMapa.src = org.mapa;
       institucionHidden.value = org.nombre;
 
-      // mostrar ficha, ocultar form
       fichaView.classList.remove('hidden');
       formView.classList.remove('active');
       modalOverlay.classList.add('open');
@@ -830,7 +820,6 @@
 
     function closeModal() {
       modalOverlay.classList.remove('open');
-      // resetear vista
       fichaView.classList.remove('hidden');
       formView.classList.remove('active');
     }
@@ -840,7 +829,6 @@
       if (e.target === modalOverlay) closeModal();
     });
 
-    // ===== CAMBIAR A FORMULARIO =====
     btnIrFormulario.addEventListener('click', function() {
       fichaView.classList.add('hidden');
       formView.classList.add('active');
@@ -865,6 +853,7 @@
       const correo = document.getElementById('correo').value.trim();
       const fecha = document.getElementById('fecha').value;
       const institucion = institucionHidden.value || 'Organización';
+      const firmaFile = document.getElementById('firmaResponsable').files[0];
 
       if (!proyecto || !objetivo || !actividades || !clan || !responsable || !cum || !telefono || !correo || !fecha) {
         alert('Por favor completa todos los campos obligatorios.');
@@ -878,6 +867,7 @@
         const margin = 20;
         let y = 20;
 
+        // ===== FUNCIÓN auxiliar para texto con wrap =====
         function addTextLines(text, x, y, fontSize = 11, isBold = false, maxWidth = pageWidth - 2 * margin) {
           doc.setFontSize(fontSize);
           doc.setFont(undefined, isBold ? 'bold' : 'normal');
@@ -888,7 +878,8 @@
           return y + (lines.length * 6.5) + 2;
         }
 
-        // Banda superior
+        // ===== 1. ENCABEZADO CON LOGOS =====
+        // Banda superior morada
         doc.setFillColor(111, 45, 189);
         doc.rect(0, 0, pageWidth, 14, 'F');
         doc.setFontSize(16);
@@ -897,31 +888,36 @@
         doc.setFontSize(10);
         doc.text('Provincia San Luis Potosí', pageWidth - margin - 40, 10);
 
+        // Logos en el membrete (simulados con texto, ya que no podemos incrustar imágenes sin base64)
+        // En un entorno real se usaría doc.addImage con base64, pero aquí se indica la ubicación
+        doc.setFontSize(8);
+        doc.setTextColor(80);
+        doc.text('[Logo AS]', margin, 22);
+        doc.text('[Logo Provincia]', pageWidth/2 - 10, 22);
+        doc.text('[Logo Centenario]', pageWidth - margin - 20, 22);
+
+        // Fecha a la derecha
         const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
         const hoy = new Date();
         const fechaStr = `San Luis Potosí, S.L.P. A ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
         doc.setFontSize(11);
         doc.setTextColor(30);
-        y = addTextLines(fechaStr, pageWidth - margin - 50, 22, 11, false, 50);
+        y = addTextLines(fechaStr, pageWidth - margin - 50, 26, 11, false, 50);
 
-        y = addTextLines(`Asunto: ${proyecto}`, margin, y + 4, 12, true);
+        // ===== 2. ASUNTO Y DESTINATARIO =====
+        y = addTextLines(`Asunto: Propuesta de colaboración para ${proyecto}`, margin, y + 6, 12, true);
+        y = addTextLines(`Estimada oficina de ${institucion} en San Luis Potosí, por medio de la presente, reciba un cordial saludo.`, margin, y + 4, 11, false);
 
-        y = addTextLines(`Estimada oficina de ${institucion} en San Luis Potosí, por medio de la presente, reciba un cordial saludo.`, margin, y + 6, 11, false);
-
+        // ===== 3. CUERPO =====
         y = addTextLines(`Nos permitimos poner a su disposición el talento y la disposición de servicio de la Red de Jóvenes de la Provincia San Luis Potosí, organismo que representa a la juventud de la Asociación de Scouts de México, A.C. en nuestro estado.`, margin, y + 4, 11, false);
 
-        y = addTextLines(`Como es de su conocimiento, compartimos profundamente la misión de formar "buenos cristianos y honestos ciudadanos". Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
+        y = addTextLines(`Objetivo principal: ${objetivo}`, margin, y + 4, 11, false);
+        y = addTextLines(`Actividades propuestas: ${actividades}`, margin, y + 2, 11, false);
 
-        const bullet1 = `• Objetivo principal: ${objetivo}`;
-        const bullet2 = `• Actividades propuestas: ${actividades}`;
-        y = addTextLines(bullet1, margin + 4, y + 4, 11, false);
-        y = addTextLines(bullet2, margin + 4, y + 2, 11, false);
+        y = addTextLines(`Agradecemos de antemano su atención a esta propuesta, con la seguridad de que nuestra participación contribuirá a fortalecer los lazos comunitarios en beneficio de quienes más lo necesitan. Quedamos atentos a sus comentarios para coordinar una breve reunión y, en su caso, formalizar esta alianza estratégica.`, margin, y + 6, 11, false);
 
-        y = addTextLines(`Agradecemos de antemano su atención a esta propuesta, con la seguridad de que nuestra participación contribuirá a fortalecer los lazos comunitarios en beneficio de quienes más lo necesitan.`, margin, y + 6, 11, false);
-
-        y = addTextLines(`Quedamos atentos a sus comentarios para coordinar una breve reunión y, en su caso, formalizar esta alianza estratégica.`, margin, y + 4, 11, false);
-
-        y = addTextLines(`Siempre listos para servir,`, margin, y + 8, 12, true);
+        // ===== 4. CIERRE Y FIRMAS =====
+        y = addTextLines(`Siempre listos para servir,`, margin, y + 10, 12, true);
 
         const leftX = margin;
         const rightX = pageWidth / 2 + 10;
@@ -929,6 +925,8 @@
 
         doc.setFontSize(11);
         doc.setFont(undefined, 'normal');
+
+        // Columna Izquierda - Firma Relaciones Exteriores (fija)
         doc.text('_______________________________', leftX, firmaY);
         doc.text('Rafael Magaña Rangel', leftX, firmaY + 6);
         doc.text('Relaciones Exteriores – Red de Jóvenes', leftX, firmaY + 12);
@@ -936,22 +934,50 @@
         doc.text('Asociación de Scouts de México, A.C.', leftX, firmaY + 24);
         doc.text('Tel: 4447135378 | Email: red.jovenes.san_luis_potosi@scouts.org.mx', leftX, firmaY + 30);
 
+        // Columna Derecha - Firma del Responsable (dinámica con imagen si se cargó)
         doc.text('_______________________________', rightX, firmaY);
         doc.text(`${responsable} (CUM: ${cum})`, rightX, firmaY + 6);
         doc.text(`Responsable de Proyecto - Clan de Rovers: ${clan}`, rightX, firmaY + 12);
         doc.text(`Tel: ${telefono} | Email: ${correo}`, rightX, firmaY + 18);
 
+        // Si se cargó imagen de firma, incrustarla (simulada, ya que no tenemos base64 real aquí)
+        if (firmaFile) {
+          const reader = new FileReader();
+          reader.onload = function(ev) {
+            try {
+              const imgData = ev.target.result;
+              doc.addImage(imgData, 'JPEG', rightX + 10, firmaY - 8, 30, 10);
+              // Se guarda nuevamente con la imagen
+              doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
+            } catch(e) {
+              doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
+            }
+          };
+          reader.readAsDataURL(firmaFile);
+        } else {
+          // Si no hay firma, guardar directamente
+          doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
+        }
+
+        // Pie de página
         doc.setFontSize(9);
         doc.setTextColor(100);
         doc.text('Red de Jóvenes · ConectaRed · "Ustedes proponen, nosotros abrimos las puertas"', pageWidth / 2, 285, { align: 'center' });
 
-        doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
+        // Si no hay firma, ya se guardó arriba, si hay firma se guarda en el onload
+        if (!firmaFile) {
+          // ya se guardó
+        }
 
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 5000);
-        closeModal();
-        form.reset();
-        institucionHidden.value = '';
+        // Mostrar toast y cerrar modal (se ejecuta después de guardar)
+        setTimeout(() => {
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 5000);
+          closeModal();
+          form.reset();
+          institucionHidden.value = '';
+        }, 500);
+
       } else {
         alert('La librería jspdf no se cargó correctamente. Revisa tu conexión.');
       }
