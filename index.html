@@ -23,10 +23,8 @@
 
     :root {
       --morado: #6F2DBD;
-      --morado-claro: #8b5bd6;
       --verde-scout: #009A44;
       --naranja: #f68b2c;
-      --gris-fondo: #f4f0fa;
       --sombra: 0 12px 28px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(111, 45, 189, 0.08);
       --radio: 16px;
     }
@@ -586,7 +584,7 @@
       <img src="as.jpg" alt="Scouts de México" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%236F2DBD%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3EAS%3C/text%3E%3C/svg%3E'">
     </div>
     <div class="logo-group navbar-center">
-      <img src="Provincia.jpg" alt="Provincia SLP" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%23009A44%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3EProvincia%3C/text%3E%3C/svg%3E'">
+      <img src="red slp logo.jpg" alt="Red de Jóvenes SLP" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%23009A44%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3ERed%20SLP%3C/text%3E%3C/svg%3E'">
     </div>
     <div class="logo-group">
       <img src="centenario logo.png" alt="Centenario" class="logo-centenario" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2248%22%3E%3Crect width=%22120%22 height=%2248%22 fill=%22%23f68b2c%22/%3E%3Ctext x=%226%22 y=%2232%22 fill=%22white%22 font-size=%2216%22%3ECentenario%3C/text%3E%3C/svg%3E'">
@@ -878,8 +876,8 @@
           return y + (lines.length * 6.5) + 2;
         }
 
-        // ===== 1. ENCABEZADO CON LOGOS =====
-        // Banda superior morada
+        // ===== 1. ENCABEZADO =====
+        // Banda superior
         doc.setFillColor(111, 45, 189);
         doc.rect(0, 0, pageWidth, 14, 'F');
         doc.setFontSize(16);
@@ -888,45 +886,56 @@
         doc.setFontSize(10);
         doc.text('Provincia San Luis Potosí', pageWidth - margin - 40, 10);
 
-        // Logos en el membrete (simulados con texto, ya que no podemos incrustar imágenes sin base64)
-        // En un entorno real se usaría doc.addImage con base64, pero aquí se indica la ubicación
+        // Logos (texto placeholder)
         doc.setFontSize(8);
         doc.setTextColor(80);
-        doc.text('[Logo AS]', margin, 22);
-        doc.text('[Logo Provincia]', pageWidth/2 - 10, 22);
-        doc.text('[Logo Centenario]', pageWidth - margin - 20, 22);
+        doc.text('[Logo AS]', margin, 24);
+        doc.text('[Logo Red SLP]', pageWidth/2 - 15, 24);
+        doc.text('[Logo Centenario]', pageWidth - margin - 25, 24);
 
-        // Fecha a la derecha
+        // Fecha
         const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
         const hoy = new Date();
         const fechaStr = `San Luis Potosí, S.L.P. A ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
         doc.setFontSize(11);
         doc.setTextColor(30);
-        y = addTextLines(fechaStr, pageWidth - margin - 50, 26, 11, false, 50);
+        y = addTextLines(fechaStr, pageWidth - margin - 50, 28, 11, false, 50);
 
-        // ===== 2. ASUNTO Y DESTINATARIO =====
+        // ===== 2. ASUNTO =====
         y = addTextLines(`Asunto: Propuesta de colaboración para ${proyecto}`, margin, y + 6, 12, true);
+
+        // ===== 3. DESTINATARIO =====
         y = addTextLines(`Estimada oficina de ${institucion} en San Luis Potosí, por medio de la presente, reciba un cordial saludo.`, margin, y + 4, 11, false);
 
-        // ===== 3. CUERPO =====
+        // ===== 4. CUERPO =====
         y = addTextLines(`Nos permitimos poner a su disposición el talento y la disposición de servicio de la Red de Jóvenes de la Provincia San Luis Potosí, organismo que representa a la juventud de la Asociación de Scouts de México, A.C. en nuestro estado.`, margin, y + 4, 11, false);
 
-        y = addTextLines(`Objetivo principal: ${objetivo}`, margin, y + 4, 11, false);
-        y = addTextLines(`Actividades propuestas: ${actividades}`, margin, y + 2, 11, false);
+        y = addTextLines(`Como es de su conocimiento, compartimos profundamente la misión de formar "buenos cristianos y honestos ciudadanos". Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
 
-        y = addTextLines(`Agradecemos de antemano su atención a esta propuesta, con la seguridad de que nuestra participación contribuirá a fortalecer los lazos comunitarios en beneficio de quienes más lo necesitan. Quedamos atentos a sus comentarios para coordinar una breve reunión y, en su caso, formalizar esta alianza estratégica.`, margin, y + 6, 11, false);
+        y = addTextLines(`• Objetivo principal: ${objetivo}`, margin + 4, y + 4, 11, false);
+        y = addTextLines(`• Actividades propuestas: ${actividades}`, margin + 4, y + 2, 11, false);
 
-        // ===== 4. CIERRE Y FIRMAS =====
+        y = addTextLines(`Agradecemos de antemano su atención a esta propuesta, con la seguridad de que nuestra participación contribuirá a fortalecer los lazos comunitarios en beneficio de quienes más lo necesitan.`, margin, y + 6, 11, false);
+
+        y = addTextLines(`Quedamos atentos a sus comentarios para coordinar una breve reunión y, en su caso, formalizar esta alianza estratégica.`, margin, y + 4, 11, false);
+
+        // ===== 5. FIRMA DOBLE CON LÍNEA DIVISORA =====
         y = addTextLines(`Siempre listos para servir,`, margin, y + 10, 12, true);
 
         const leftX = margin;
         const rightX = pageWidth / 2 + 10;
+        const centerX = pageWidth / 2;
         const firmaY = y + 6;
 
         doc.setFontSize(11);
         doc.setFont(undefined, 'normal');
 
-        // Columna Izquierda - Firma Relaciones Exteriores (fija)
+        // Línea divisora vertical
+        doc.setDrawColor(180, 180, 180);
+        doc.setLineWidth(0.5);
+        doc.line(centerX - 2, firmaY - 4, centerX - 2, firmaY + 38);
+
+        // Columna Izquierda - Relaciones Exteriores
         doc.text('_______________________________', leftX, firmaY);
         doc.text('Rafael Magaña Rangel', leftX, firmaY + 6);
         doc.text('Relaciones Exteriores – Red de Jóvenes', leftX, firmaY + 12);
@@ -934,49 +943,44 @@
         doc.text('Asociación de Scouts de México, A.C.', leftX, firmaY + 24);
         doc.text('Tel: 4447135378 | Email: red.jovenes.san_luis_potosi@scouts.org.mx', leftX, firmaY + 30);
 
-        // Columna Derecha - Firma del Responsable (dinámica con imagen si se cargó)
+        // Columna Derecha - Clan/Rover
         doc.text('_______________________________', rightX, firmaY);
         doc.text(`${responsable} (CUM: ${cum})`, rightX, firmaY + 6);
-        doc.text(`Responsable de Proyecto - Clan de Rovers: ${clan}`, rightX, firmaY + 12);
+        doc.text(`Responsable de Proyecto - Clan: ${clan}`, rightX, firmaY + 12);
         doc.text(`Tel: ${telefono} | Email: ${correo}`, rightX, firmaY + 18);
 
-        // Si se cargó imagen de firma, incrustarla (simulada, ya que no tenemos base64 real aquí)
+        // ===== 6. PIE DE PÁGINA =====
+        doc.setFontSize(9);
+        doc.setTextColor(100);
+        doc.text('Red de Jóvenes · ConectaRed · "Ustedes proponen, nosotros abrimos las puertas"', pageWidth / 2, 285, { align: 'center' });
+
+        // ===== 7. GUARDAR PDF =====
+        // Si hay firma, procesarla con FileReader
         if (firmaFile) {
           const reader = new FileReader();
           reader.onload = function(ev) {
             try {
               const imgData = ev.target.result;
               doc.addImage(imgData, 'JPEG', rightX + 10, firmaY - 8, 30, 10);
-              // Se guarda nuevamente con la imagen
               doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
             } catch(e) {
               doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
             }
+            mostrarExito();
           };
           reader.readAsDataURL(firmaFile);
         } else {
-          // Si no hay firma, guardar directamente
           doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
+          mostrarExito();
         }
 
-        // Pie de página
-        doc.setFontSize(9);
-        doc.setTextColor(100);
-        doc.text('Red de Jóvenes · ConectaRed · "Ustedes proponen, nosotros abrimos las puertas"', pageWidth / 2, 285, { align: 'center' });
-
-        // Si no hay firma, ya se guardó arriba, si hay firma se guarda en el onload
-        if (!firmaFile) {
-          // ya se guardó
-        }
-
-        // Mostrar toast y cerrar modal (se ejecuta después de guardar)
-        setTimeout(() => {
+        function mostrarExito() {
           toast.classList.add('show');
           setTimeout(() => toast.classList.remove('show'), 5000);
           closeModal();
           form.reset();
           institucionHidden.value = '';
-        }, 500);
+        }
 
       } else {
         alert('La librería jspdf no se cargó correctamente. Revisa tu conexión.');
