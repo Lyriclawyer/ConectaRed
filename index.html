@@ -595,7 +595,7 @@
       transform: scale(1.02);
     }
 
-    /* ===== MODAL DE CONTACTO (Gmail y Teléfono) ===== */
+    /* ===== MODAL DE CONTACTO (con datos de la organización) ===== */
     .contacto-overlay {
       position: fixed;
       inset: 0;
@@ -627,15 +627,22 @@
     }
 
     .contacto-panel h2 {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       color: var(--morado);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
+    }
+
+    .contacto-panel .org-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a0f2b;
+      margin-bottom: 16px;
     }
 
     .contacto-panel .sub {
       color: #3d3250;
       margin-bottom: 20px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
     .contacto-item {
@@ -870,23 +877,24 @@
     <h2>✅ ¡PDF Generado!</h2>
     <p>Tu carta de vinculación ha sido creada exitosamente.<br>¿Qué deseas hacer ahora?</p>
     <div class="decision-buttons">
-      <button class="btn-enviar-asociacion" id="btnEnviarAsociacion">📧 Enviar formato a la Asociación</button>
+      <button class="btn-enviar-asociacion" id="btnEnviarAsociacion">📧 Enviar formato a la organización</button>
       <button class="btn-solo-continuar" id="btnSoloContinuar">➡️ Solo continuar</button>
     </div>
   </div>
 </div>
 
-<!-- ===== MODAL DE CONTACTO ===== -->
+<!-- ===== MODAL DE CONTACTO (con datos de la organización) ===== -->
 <div class="contacto-overlay" id="contactoOverlay">
   <div class="contacto-panel">
-    <h2>📨 Contacta a la Asociación</h2>
+    <h2>📨 Enviar a la organización</h2>
+    <div class="org-name" id="contactoOrgName">Nombre de la organización</div>
     <p class="sub">Elige el medio por el cual deseas enviar tu formato de vinculación:</p>
 
-    <div class="contacto-item" id="contactoGmail">
+    <div class="contacto-item" id="contactoCorreo">
       <div class="icono">📧</div>
       <div class="info">
         <div class="label">Correo electrónico</div>
-        <div class="valor">red.jovenes.san_luis_potosi@scouts.org.mx</div>
+        <div class="valor" id="contactoCorreoValor">correo@ejemplo.com</div>
       </div>
     </div>
 
@@ -894,7 +902,7 @@
       <div class="icono">📱</div>
       <div class="info">
         <div class="label">Teléfono / WhatsApp</div>
-        <div class="valor">444 713 5378</div>
+        <div class="valor" id="contactoTelefonoValor">(444) 123-4567</div>
       </div>
     </div>
 
@@ -959,8 +967,11 @@
     // Contacto Modal
     const contactoOverlay = document.getElementById('contactoOverlay');
     const btnCerrarContacto = document.getElementById('btnCerrarContacto');
-    const contactoGmail = document.getElementById('contactoGmail');
+    const contactoCorreo = document.getElementById('contactoCorreo');
     const contactoTelefono = document.getElementById('contactoTelefono');
+    const contactoCorreoValor = document.getElementById('contactoCorreoValor');
+    const contactoTelefonoValor = document.getElementById('contactoTelefonoValor');
+    const contactoOrgName = document.getElementById('contactoOrgName');
 
     // elementos ficha
     const fichaNombre = document.getElementById('fichaNombre');
@@ -973,7 +984,6 @@
     const fichaMapa = document.getElementById('fichaMapa');
 
     let currentOrg = null;
-    let pdfGenerado = false;
 
     // ===== RENDER TARJETAS =====
     function renderCards(list) {
@@ -1072,8 +1082,11 @@
       decisionOverlay.classList.remove('open');
     }
 
-    // ===== FUNCIÓN PARA MOSTRAR CONTACTO =====
-    function mostrarContacto() {
+    // ===== FUNCIÓN PARA MOSTRAR CONTACTO (con datos de la organización) =====
+    function mostrarContacto(org) {
+      contactoOrgName.textContent = org.nombre;
+      contactoCorreoValor.textContent = org.correo;
+      contactoTelefonoValor.textContent = org.telefono;
       contactoOverlay.classList.add('open');
     }
 
@@ -1084,8 +1097,17 @@
     // Eventos de decisión
     btnEnviarAsociacion.addEventListener('click', function() {
       cerrarDecisiones();
-      // Mostrar el modal de contacto
-      setTimeout(mostrarContacto, 300);
+      // Mostrar el modal de contacto con los datos de la organización
+      if (currentOrg) {
+        setTimeout(() => mostrarContacto(currentOrg), 300);
+      } else {
+        // Fallback: usar la institución del hidden
+        const nombre = institucionHidden.value || 'Organización';
+        const org = organizations.find(o => o.nombre === nombre);
+        if (org) {
+          setTimeout(() => mostrarContacto(org), 300);
+        }
+      }
     });
 
     btnSoloContinuar.addEventListener('click', function() {
@@ -1104,12 +1126,32 @@
       if (e.target === contactoOverlay) cerrarContacto();
     });
 
-    contactoGmail.addEventListener('click', function() {
-      window.location.href = 'mailto:red.jovenes.san_luis_potosi@scouts.org.mx';
+    contactoCorreo.addEventListener('click', function() {
+      const email = contactoCorreoValor.textContent;
+      if (email && email !== 'Solicitar vía oficina central' && email !== 'Solicitar vía recepción' && email !== 'Solicitar por oficina') {
+        window.location.href = `mailto:${email}`;
+      } else {
+        alert('Esta organización no tiene un correo electrónico público disponible. Por favor, contacta por teléfono o visita sus oficinas.');
+      }
     });
 
     contactoTelefono.addEventListener('click', function() {
-      window.location.href = 'tel:4447135378';
+      const telefono = contactoTelefonoValor.textContent;
+      // Limpiar el teléfono para URL
+      let cleanPhone = telefono.replace(/\s/g, '').replace(/[()\-]/g, '');
+      if (cleanPhone.startsWith('444')) {
+        window.location.href = `tel:${cleanPhone}`;
+      } else if (telefono.includes('WhatsApp')) {
+        // Extraer número de WhatsApp
+        const match = telefono.match(/\d{3}\s*\d{3}\s*\d{4}/);
+        if (match) {
+          window.location.href = `https://wa.me/52${match[0].replace(/\s/g, '')}`;
+        } else {
+          alert('Por favor contacta por teléfono al número indicado.');
+        }
+      } else {
+        alert('Por favor contacta por teléfono al número indicado.');
+      }
     });
 
     // ===== FORMULARIO Y GENERACIÓN PDF =====
@@ -1152,7 +1194,6 @@
         }
 
         // ===== 1. ENCABEZADO CON LOGOS =====
-        // Banda superior
         doc.setFillColor(111, 45, 189);
         doc.rect(0, 0, pageWidth, 12, 'F');
         doc.setFontSize(14);
@@ -1161,39 +1202,15 @@
         doc.setFontSize(10);
         doc.text('Provincia San Luis Potosí', pageWidth - margin - 35, 9);
 
-        // Logos en el membrete - ajustados para verse bien
+        // Logos
         const logoY = 15;
         const logoHeight = 13;
         const logoWidth = 25;
 
-        // Logo AS (izquierda)
-        try {
-          doc.addImage('as.jpg', 'JPEG', margin, logoY, logoWidth, logoHeight);
-        } catch(e) {
-          doc.setFontSize(7);
-          doc.setTextColor(100);
-          doc.text('[AS]', margin + 8, logoY + 8);
-        }
+        try { doc.addImage('as.jpg', 'JPEG', margin, logoY, logoWidth, logoHeight); } catch(e) {}
+        try { doc.addImage('red slp logo.jpg', 'JPEG', pageWidth/2 - 15, logoY, logoWidth, logoHeight); } catch(e) {}
+        try { doc.addImage('Provincia.jpg', 'JPEG', pageWidth - margin - logoWidth, logoY, logoWidth, logoHeight); } catch(e) {}
 
-        // Logo Red SLP (centro)
-        try {
-          doc.addImage('red slp logo.jpg', 'JPEG', pageWidth/2 - 15, logoY, logoWidth, logoHeight);
-        } catch(e) {
-          doc.setFontSize(7);
-          doc.setTextColor(100);
-          doc.text('[Red SLP]', pageWidth/2 - 10, logoY + 8);
-        }
-
-        // Logo Provincia (derecha)
-        try {
-          doc.addImage('Provincia.jpg', 'JPEG', pageWidth - margin - logoWidth, logoY, logoWidth, logoHeight);
-        } catch(e) {
-          doc.setFontSize(7);
-          doc.setTextColor(100);
-          doc.text('[Provincia]', pageWidth - margin - 20, logoY + 8);
-        }
-
-        // Línea divisoria
         doc.setDrawColor(200, 200, 200);
         doc.setLineWidth(0.3);
         doc.line(margin, 31, pageWidth - margin, 31);
@@ -1217,7 +1234,6 @@
 
         y = addTextLines(`Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
 
-        // Bullets
         y = addTextLines(`• Objetivo principal: ${objetivo}`, margin + 4, y + 4, 11, false);
         y = addTextLines(`• Actividades propuestas: ${actividades}`, margin + 4, y + 2, 11, false);
 
@@ -1225,7 +1241,7 @@
 
         y = addTextLines(`Quedamos atentos a sus comentarios para coordinar una breve reunión y, en su caso, formalizar esta alianza estratégica.`, margin, y + 4, 11, false);
 
-        // ===== FIRMA DOBLE CON LÍNEA DIVISORA =====
+        // ===== FIRMA DOBLE =====
         y = addTextLines(`Siempre listos para servir,`, margin, y + 10, 12, true);
 
         const leftX = margin;
@@ -1236,15 +1252,12 @@
         doc.setFontSize(11);
         doc.setFont(undefined, 'normal');
 
-        // Línea divisora vertical
         doc.setDrawColor(180, 180, 180);
         doc.setLineWidth(0.5);
         doc.line(centerX - 2, firmaY - 4, centerX - 2, firmaY + 38);
 
-        // ===== COLUMNA IZQUIERDA - Firma Rafael Magaña =====
+        // Columna Izquierda - Rafael Magaña
         doc.text('_______________________________', leftX, firmaY);
-
-        // Imagen de firma rmr.jpg
         try {
           doc.addImage('rmr.jpg', 'JPEG', leftX + 5, firmaY - 8, 50, 12);
         } catch(e) {
@@ -1257,7 +1270,6 @@
         doc.text('Provincia San Luis Potosí', leftX, yFirma + 16);
         doc.text('Asociación de Scouts de México, A.C.', leftX, yFirma + 22);
 
-        // Email en AZUL y ajustado para que no se pase
         doc.setTextColor(0, 100, 200);
         const emailTexto = 'Tel: 4447135378 | Email: red.jovenes.san_luis_potosi@scouts.org.mx';
         const emailLines = doc.splitTextToSize(emailTexto, 80);
@@ -1266,11 +1278,10 @@
         });
         doc.setTextColor(30);
 
-        // ===== COLUMNA DERECHA - Firma del Clan/Rover =====
+        // Columna Derecha - Clan/Rover
         doc.text('_______________________________', rightX, firmaY);
         doc.text(`${responsable} (CUM: ${cum})`, rightX, firmaY + 6);
         doc.text(`Responsable de Proyecto - Clan: ${clan}`, rightX, firmaY + 12);
-        // Email en AZUL
         doc.setTextColor(0, 100, 200);
         const emailRover = `Tel: ${telefono} | Email: ${correo}`;
         const roverLines = doc.splitTextToSize(emailRover, 80);
@@ -1282,9 +1293,7 @@
         // ===== GUARDAR PDF =====
         const guardarPDF = function() {
           doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
-          // Mostrar modal de decisiones
           mostrarDecisiones();
-          // Resetear formulario
           form.reset();
           institucionHidden.value = '';
         };
