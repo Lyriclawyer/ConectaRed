@@ -516,6 +516,185 @@
       transform: scale(1.01);
     }
 
+    /* ===== MODAL DE DECISIÓN POST-PDF ===== */
+    .decision-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 5, 20, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1500;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s;
+      padding: 20px;
+    }
+    .decision-overlay.open {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .decision-panel {
+      background: white;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 28px;
+      padding: 32px 36px 36px;
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      animation: fadeUp 0.3s ease;
+    }
+
+    .decision-panel h2 {
+      font-size: 1.8rem;
+      color: var(--verde-scout);
+      margin-bottom: 8px;
+    }
+
+    .decision-panel p {
+      color: #3d3250;
+      margin-bottom: 24px;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .decision-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .decision-buttons button {
+      padding: 14px 24px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-enviar-asociacion {
+      background: var(--morado);
+      color: white;
+      box-shadow: 0 4px 12px rgba(111, 45, 189, 0.3);
+    }
+    .btn-enviar-asociacion:hover {
+      background: #551b99;
+      transform: scale(1.02);
+    }
+
+    .btn-solo-continuar {
+      background: #ece6f3;
+      color: var(--morado);
+    }
+    .btn-solo-continuar:hover {
+      background: #ddd2ea;
+      transform: scale(1.02);
+    }
+
+    /* ===== MODAL DE CONTACTO (Gmail y Teléfono) ===== */
+    .contacto-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 5, 20, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1600;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s;
+      padding: 20px;
+    }
+    .contacto-overlay.open {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .contacto-panel {
+      background: white;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 28px;
+      padding: 32px 36px 36px;
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      animation: fadeUp 0.3s ease;
+    }
+
+    .contacto-panel h2 {
+      font-size: 1.6rem;
+      color: var(--morado);
+      margin-bottom: 6px;
+    }
+
+    .contacto-panel .sub {
+      color: #3d3250;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    .contacto-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: #f5f0fa;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      text-align: left;
+      transition: 0.2s;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .contacto-item:hover {
+      border-color: var(--morado);
+      background: #ede6f5;
+    }
+
+    .contacto-item .icono {
+      font-size: 2rem;
+      width: 48px;
+      text-align: center;
+    }
+
+    .contacto-item .info {
+      flex: 1;
+    }
+    .contacto-item .info .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #73608a;
+      letter-spacing: 0.3px;
+    }
+    .contacto-item .info .valor {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e142b;
+      word-break: break-all;
+    }
+
+    .btn-cerrar-contacto {
+      background: #ece6f3;
+      color: var(--morado);
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 8px;
+      width: 100%;
+    }
+    .btn-cerrar-contacto:hover {
+      background: #ddd2ea;
+    }
+
     /* Toast */
     .toast-success {
       position: fixed;
@@ -556,7 +735,7 @@
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -566,6 +745,9 @@
       .mapa-container { height: 160px; }
       .form-actions { flex-direction: column; }
       .form-actions button { flex: unset; width: 100%; }
+      .decision-panel { padding: 24px 20px; }
+      .contacto-panel { padding: 24px 20px; }
+      .contacto-item { flex-direction: column; text-align: center; gap: 8px; }
     }
   </style>
 </head>
@@ -614,7 +796,7 @@
   <div class="grid-cards" id="cardsContainer"></div>
 </div>
 
-<!-- ===== MODAL ===== -->
+<!-- ===== MODAL PRINCIPAL ===== -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-panel">
     <button class="modal-close" id="closeModalBtn">✕</button>
@@ -682,6 +864,44 @@
   </div>
 </div>
 
+<!-- ===== MODAL DE DECISIÓN ===== -->
+<div class="decision-overlay" id="decisionOverlay">
+  <div class="decision-panel">
+    <h2>✅ ¡PDF Generado!</h2>
+    <p>Tu carta de vinculación ha sido creada exitosamente.<br>¿Qué deseas hacer ahora?</p>
+    <div class="decision-buttons">
+      <button class="btn-enviar-asociacion" id="btnEnviarAsociacion">📧 Enviar formato a la Asociación</button>
+      <button class="btn-solo-continuar" id="btnSoloContinuar">➡️ Solo continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL DE CONTACTO ===== -->
+<div class="contacto-overlay" id="contactoOverlay">
+  <div class="contacto-panel">
+    <h2>📨 Contacta a la Asociación</h2>
+    <p class="sub">Elige el medio por el cual deseas enviar tu formato de vinculación:</p>
+
+    <div class="contacto-item" id="contactoGmail">
+      <div class="icono">📧</div>
+      <div class="info">
+        <div class="label">Correo electrónico</div>
+        <div class="valor">red.jovenes.san_luis_potosi@scouts.org.mx</div>
+      </div>
+    </div>
+
+    <div class="contacto-item" id="contactoTelefono">
+      <div class="icono">📱</div>
+      <div class="info">
+        <div class="label">Teléfono / WhatsApp</div>
+        <div class="valor">444 713 5378</div>
+      </div>
+    </div>
+
+    <button class="btn-cerrar-contacto" id="btnCerrarContacto">✕ Cerrar</button>
+  </div>
+</div>
+
 <!-- ===== TOAST ===== -->
 <div class="toast-success" id="toastSuccess">
   <span class="check">✔</span>
@@ -731,6 +951,17 @@
     const institucionHidden = document.getElementById('institucionHidden');
     const toast = document.getElementById('toastSuccess');
 
+    // Decision Modal
+    const decisionOverlay = document.getElementById('decisionOverlay');
+    const btnEnviarAsociacion = document.getElementById('btnEnviarAsociacion');
+    const btnSoloContinuar = document.getElementById('btnSoloContinuar');
+
+    // Contacto Modal
+    const contactoOverlay = document.getElementById('contactoOverlay');
+    const btnCerrarContacto = document.getElementById('btnCerrarContacto');
+    const contactoGmail = document.getElementById('contactoGmail');
+    const contactoTelefono = document.getElementById('contactoTelefono');
+
     // elementos ficha
     const fichaNombre = document.getElementById('fichaNombre');
     const fichaSector = document.getElementById('fichaSector');
@@ -742,6 +973,7 @@
     const fichaMapa = document.getElementById('fichaMapa');
 
     let currentOrg = null;
+    let pdfGenerado = false;
 
     // ===== RENDER TARJETAS =====
     function renderCards(list) {
@@ -831,6 +1063,55 @@
       fichaView.classList.remove('hidden');
     });
 
+    // ===== FUNCIÓN PARA MOSTRAR DECISIONES =====
+    function mostrarDecisiones() {
+      decisionOverlay.classList.add('open');
+    }
+
+    function cerrarDecisiones() {
+      decisionOverlay.classList.remove('open');
+    }
+
+    // ===== FUNCIÓN PARA MOSTRAR CONTACTO =====
+    function mostrarContacto() {
+      contactoOverlay.classList.add('open');
+    }
+
+    function cerrarContacto() {
+      contactoOverlay.classList.remove('open');
+    }
+
+    // Eventos de decisión
+    btnEnviarAsociacion.addEventListener('click', function() {
+      cerrarDecisiones();
+      // Mostrar el modal de contacto
+      setTimeout(mostrarContacto, 300);
+    });
+
+    btnSoloContinuar.addEventListener('click', function() {
+      cerrarDecisiones();
+      // Mostrar toast de éxito
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 5000);
+      closeModal();
+      form.reset();
+      institucionHidden.value = '';
+    });
+
+    // Eventos de contacto
+    btnCerrarContacto.addEventListener('click', cerrarContacto);
+    contactoOverlay.addEventListener('click', function(e) {
+      if (e.target === contactoOverlay) cerrarContacto();
+    });
+
+    contactoGmail.addEventListener('click', function() {
+      window.location.href = 'mailto:red.jovenes.san_luis_potosi@scouts.org.mx';
+    });
+
+    contactoTelefono.addEventListener('click', function() {
+      window.location.href = 'tel:4447135378';
+    });
+
     // ===== FORMULARIO Y GENERACIÓN PDF =====
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -871,7 +1152,7 @@
         }
 
         // ===== 1. ENCABEZADO CON LOGOS =====
-        // Banda superior morada
+        // Banda superior
         doc.setFillColor(111, 45, 189);
         doc.rect(0, 0, pageWidth, 12, 'F');
         doc.setFontSize(14);
@@ -880,38 +1161,42 @@
         doc.setFontSize(10);
         doc.text('Provincia San Luis Potosí', pageWidth - margin - 35, 9);
 
-        // ===== LOGOS EN EL MEMBRETE =====
-        // Logo AS (izquierda) - as.jpg
+        // Logos en el membrete - ajustados para verse bien
+        const logoY = 15;
+        const logoHeight = 13;
+        const logoWidth = 25;
+
+        // Logo AS (izquierda)
         try {
-          doc.addImage('as.jpg', 'JPEG', margin, 15, 25, 12);
+          doc.addImage('as.jpg', 'JPEG', margin, logoY, logoWidth, logoHeight);
         } catch(e) {
           doc.setFontSize(7);
           doc.setTextColor(100);
-          doc.text('[Logo AS]', margin + 5, 23);
+          doc.text('[AS]', margin + 8, logoY + 8);
         }
 
-        // Logo Red SLP (centro) - red slp logo.jpg
+        // Logo Red SLP (centro)
         try {
-          doc.addImage('red slp logo.jpg', 'JPEG', pageWidth/2 - 15, 15, 25, 12);
+          doc.addImage('red slp logo.jpg', 'JPEG', pageWidth/2 - 15, logoY, logoWidth, logoHeight);
         } catch(e) {
           doc.setFontSize(7);
           doc.setTextColor(100);
-          doc.text('[Logo Red SLP]', pageWidth/2 - 10, 23);
+          doc.text('[Red SLP]', pageWidth/2 - 10, logoY + 8);
         }
 
-        // Logo Provincia/Centenario (derecha) - Provincia.jpg
+        // Logo Provincia (derecha)
         try {
-          doc.addImage('Provincia.jpg', 'JPEG', pageWidth - margin - 25, 15, 25, 12);
+          doc.addImage('Provincia.jpg', 'JPEG', pageWidth - margin - logoWidth, logoY, logoWidth, logoHeight);
         } catch(e) {
           doc.setFontSize(7);
           doc.setTextColor(100);
-          doc.text('[Logo Provincia]', pageWidth - margin - 22, 23);
+          doc.text('[Provincia]', pageWidth - margin - 20, logoY + 8);
         }
 
-        // Línea divisoria debajo de logos
+        // Línea divisoria
         doc.setDrawColor(200, 200, 200);
         doc.setLineWidth(0.3);
-        doc.line(margin, 30, pageWidth - margin, 30);
+        doc.line(margin, 31, pageWidth - margin, 31);
 
         // ===== FECHA =====
         const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
@@ -919,7 +1204,7 @@
         const fechaStr = `San Luis Potosí, S.L.P. A ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
         doc.setFontSize(11);
         doc.setTextColor(30);
-        y = addTextLines(fechaStr, pageWidth - margin - 55, 34, 11, false, 55);
+        y = addTextLines(fechaStr, pageWidth - margin - 55, 35, 11, false, 55);
 
         // ===== ASUNTO =====
         y = addTextLines(`Asunto: Propuesta de colaboración para ${proyecto}`, margin, y + 8, 12, true);
@@ -927,10 +1212,9 @@
         // ===== DESTINATARIO =====
         y = addTextLines(`Estimada oficina de ${institucion} en San Luis Potosí, por medio de la presente, reciba un cordial saludo.`, margin, y + 4, 11, false);
 
-        // ===== CUERPO (SIN el texto eliminado) =====
+        // ===== CUERPO =====
         y = addTextLines(`Nos permitimos poner a su disposición el talento y la disposición de servicio de la Red de Jóvenes de la Provincia San Luis Potosí, organismo que representa a la juventud de la Asociación de Scouts de México, A.C. en nuestro estado.`, margin, y + 6, 11, false);
 
-        // Texto directo sin la frase eliminada
         y = addTextLines(`Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
 
         // Bullets
@@ -957,57 +1241,66 @@
         doc.setLineWidth(0.5);
         doc.line(centerX - 2, firmaY - 4, centerX - 2, firmaY + 38);
 
-        // ===== COLUMNA IZQUIERDA - Firma Rafael Magaña con imagen =====
-        // Línea de firma
+        // ===== COLUMNA IZQUIERDA - Firma Rafael Magaña =====
         doc.text('_______________________________', leftX, firmaY);
 
         // Imagen de firma rmr.jpg
         try {
           doc.addImage('rmr.jpg', 'JPEG', leftX + 5, firmaY - 8, 50, 12);
         } catch(e) {
-          // Si no carga la imagen, mostrar texto
           doc.text('Rafael Magaña Rangel', leftX, firmaY + 6);
         }
 
-        // Datos de contacto (debajo de la firma)
         const yFirma = firmaY + 8;
         doc.text('Rafael Magaña Rangel', leftX, yFirma + 4);
         doc.text('Relaciones Exteriores – Red de Jóvenes', leftX, yFirma + 10);
         doc.text('Provincia San Luis Potosí', leftX, yFirma + 16);
         doc.text('Asociación de Scouts de México, A.C.', leftX, yFirma + 22);
-        doc.text('Tel: 4447135378 | Email: red.jovenes.san_luis_potosi@scouts.org.mx', leftX, yFirma + 28);
+
+        // Email en AZUL y ajustado para que no se pase
+        doc.setTextColor(0, 100, 200);
+        const emailTexto = 'Tel: 4447135378 | Email: red.jovenes.san_luis_potosi@scouts.org.mx';
+        const emailLines = doc.splitTextToSize(emailTexto, 80);
+        emailLines.forEach((line, idx) => {
+          doc.text(line, leftX, yFirma + 28 + (idx * 6.5));
+        });
+        doc.setTextColor(30);
 
         // ===== COLUMNA DERECHA - Firma del Clan/Rover =====
         doc.text('_______________________________', rightX, firmaY);
         doc.text(`${responsable} (CUM: ${cum})`, rightX, firmaY + 6);
         doc.text(`Responsable de Proyecto - Clan: ${clan}`, rightX, firmaY + 12);
-        doc.text(`Tel: ${telefono} | Email: ${correo}`, rightX, firmaY + 18);
+        // Email en AZUL
+        doc.setTextColor(0, 100, 200);
+        const emailRover = `Tel: ${telefono} | Email: ${correo}`;
+        const roverLines = doc.splitTextToSize(emailRover, 80);
+        roverLines.forEach((line, idx) => {
+          doc.text(line, rightX, firmaY + 18 + (idx * 6.5));
+        });
+        doc.setTextColor(30);
 
         // ===== GUARDAR PDF =====
+        const guardarPDF = function() {
+          doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
+          // Mostrar modal de decisiones
+          mostrarDecisiones();
+          // Resetear formulario
+          form.reset();
+          institucionHidden.value = '';
+        };
+
         if (firmaFile) {
           const reader = new FileReader();
           reader.onload = function(ev) {
             try {
               const imgData = ev.target.result;
               doc.addImage(imgData, 'JPEG', rightX + 10, firmaY - 8, 30, 10);
-              doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
-            } catch(e) {
-              doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
-            }
-            mostrarExito();
+            } catch(e) {}
+            guardarPDF();
           };
           reader.readAsDataURL(firmaFile);
         } else {
-          doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
-          mostrarExito();
-        }
-
-        function mostrarExito() {
-          toast.classList.add('show');
-          setTimeout(() => toast.classList.remove('show'), 5000);
-          closeModal();
-          form.reset();
-          institucionHidden.value = '';
+          guardarPDF();
         }
 
       } else {
