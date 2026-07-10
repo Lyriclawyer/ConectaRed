@@ -581,7 +581,7 @@
       <img src="red slp logo.jpg" alt="Red de Jóvenes SLP" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%23009A44%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3ERed%20SLP%3C/text%3E%3C/svg%3E'">
     </div>
     <div class="logo-group">
-      <img src="as.jpg" alt="Scouts de México" class="logo-centenario" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2248%22%3E%3Crect width=%22120%22 height=%2248%22 fill=%22%23f68b2c%22/%3E%3Ctext x=%226%22 y=%2232%22 fill=%22white%22 font-size=%2216%22%3EAS%3C/text%3E%3C/svg%3E'">
+      <img src="provincia.jpg" alt="Provincia" class="logo-centenario" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2248%22%3E%3Crect width=%22120%22 height=%2248%22 fill=%22%23f68b2c%22/%3E%3Ctext x=%226%22 y=%2232%22 fill=%22white%22 font-size=%2216%22%3EProvincia%3C/text%3E%3C/svg%3E'">
     </div>
   </nav>
 
@@ -870,8 +870,8 @@
           return y + (lines.length * 6.5) + 2;
         }
 
-        // ===== 1. ENCABEZADO =====
-        // Banda superior morada (como en la plantilla)
+        // ===== 1. ENCABEZADO CON LOGOS =====
+        // Banda superior morada
         doc.setFillColor(111, 45, 189);
         doc.rect(0, 0, pageWidth, 12, 'F');
         doc.setFontSize(14);
@@ -880,20 +880,40 @@
         doc.setFontSize(10);
         doc.text('Provincia San Luis Potosí', pageWidth - margin - 35, 9);
 
-        // Logos (posición exacta como en la plantilla)
-        // Logo AS (izquierda)
-        doc.setFontSize(8);
-        doc.setTextColor(60);
-        doc.text('[Logo AS]', margin, 26);
-        // Logo Red SLP (centro)
-        doc.text('[Logo Red SLP]', pageWidth/2 - 15, 26);
-        // Logo Scouts (derecha) - Reemplazo del Centenario
-        doc.text('[Logo Scouts]', pageWidth - margin - 25, 26);
+        // Logos en el membrete (usando los nombres de archivo correctos)
+        // Logo AS (izquierda) - as.jpg
+        try {
+          const imgAS = new Image();
+          imgAS.src = 'as.jpg';
+          doc.addImage('as.jpg', 'JPEG', margin, 16, 30, 12);
+        } catch(e) {
+          doc.setFontSize(8);
+          doc.setTextColor(60);
+          doc.text('[Logo AS]', margin, 24);
+        }
 
-        // Línea divisoria sutil debajo de los logos
+        // Logo Red SLP (centro) - red slp logo.jpg
+        try {
+          doc.addImage('red slp logo.jpg', 'JPEG', pageWidth/2 - 20, 16, 40, 12);
+        } catch(e) {
+          doc.setFontSize(8);
+          doc.setTextColor(60);
+          doc.text('[Logo Red SLP]', pageWidth/2 - 15, 24);
+        }
+
+        // Logo Provincia (derecha) - provincia.jpg
+        try {
+          doc.addImage('provincia.jpg', 'JPEG', pageWidth - margin - 40, 16, 30, 12);
+        } catch(e) {
+          doc.setFontSize(8);
+          doc.setTextColor(60);
+          doc.text('[Logo Provincia]', pageWidth - margin - 25, 24);
+        }
+
+        // Línea divisoria
         doc.setDrawColor(200, 200, 200);
         doc.setLineWidth(0.3);
-        doc.line(margin, 30, pageWidth - margin, 30);
+        doc.line(margin, 32, pageWidth - margin, 32);
 
         // Fecha (justificado a la derecha)
         const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
@@ -901,7 +921,7 @@
         const fechaStr = `San Luis Potosí, S.L.P. A ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
         doc.setFontSize(11);
         doc.setTextColor(30);
-        y = addTextLines(fechaStr, pageWidth - margin - 55, 34, 11, false, 55);
+        y = addTextLines(fechaStr, pageWidth - margin - 55, 36, 11, false, 55);
 
         // ===== 2. ASUNTO (Negritas) =====
         y = addTextLines(`Asunto: Propuesta de colaboración para ${proyecto}`, margin, y + 8, 12, true);
@@ -909,10 +929,10 @@
         // ===== 3. DESTINATARIO =====
         y = addTextLines(`Estimada oficina de ${institucion} en San Luis Potosí, por medio de la presente, reciba un cordial saludo.`, margin, y + 4, 11, false);
 
-        // ===== 4. CUERPO (idéntico a la plantilla) =====
+        // ===== 4. CUERPO (ELIMINADO el párrafo de "buenos cristianos") =====
         y = addTextLines(`Nos permitimos poner a su disposición el talento y la disposición de servicio de la Red de Jóvenes de la Provincia San Luis Potosí, organismo que representa a la juventud de la Asociación de Scouts de México, A.C. en nuestro estado.`, margin, y + 6, 11, false);
 
-        y = addTextLines(`Como es de su conocimiento, compartimos profundamente la misión de formar "buenos cristianos y honestos ciudadanos". Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
+        y = addTextLines(`Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
 
         // Bullets con objetivo y actividades
         y = addTextLines(`• Objetivo principal: ${objetivo}`, margin + 4, y + 4, 11, false);
@@ -933,13 +953,22 @@
         doc.setFontSize(11);
         doc.setFont(undefined, 'normal');
 
-        // Línea divisora vertical (sutil)
+        // Línea divisora vertical
         doc.setDrawColor(180, 180, 180);
         doc.setLineWidth(0.5);
         doc.line(centerX - 2, firmaY - 4, centerX - 2, firmaY + 38);
 
-        // Columna Izquierda - Relaciones Exteriores (fijo)
+        // Columna Izquierda - Relaciones Exteriores (con imagen rmr.jpg)
+        // Línea de firma
         doc.text('_______________________________', leftX, firmaY);
+        
+        // Imagen de firma rmr.jpg
+        try {
+          doc.addImage('rmr.jpg', 'JPEG', leftX + 20, firmaY - 8, 40, 12);
+        } catch(e) {
+          // Si no carga la imagen, solo texto
+        }
+        
         doc.text('Rafael Magaña Rangel', leftX, firmaY + 6);
         doc.text('Relaciones Exteriores – Red de Jóvenes', leftX, firmaY + 12);
         doc.text('Provincia San Luis Potosí', leftX, firmaY + 18);
@@ -952,10 +981,7 @@
         doc.text(`Responsable de Proyecto - Clan: ${clan}`, rightX, firmaY + 12);
         doc.text(`Tel: ${telefono} | Email: ${correo}`, rightX, firmaY + 18);
 
-        // ===== 6. PIE DE PÁGINA (ELIMINADO el texto extra) =====
-        // Ya no se agrega el texto "Red de Jóvenes · ConectaRed · ..."
-
-        // ===== 7. GUARDAR PDF =====
+        // ===== 6. GUARDAR PDF =====
         if (firmaFile) {
           const reader = new FileReader();
           reader.onload = function(ev) {
