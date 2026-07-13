@@ -117,6 +117,46 @@
       backdrop-filter: blur(4px);
     }
 
+    /* ===== TABS: ORGANIZACIONES / MENTORES ===== */
+    .tabs-container {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 12px 28px;
+      border-radius: 60px;
+      border: 2px solid #ddd6e8;
+      background: white;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #2f2340;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--morado);
+      background: #f5f0fa;
+    }
+
+    .tab-btn.active {
+      background: var(--morado);
+      color: white;
+      border-color: var(--morado);
+      box-shadow: 0 4px 12px rgba(111, 45, 189, 0.3);
+    }
+
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
     /* ===== SEARCH & FILTERS ===== */
     .search-section {
       background: white;
@@ -171,33 +211,32 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 14px;
+      gap: 10px;
       margin-top: 6px;
     }
     .filter-btn {
       background: white;
       border: 1px solid #ddd6e8;
-      padding: 10px 24px;
+      padding: 8px 18px;
       border-radius: 60px;
       font-weight: 600;
+      font-size: 0.85rem;
       color: #2f2340;
       cursor: pointer;
       transition: all 0.2s ease;
       box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-      font-size: 0.95rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
     .filter-btn:hover {
       background: var(--morado);
       color: white;
       border-color: var(--morado);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 20px -10px rgba(111, 45, 189, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px -8px rgba(111, 45, 189, 0.3);
     }
-    .filter-btn:active {
-      transform: scale(0.96);
+    .filter-btn.active {
+      background: var(--morado);
+      color: white;
+      border-color: var(--morado);
     }
 
     /* ===== GRID DE TARJETAS ===== */
@@ -225,6 +264,19 @@
       border-color: #d7c8ed;
     }
 
+    .card .ods-tag {
+      display: inline-block;
+      background: #e8f0fe;
+      color: #1a5ba8;
+      font-weight: 600;
+      font-size: 0.7rem;
+      padding: 3px 12px;
+      border-radius: 40px;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+      align-self: flex-start;
+    }
+
     .card h3 {
       font-size: 1.3rem;
       font-weight: 700;
@@ -246,17 +298,18 @@
     .card .desc {
       color: #2f2a3b;
       line-height: 1.5;
-      margin: 8px 0 20px 0;
+      margin: 8px 0 16px 0;
       flex: 1;
+      font-size: 0.95rem;
     }
     .card .btn-vinculacion {
       background: var(--verde-scout);
       color: white;
       border: none;
-      padding: 14px 12px;
+      padding: 12px 12px;
       border-radius: 60px;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: 0.2s;
       display: flex;
@@ -271,8 +324,108 @@
       transform: scale(1.01);
       box-shadow: 0 8px 16px rgba(0, 154, 68, 0.25);
     }
-    .card .btn-vinculacion:active {
-      transform: scale(0.97);
+
+    /* ===== TARJETAS DE MENTORES ===== */
+    .card-mentor {
+      background: white;
+      border-radius: var(--radio);
+      padding: 24px 22px 28px;
+      box-shadow: var(--sombra);
+      transition: transform 0.25s ease, box-shadow 0.25s;
+      border: 1px solid #f0ebf7;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-mentor:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 40px -12px rgba(111, 45, 189, 0.22);
+      border-color: #d7c8ed;
+    }
+
+    .card-mentor .mentor-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .card-mentor .mentor-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--morado);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .card-mentor .mentor-info h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1a0f2b;
+    }
+    .card-mentor .mentor-info .sub {
+      font-size: 0.8rem;
+      color: #73608a;
+    }
+
+    .card-mentor .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 10px 0 12px 0;
+    }
+    .card-mentor .skills span {
+      background: #ede6f5;
+      color: var(--morado);
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .card-mentor .btn-contactar {
+      background: var(--naranja);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 8px;
+      box-shadow: 0 4px 8px rgba(246, 139, 44, 0.2);
+    }
+    .card-mentor .btn-contactar:hover {
+      background: #e07a1e;
+      transform: scale(1.01);
+    }
+
+    /* ===== BOTÓN PARA REGISTRARSE COMO MENTOR ===== */
+    .btn-registro-mentor {
+      background: var(--morado);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(111, 45, 189, 0.3);
+      margin: 10px 0 20px 0;
+    }
+    .btn-registro-mentor:hover {
+      background: #551b99;
+      transform: scale(1.02);
     }
 
     @media (max-width: 900px) {
@@ -283,6 +436,13 @@
     @media (max-width: 600px) {
       .grid-cards {
         grid-template-columns: 1fr;
+      }
+      .filter-buttons {
+        gap: 6px;
+      }
+      .filter-btn {
+        font-size: 0.75rem;
+        padding: 6px 12px;
       }
     }
 
@@ -460,7 +620,8 @@
       gap: 4px;
     }
     .form-view input,
-    .form-view textarea {
+    .form-view textarea,
+    .form-view select {
       padding: 12px 14px;
       border: 1px solid #d5cbe0;
       border-radius: 14px;
@@ -469,7 +630,8 @@
       transition: 0.2s;
     }
     .form-view input:focus,
-    .form-view textarea:focus {
+    .form-view textarea:focus,
+    .form-view select:focus {
       outline: 2px solid var(--morado);
       border-color: transparent;
       background: white;
@@ -595,7 +757,7 @@
       transform: scale(1.02);
     }
 
-    /* ===== MODAL DE CONTACTO (con datos de la organización) ===== */
+    /* ===== MODAL DE CONTACTO ===== */
     .contacto-overlay {
       position: fixed;
       inset: 0;
@@ -702,6 +864,119 @@
       background: #ddd2ea;
     }
 
+    /* ===== MODAL REGISTRO MENTOR ===== */
+    .mentor-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 5, 20, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1700;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s;
+      padding: 20px;
+    }
+    .mentor-overlay.open {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .mentor-panel {
+      background: white;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 28px;
+      padding: 32px 36px 36px;
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+      animation: fadeUp 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .mentor-panel h2 {
+      font-size: 1.6rem;
+      color: var(--morado);
+      margin-bottom: 4px;
+    }
+
+    .mentor-panel .sub {
+      color: #3d3250;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    .mentor-panel form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .mentor-panel label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #2b1d3b;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mentor-panel input,
+    .mentor-panel textarea,
+    .mentor-panel select {
+      padding: 12px 14px;
+      border: 1px solid #d5cbe0;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      background: #fcfafd;
+      transition: 0.2s;
+    }
+    .mentor-panel input:focus,
+    .mentor-panel textarea:focus,
+    .mentor-panel select:focus {
+      outline: 2px solid var(--morado);
+      border-color: transparent;
+      background: white;
+    }
+    .mentor-panel textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .mentor-panel .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .mentor-panel .form-actions button {
+      padding: 14px 24px;
+      border-radius: 60px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      flex: 1;
+    }
+    .btn-cancelar-mentor {
+      background: #ece6f3;
+      color: var(--morado);
+    }
+    .btn-cancelar-mentor:hover {
+      background: #ddd2ea;
+    }
+    .btn-registrar-mentor {
+      background: var(--morado);
+      color: white;
+      box-shadow: 0 4px 12px rgba(111, 45, 189, 0.3);
+    }
+    .btn-registrar-mentor:hover {
+      background: #551b99;
+      transform: scale(1.02);
+    }
+
     /* Toast */
     .toast-success {
       position: fixed;
@@ -755,6 +1030,7 @@
       .decision-panel { padding: 24px 20px; }
       .contacto-panel { padding: 24px 20px; }
       .contacto-item { flex-direction: column; text-align: center; gap: 8px; }
+      .mentor-panel { padding: 24px 20px; }
     }
   </style>
 </head>
@@ -778,29 +1054,47 @@
   <section class="hero">
     <h1>Ustedes proponen las ideas,<br>nosotros abrimos las puertas.</h1>
     <p class="sub">La Red no organiza proyectos, provee las llaves para que los Clanes tomen la iniciativa e impacten su entorno.</p>
-
-    <div class="search-section">
-      <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Busca organizaciones, palabras clave...">
-        <button id="searchBtn">🔍 Buscar</button>
-      </div>
-      <div class="filter-buttons">
-        <button class="filter-btn" data-filter="all">🌐 Todas</button>
-        <button class="filter-btn" data-filter="Asistencia social">🤝 Asistencia social</button>
-        <button class="filter-btn" data-filter="Inclusión">♿ Inclusión</button>
-        <button class="filter-btn" data-filter="Migración">🧳 Migración</button>
-        <button class="filter-btn" data-filter="Infancia">🧸 Infancia</button>
-        <button class="filter-btn" data-filter="Adulto mayor">👴 Adulto mayor</button>
-        <button class="filter-btn" data-filter="Salud">🏥 Salud</button>
-        <button class="filter-btn" data-filter="Cultura">🎭 Cultura</button>
-        <button class="filter-btn" data-filter="Alimentación">🍎 Alimentación</button>
-        <button class="filter-btn" data-filter="Desarrollo comunitario">🏘️ Desarrollo comunitario</button>
-      </div>
-    </div>
   </section>
 
-  <!-- ===== GRID DE TARJETAS ===== -->
-  <div class="grid-cards" id="cardsContainer"></div>
+  <!-- ===== TABS ===== -->
+  <div class="tabs-container">
+    <button class="tab-btn active" data-tab="organizaciones">🏢 Organizaciones</button>
+    <button class="tab-btn" data-tab="mentores">🧭 Mentores Scouts</button>
+  </div>
+
+  <!-- ===== TAB: ORGANIZACIONES ===== -->
+  <div class="tab-content active" id="tabOrganizaciones">
+    <div class="search-section">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Busca por nombre, sector, ODS o palabras clave...">
+        <button id="searchBtn">🔍 Buscar</button>
+      </div>
+      <div class="filter-buttons" id="filterButtons">
+        <button class="filter-btn active" data-filter="all">🌐 Todas</button>
+        <button class="filter-btn" data-filter="ODS 4">📚 ODS 4 · Educación</button>
+        <button class="filter-btn" data-filter="ODS 3">🏥 ODS 3 · Salud</button>
+        <button class="filter-btn" data-filter="ODS 10">⚖️ ODS 10 · Desigualdad</button>
+        <button class="filter-btn" data-filter="ODS 11">🏙️ ODS 11 · Ciudades</button>
+        <button class="filter-btn" data-filter="ODS 16">🕊️ ODS 16 · Paz</button>
+        <button class="filter-btn" data-filter="ODS 1">🍽️ ODS 1 · Hambre</button>
+        <button class="filter-btn" data-filter="ODS 5">♀️ ODS 5 · Género</button>
+        <button class="filter-btn" data-filter="ODS 8">💼 ODS 8 · Trabajo</button>
+        <button class="filter-btn" data-filter="ODS 17">🤝 ODS 17 · Alianzas</button>
+      </div>
+    </div>
+
+    <div class="grid-cards" id="cardsContainer"></div>
+  </div>
+
+  <!-- ===== TAB: MENTORES ===== -->
+  <div class="tab-content" id="tabMentores">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+      <h2 style="color: var(--morado); font-size: 1.5rem;">🧭 Mentores Scouts Disponibles</h2>
+      <button class="btn-registro-mentor" id="btnRegistroMentor">➕ Registrar como Mentor</button>
+    </div>
+    <p style="color: #3d3250; margin-bottom: 20px;">Conéctate con Rovers y Scouts con experiencia que pueden guiar tu proyecto.</p>
+    <div class="grid-cards" id="mentoresContainer"></div>
+  </div>
 </div>
 
 <!-- ===== MODAL PRINCIPAL ===== -->
@@ -814,6 +1108,7 @@
       <span class="sector-tag" id="fichaSector">Sector</span>
       <div class="ficha-grid">
         <div class="item"><label>Qué hace</label><span id="fichaDesc">Descripción</span></div>
+        <div class="item"><label>ODS Relacionados</label><span id="fichaODS">ODS</span></div>
         <div class="item"><label>Contacto sugerido</label><span id="fichaContacto">Contacto</span></div>
         <div class="item"><label>Correo</label><span id="fichaCorreo">correo@ejemplo.com</span></div>
         <div class="item"><label>Teléfono</label><span id="fichaTelefono">(444) 123-4567</span></div>
@@ -883,7 +1178,7 @@
   </div>
 </div>
 
-<!-- ===== MODAL DE CONTACTO (con datos de la organización) ===== -->
+<!-- ===== MODAL DE CONTACTO ===== -->
 <div class="contacto-overlay" id="contactoOverlay">
   <div class="contacto-panel">
     <h2>📨 Enviar a la organización</h2>
@@ -910,6 +1205,60 @@
   </div>
 </div>
 
+<!-- ===== MODAL REGISTRO MENTOR ===== -->
+<div class="mentor-overlay" id="mentorOverlay">
+  <div class="mentor-panel">
+    <h2>🧭 Registrar como Mentor</h2>
+    <p class="sub">Comparte tus habilidades y experiencia para apoyar a otros Rovers en sus proyectos.</p>
+    <form id="formMentor">
+      <label>Nombre completo *
+        <input type="text" id="mentorNombre" placeholder="Rafael Magaña" required>
+      </label>
+      <label>Grupo / Clan *
+        <input type="text" id="mentorGrupo" placeholder="Gpo 1 / Clan Águila" required>
+      </label>
+      <label>CUM (Clave Única de Membresía) *
+        <input type="text" id="mentorCum" placeholder="CUM-12345" required>
+      </label>
+      <label>Correo de contacto *
+        <input type="email" id="mentorCorreo" placeholder="rafael@scouts.mx" required>
+      </label>
+      <label>Teléfono de contacto *
+        <input type="text" id="mentorTelefono" placeholder="4441234567" required>
+      </label>
+      <label>Áreas de experiencia (selecciona todas las que apliquen)
+        <select id="mentorExperiencia" multiple style="height: 100px;">
+          <option value="Recursos Humanos">Recursos Humanos</option>
+          <option value="Talleres de Liderazgo">Talleres de Liderazgo</option>
+          <option value="Seguridad Acuática">Seguridad Acuática</option>
+          <option value="Alpinismo y Alta Montaña">Alpinismo y Alta Montaña</option>
+          <option value="Gestor de Proyectos">Gestor de Proyectos</option>
+          <option value="Educación Ambiental">Educación Ambiental</option>
+          <option value="Primeros Auxilios">Primeros Auxilios</option>
+          <option value="Tecnología y Programación">Tecnología y Programación</option>
+          <option value="Arte y Cultura">Arte y Cultura</option>
+          <option value="Deportes">Deportes</option>
+          <option value="Emprendimiento">Emprendimiento</option>
+          <option value="Comunicación y Redes">Comunicación y Redes</option>
+          <option value="Gestión de Eventos">Gestión de Eventos</option>
+          <option value="Trabajo Social">Trabajo Social</option>
+          <option value="Psicología">Psicología</option>
+          <option value="Nutrición">Nutrición</option>
+        </select>
+        <span style="font-size: 0.75rem; color: #73608a;">Mantén presionado Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones</span>
+      </label>
+      <label>Breve descripción de tu experiencia y cómo puedes ayudar *
+        <textarea id="mentorDescripcion" placeholder="Cuéntanos sobre tu experiencia, proyectos en los que has participado y cómo puedes apoyar a otros Rovers..." required></textarea>
+      </label>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancelar-mentor" id="btnCancelarMentor">Cancelar</button>
+        <button type="submit" class="btn-registrar-mentor">Registrar como Mentor ✅</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <!-- ===== TOAST ===== -->
 <div class="toast-success" id="toastSuccess">
   <span class="check">✔</span>
@@ -920,32 +1269,40 @@
   (function() {
     "use strict";
 
-    // ===== BASE DE DATOS =====
+    // ===== BASE DE DATOS DE ORGANIZACIONES CON ODS =====
     const organizations = [
-      { id: 1, nombre: "Cáritas San Luis Potosí Oficinas Centrales", sector: "Asistencia social", descripcion: "Programas de alimentación, salud, desarrollo comunitario y apoyo a personas vulnerables.", contacto: "Dirección General o Coordinación de Voluntariado", correo: "Solicitar vía oficina central", telefono: "(444) 812-2351", direccion: "Álvaro Obregón 626, Zona Centro, C.P. 78000, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Alvaro+Obregon+626,+Zona+Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 2, nombre: "Casa de la Caridad Hogar del Migrante Mons. Luis Morales Reyes", sector: "Migración", descripcion: "Alberga y brinda apoyo integral a personas migrantes.", contacto: "Dirección General", correo: "Solicitar vía recepción", telefono: "(444) 815-6225", direccion: "Juan Álvarez No. 210, Barrio de Tlaxcala, C.P. 78038, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Juan+Alvarez+210,+Barrio+de+Tlaxcala,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 3, nombre: "Perteneces A.C.", sector: "Inclusión", descripcion: "Programas de inclusión social y atención a personas con discapacidad.", contacto: "Dirección General", correo: "Solicitar por oficina", telefono: "(444) 811-4431", direccion: "Tangamanga, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Tangamanga,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 4, nombre: "Fundación Nutriendo", sector: "Infancia", descripcion: "Combate la desnutrición infantil y promueve alimentación saludable.", contacto: "Dirección General o Procuración de Fondos", correo: "Solicitar por oficina", telefono: "(444) 813-9913", direccion: "Av. Sierra Leona 360, Piso 11, Col. Villantigua, C.P. 78214, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Av.+Sierra+Leona+360,+Villantigua,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 5, nombre: "Fundación Somos Potosí", sector: "Desarrollo comunitario", descripcion: "Promueve programas sociales, voluntariado, derechos humanos y capacitación ciudadana.", contacto: "Dirección General", correo: "info@somospotosi.com", telefono: "(444) 520-9897", direccion: "San Luis Potosí, S.L.P. (sin dirección pública verificable)", mapa: "https://maps.google.com/maps?q=San+Luis+Potosi&t=&z=12&ie=UTF8&iwloc=&output=embed" },
-      { id: 6, nombre: "Fondo Potosino", sector: "Desarrollo comunitario", descripcion: "Vincula empresas, OSC y ciudadanía para financiar proyectos sociales y ambientales.", contacto: "Dirección Ejecutiva", correo: "hola@fondopotosino.org", telefono: "WhatsApp (444) 130-2140", direccion: "Alttus Corporate Center & Plaza, Av. Sierra Leona 360, Suite 944, Piso 9, C.P. 78217, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Av.+Sierra+Leona+360,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 7, nombre: "Colonia Juvenil", sector: "Asistencia social", descripcion: "Formación integral y desarrollo de niñas, niños y adolescentes.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 821-2514", direccion: "Col. Gálvez, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Col.+Galvez,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 8, nombre: "Otra Oportunidad, A.C.", sector: "Inclusión", descripcion: "Atención y acompañamiento a mujeres en situación de vulnerabilidad.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 814-7231", direccion: "Barrio de San Sebastián, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Barrio+de+San+Sebastian,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 9, nombre: "Razón por la Vida", sector: "Salud", descripcion: "Apoyo a personas con enfermedades y programas de acompañamiento.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 814-9402", direccion: "Col. Francisco I. Madero, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Col.+Francisco+I.+Madero,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 10, nombre: "Casa Hogar Betesda, A.C.", sector: "Infancia", descripcion: "Atención residencial y apoyo social.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 151-5310", direccion: "Garita de Jalisco, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Garita+de+Jalisco,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 11, nombre: "Casa Hogar de Niños", sector: "Infancia", descripcion: "Atención y protección de menores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 128-0389", direccion: "Barrio San Miguelito, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Barrio+San+Miguelito,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 12, nombre: "Hogar de Niños San Luis Potosí", sector: "Infancia", descripcion: "Casa hogar para menores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 815-4530", direccion: "Barrio San Miguelito, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Barrio+San+Miguelito+Hogar+de+Ninos&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 13, nombre: "Asilo de Ancianos Santa Martha A.C.", sector: "Adulto mayor", descripcion: "Atención integral a personas mayores.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 812-6391", direccion: "Centro Histórico, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Centro+Historico+Asilo+Santa+Martha,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 14, nombre: "Asilo de Los Pobres de San Antonio A.C.", sector: "Adulto mayor", descripcion: "Atención permanente a adultos mayores.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 810-0037", direccion: "Centro Histórico, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Centro+Historico+Asilo+San+Antonio,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 15, nombre: "Casa Hogar Feliz Atardecer", sector: "Adulto mayor", descripcion: "Residencia y cuidados para personas mayores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 412-2267", direccion: "Polanco, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Polanco,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 16, nombre: "Centro Comunitario de la Familia", sector: "Desarrollo comunitario", descripcion: "Talleres, apoyo familiar y actividades comunitarias.", contacto: "Coordinación General", correo: "Solicitar vía oficina", telefono: "(444) 816-1100", direccion: "Centro, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 17, nombre: "Fundación Música Para La Vida A.C.", sector: "Cultura", descripcion: "Formación musical y desarrollo social mediante el arte.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 420-7701", direccion: "San Luis Rey, San Luis Potosí, S.L.P. (dirección pendiente de verificación)", mapa: "https://maps.google.com/maps?q=San+Luis+Rey,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 18, nombre: "Asociación Mexicana de Ayuda a Niños con Cáncer (AMANC SLP)", sector: "Salud", descripcion: "Apoya a niñas, niños y adolescentes con cáncer; cuenta con programa de voluntariado.", contacto: "Coordinación de Voluntariado", correo: "amancslp@hotmail.com", telefono: "(444) 411-1499", direccion: "Camino a la Presa San José 455, Col. Lomas los Filtros, C.P. 78219, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Camino+a+la+Presa+San+Jose+455,+Los+Filtros,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 19, nombre: "Banco de Alimentos 'De la Mano por San Luis'", sector: "Alimentación", descripcion: "Rescate y distribución de alimentos, voluntariado y apoyo comunitario.", contacto: "Coordinación de Voluntariado", correo: "contacto@bamxsanluis.org.mx", telefono: "(444) 480-7782", direccion: "Calle Otomíes No. 148, Col. Industrial San Luis, C.P. 78395, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Calle+Otomies+148,+Industrial+San+Luis,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 20, nombre: "Sistema DIF Estatal de San Luis Potosí", sector: "Asistencia social", descripcion: "Vincula instituciones de asistencia social, programas comunitarios y apoyo a población vulnerable.", contacto: "Dirección de Gestión y Participación Social", correo: "virginia.zuniga@difslp.gob.mx", telefono: "(444) 151-5000", direccion: "Nicolás Fernando Torre 500, Col. Burócrata, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Nicolas+Fernando+Torre+500,+Col.+Burocrata,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" }
+      { id: 1, nombre: "Cáritas San Luis Potosí Oficinas Centrales", sector: "Asistencia social", ods: ["ODS 1", "ODS 2", "ODS 10"], descripcion: "Programas de alimentación, salud, desarrollo comunitario y apoyo a personas vulnerables.", contacto: "Dirección General o Coordinación de Voluntariado", correo: "Solicitar vía oficina central", telefono: "(444) 812-2351", direccion: "Álvaro Obregón 626, Zona Centro, C.P. 78000, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Alvaro+Obregon+626,+Zona+Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 2, nombre: "Casa de la Caridad Hogar del Migrante Mons. Luis Morales Reyes", sector: "Migración", ods: ["ODS 10", "ODS 16"], descripcion: "Alberga y brinda apoyo integral a personas migrantes.", contacto: "Dirección General", correo: "Solicitar vía recepción", telefono: "(444) 815-6225", direccion: "Juan Álvarez No. 210, Barrio de Tlaxcala, C.P. 78038, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Juan+Alvarez+210,+Barrio+de+Tlaxcala,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 3, nombre: "Perteneces A.C.", sector: "Inclusión", ods: ["ODS 10", "ODS 5"], descripcion: "Programas de inclusión social y atención a personas con discapacidad.", contacto: "Dirección General", correo: "Solicitar por oficina", telefono: "(444) 811-4431", direccion: "Tangamanga, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Tangamanga,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 4, nombre: "Fundación Nutriendo", sector: "Infancia", ods: ["ODS 2", "ODS 3"], descripcion: "Combate la desnutrición infantil y promueve alimentación saludable.", contacto: "Dirección General o Procuración de Fondos", correo: "Solicitar por oficina", telefono: "(444) 813-9913", direccion: "Av. Sierra Leona 360, Piso 11, Col. Villantigua, C.P. 78214, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Av.+Sierra+Leona+360,+Villantigua,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 5, nombre: "Fundación Somos Potosí", sector: "Desarrollo comunitario", ods: ["ODS 11", "ODS 17"], descripcion: "Promueve programas sociales, voluntariado, derechos humanos y capacitación ciudadana.", contacto: "Dirección General", correo: "info@somospotosi.com", telefono: "(444) 520-9897", direccion: "San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=San+Luis+Potosi&t=&z=12&ie=UTF8&iwloc=&output=embed" },
+      { id: 6, nombre: "Fondo Potosino", sector: "Fundación comunitaria", ods: ["ODS 8", "ODS 17"], descripcion: "Vincula empresas, OSC y ciudadanía para financiar proyectos sociales y ambientales.", contacto: "Dirección Ejecutiva", correo: "hola@fondopotosino.org", telefono: "WhatsApp (444) 130-2140", direccion: "Alttus Corporate Center & Plaza, Av. Sierra Leona 360, Suite 944, Piso 9, C.P. 78217, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Av.+Sierra+Leona+360,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 7, nombre: "Colonia Juvenil", sector: "Juventud", ods: ["ODS 4", "ODS 11"], descripcion: "Formación integral y desarrollo de niñas, niños y adolescentes.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 821-2514", direccion: "Col. Gálvez, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Col.+Galvez,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 8, nombre: "Otra Oportunidad, A.C.", sector: "Mujeres", ods: ["ODS 5", "ODS 10"], descripcion: "Atención y acompañamiento a mujeres en situación de vulnerabilidad.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 814-7231", direccion: "Barrio de San Sebastián, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Barrio+de+San+Sebastian,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 9, nombre: "Razón por la Vida", sector: "Salud", ods: ["ODS 3", "ODS 10"], descripcion: "Apoyo a personas con enfermedades y programas de acompañamiento.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 814-9402", direccion: "Col. Francisco I. Madero, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Col.+Francisco+I.+Madero,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 10, nombre: "Casa Hogar Betesda, A.C.", sector: "Casa hogar", ods: ["ODS 1", "ODS 11"], descripcion: "Atención residencial y apoyo social.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 151-5310", direccion: "Garita de Jalisco, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Garita+de+Jalisco,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 11, nombre: "Casa Hogar de Niños", sector: "Infancia", ods: ["ODS 4", "ODS 10"], descripcion: "Atención y protección de menores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 128-0389", direccion: "Barrio San Miguelito, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Barrio+San+Miguelito,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 12, nombre: "Hogar de Niños San Luis Potosí", sector: "Infancia", ods: ["ODS 4", "ODS 10"], descripcion: "Casa hogar para menores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 815-4530", direccion: "Barrio San Miguelito, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Barrio+San+Miguelito+Hogar+de+Ninos&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 13, nombre: "Asilo de Ancianos Santa Martha A.C.", sector: "Adulto mayor", ods: ["ODS 3", "ODS 11"], descripcion: "Atención integral a personas mayores.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 812-6391", direccion: "Centro Histórico, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Centro+Historico+Asilo+Santa+Martha,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 14, nombre: "Asilo de Los Pobres de San Antonio A.C.", sector: "Adulto mayor", ods: ["ODS 1", "ODS 3"], descripcion: "Atención permanente a adultos mayores.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 810-0037", direccion: "Centro Histórico, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Centro+Historico+Asilo+San+Antonio,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 15, nombre: "Casa Hogar Feliz Atardecer", sector: "Adulto mayor", ods: ["ODS 3", "ODS 11"], descripcion: "Residencia y cuidados para personas mayores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 412-2267", direccion: "Polanco, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Polanco,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 16, nombre: "Centro Comunitario de la Familia", sector: "Desarrollo comunitario", ods: ["ODS 11", "ODS 17"], descripcion: "Talleres, apoyo familiar y actividades comunitarias.", contacto: "Coordinación General", correo: "Solicitar vía oficina", telefono: "(444) 816-1100", direccion: "Centro, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 17, nombre: "Fundación Música Para La Vida A.C.", sector: "Cultura", ods: ["ODS 4", "ODS 11"], descripcion: "Formación musical y desarrollo social mediante el arte.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 420-7701", direccion: "San Luis Rey, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=San+Luis+Rey,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 18, nombre: "Asociación Mexicana de Ayuda a Niños con Cáncer (AMANC SLP)", sector: "Salud", ods: ["ODS 3", "ODS 10"], descripcion: "Apoya a niñas, niños y adolescentes con cáncer; cuenta con programa de voluntariado.", contacto: "Coordinación de Voluntariado", correo: "amancslp@hotmail.com", telefono: "(444) 411-1499", direccion: "Camino a la Presa San José 455, Col. Lomas los Filtros, C.P. 78219, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Camino+a+la+Presa+San+Jose+455,+Los+Filtros,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 19, nombre: "Banco de Alimentos 'De la Mano por San Luis'", sector: "Alimentación", ods: ["ODS 1", "ODS 2"], descripcion: "Rescate y distribución de alimentos, voluntariado y apoyo comunitario.", contacto: "Coordinación de Voluntariado", correo: "contacto@bamxsanluis.org.mx", telefono: "(444) 480-7782", direccion: "Calle Otomíes No. 148, Col. Industrial San Luis, C.P. 78395, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Calle+Otomies+148,+Industrial+San+Luis,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
+      { id: 20, nombre: "Sistema DIF Estatal de San Luis Potosí", sector: "Asistencia social", ods: ["ODS 1", "ODS 3", "ODS 10"], descripcion: "Vincula instituciones de asistencia social, programas comunitarios y apoyo a población vulnerable.", contacto: "Dirección de Gestión y Participación Social", correo: "virginia.zuniga@difslp.gob.mx", telefono: "(444) 151-5000", direccion: "Nicolás Fernando Torre 500, Col. Burócrata, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Nicolas+Fernando+Torre+500,+Col.+Burocrata,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" }
+    ];
+
+    // ===== BASE DE DATOS DE MENTORES =====
+    let mentores = [
+      { id: 1, nombre: "Rafael Magaña", grupo: "Gpo 1 / Clan Águila", cum: "CUM-001", correo: "rafael@scouts.mx", telefono: "4447135378", experiencia: ["Recursos Humanos", "Talleres de Liderazgo", "Seguridad Acuática", "Alpinismo y Alta Montaña", "Gestor de Proyectos"], descripcion: "Scout con más de 15 años de experiencia en formación de líderes, gestión de proyectos comunitarios y actividades de alta montaña. He coordinado más de 20 proyectos sociales en la región." },
+      { id: 2, nombre: "María Fernández", grupo: "Clan Sol", cum: "CUM-002", correo: "maria@scouts.mx", telefono: "4441234567", experiencia: ["Educación Ambiental", "Primeros Auxilios", "Trabajo Social"], descripcion: "Especialista en educación ambiental y trabajo comunitario. He liderado programas de reforestación y talleres de primeros auxilios en comunidades rurales." },
+      { id: 3, nombre: "Carlos Méndez", grupo: "Clan Estrella", cum: "CUM-003", correo: "carlos@scouts.mx", telefono: "4449876543", experiencia: ["Tecnología y Programación", "Comunicación y Redes", "Emprendimiento"], descripcion: "Ingeniero en sistemas con experiencia en desarrollo de plataformas digitales para organizaciones sin fines de lucro. He ayudado a más de 10 OSC a digitalizar sus procesos." }
     ];
 
     // ===== DOM REFS =====
     const cardsContainer = document.getElementById('cardsContainer');
+    const mentoresContainer = document.getElementById('mentoresContainer');
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
     const filterBtns = document.querySelectorAll('.filter-btn');
@@ -958,6 +1315,11 @@
     const form = document.getElementById('formVinculacion');
     const institucionHidden = document.getElementById('institucionHidden');
     const toast = document.getElementById('toastSuccess');
+
+    // Tabs
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabOrganizaciones = document.getElementById('tabOrganizaciones');
+    const tabMentores = document.getElementById('tabMentores');
 
     // Decision Modal
     const decisionOverlay = document.getElementById('decisionOverlay');
@@ -973,10 +1335,17 @@
     const contactoTelefonoValor = document.getElementById('contactoTelefonoValor');
     const contactoOrgName = document.getElementById('contactoOrgName');
 
+    // Mentor Modal
+    const mentorOverlay = document.getElementById('mentorOverlay');
+    const btnRegistroMentor = document.getElementById('btnRegistroMentor');
+    const btnCancelarMentor = document.getElementById('btnCancelarMentor');
+    const formMentor = document.getElementById('formMentor');
+
     // elementos ficha
     const fichaNombre = document.getElementById('fichaNombre');
     const fichaSector = document.getElementById('fichaSector');
     const fichaDesc = document.getElementById('fichaDesc');
+    const fichaODS = document.getElementById('fichaODS');
     const fichaContacto = document.getElementById('fichaContacto');
     const fichaCorreo = document.getElementById('fichaCorreo');
     const fichaTelefono = document.getElementById('fichaTelefono');
@@ -984,15 +1353,21 @@
     const fichaMapa = document.getElementById('fichaMapa');
 
     let currentOrg = null;
+    let currentFilter = 'all';
 
-    // ===== RENDER TARJETAS =====
+    // ===== RENDER TARJETAS DE ORGANIZACIONES =====
     function renderCards(list) {
       cardsContainer.innerHTML = '';
+      if (list.length === 0) {
+        cardsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #73608a;">No se encontraron organizaciones con los filtros seleccionados.</p>';
+        return;
+      }
       list.forEach(org => {
         const card = document.createElement('div');
         card.className = 'card';
         card.dataset.sector = org.sector;
         card.innerHTML = `
+          <div class="ods-tag">${org.ods.join(' · ')}</div>
           <h3>${org.nombre}</h3>
           <span class="tag">${org.sector}</span>
           <p class="desc">${org.descripcion}</p>
@@ -1010,14 +1385,60 @@
       });
     }
 
+    // ===== RENDER MENTORES =====
+    function renderMentores(list) {
+      mentoresContainer.innerHTML = '';
+      if (list.length === 0) {
+        mentoresContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #73608a;">No hay mentores registrados aún. ¡Sé el primero en registrarte!</p>';
+        return;
+      }
+      list.forEach(mentor => {
+        const card = document.createElement('div');
+        card.className = 'card-mentor';
+        const iniciales = mentor.nombre.split(' ').map(n => n[0]).join('');
+        card.innerHTML = `
+          <div class="mentor-header">
+            <div class="mentor-avatar">${iniciales}</div>
+            <div class="mentor-info">
+              <h3>${mentor.nombre}</h3>
+              <div class="sub">${mentor.grupo} · CUM: ${mentor.cum}</div>
+            </div>
+          </div>
+          <div class="skills">
+            ${mentor.experiencia.map(exp => `<span>${exp}</span>`).join('')}
+          </div>
+          <p style="color: #2f2a3b; font-size: 0.9rem; line-height: 1.5; margin: 4px 0 12px 0;">${mentor.descripcion}</p>
+          <button class="btn-contactar" data-id="${mentor.id}">📧 Contactar Mentor</button>
+        `;
+        mentoresContainer.appendChild(card);
+      });
+      document.querySelectorAll('.btn-contactar').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const id = parseInt(this.dataset.id);
+          const mentor = mentores.find(m => m.id === id);
+          if (mentor) {
+            window.location.href = `mailto:${mentor.correo}?subject=Interés en mentoría - ConectaRed&body=Hola ${mentor.nombre}, me interesaría contar con tu apoyo como mentor para mi proyecto.`;
+          }
+        });
+      });
+    }
+
     // ===== FILTROS Y BÚSQUEDA =====
     function filterCards() {
       const query = searchInput.value.toLowerCase().trim();
       const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+
       const filtered = organizations.filter(org => {
-        const matchText = org.nombre.toLowerCase().includes(query) || org.descripcion.toLowerCase().includes(query) || org.sector.toLowerCase().includes(query);
-        const matchSector = activeFilter === 'all' || org.sector === activeFilter;
-        return matchText && matchSector;
+        const matchText = org.nombre.toLowerCase().includes(query) ||
+                          org.descripcion.toLowerCase().includes(query) ||
+                          org.sector.toLowerCase().includes(query) ||
+                          org.ods.some(o => o.toLowerCase().includes(query));
+
+        const matchFilter = activeFilter === 'all' ||
+                            org.sector === activeFilter ||
+                            org.ods.includes(activeFilter);
+
+        return matchText && matchFilter;
       });
       renderCards(filtered);
     }
@@ -1026,13 +1447,30 @@
       btn.addEventListener('click', function() {
         filterBtns.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
+        currentFilter = this.dataset.filter;
         filterCards();
       });
     });
-    document.querySelector('.filter-btn[data-filter="all"]')?.classList.add('active');
 
     searchBtn.addEventListener('click', filterCards);
     searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') filterCards(); });
+
+    // ===== TABS =====
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+
+        const tab = this.dataset.tab;
+        if (tab === 'organizaciones') {
+          tabOrganizaciones.classList.add('active');
+          tabMentores.classList.remove('active');
+        } else {
+          tabOrganizaciones.classList.remove('active');
+          tabMentores.classList.add('active');
+        }
+      });
+    });
 
     // ===== MODAL: FICHA =====
     function openFicha(org) {
@@ -1040,6 +1478,7 @@
       fichaNombre.textContent = org.nombre;
       fichaSector.textContent = org.sector;
       fichaDesc.textContent = org.descripcion;
+      fichaODS.textContent = org.ods.join(' · ');
       fichaContacto.textContent = org.contacto;
       fichaCorreo.textContent = org.correo;
       fichaTelefono.textContent = org.telefono;
@@ -1073,7 +1512,7 @@
       fichaView.classList.remove('hidden');
     });
 
-    // ===== FUNCIÓN PARA MOSTRAR DECISIONES =====
+    // ===== DECISIONES =====
     function mostrarDecisiones() {
       decisionOverlay.classList.add('open');
     }
@@ -1082,7 +1521,6 @@
       decisionOverlay.classList.remove('open');
     }
 
-    // ===== FUNCIÓN PARA MOSTRAR CONTACTO (con datos de la organización) =====
     function mostrarContacto(org) {
       contactoOrgName.textContent = org.nombre;
       contactoCorreoValor.textContent = org.correo;
@@ -1094,25 +1532,19 @@
       contactoOverlay.classList.remove('open');
     }
 
-    // Eventos de decisión
     btnEnviarAsociacion.addEventListener('click', function() {
       cerrarDecisiones();
-      // Mostrar el modal de contacto con los datos de la organización
       if (currentOrg) {
         setTimeout(() => mostrarContacto(currentOrg), 300);
       } else {
-        // Fallback: usar la institución del hidden
         const nombre = institucionHidden.value || 'Organización';
         const org = organizations.find(o => o.nombre === nombre);
-        if (org) {
-          setTimeout(() => mostrarContacto(org), 300);
-        }
+        if (org) setTimeout(() => mostrarContacto(org), 300);
       }
     });
 
     btnSoloContinuar.addEventListener('click', function() {
       cerrarDecisiones();
-      // Mostrar toast de éxito
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 5000);
       closeModal();
@@ -1120,7 +1552,6 @@
       institucionHidden.value = '';
     });
 
-    // Eventos de contacto
     btnCerrarContacto.addEventListener('click', cerrarContacto);
     contactoOverlay.addEventListener('click', function(e) {
       if (e.target === contactoOverlay) cerrarContacto();
@@ -1128,7 +1559,7 @@
 
     contactoCorreo.addEventListener('click', function() {
       const email = contactoCorreoValor.textContent;
-      if (email && email !== 'Solicitar vía oficina central' && email !== 'Solicitar vía recepción' && email !== 'Solicitar por oficina') {
+      if (email && !email.includes('Solicitar')) {
         window.location.href = `mailto:${email}`;
       } else {
         alert('Esta organización no tiene un correo electrónico público disponible. Por favor, contacta por teléfono o visita sus oficinas.');
@@ -1137,21 +1568,74 @@
 
     contactoTelefono.addEventListener('click', function() {
       const telefono = contactoTelefonoValor.textContent;
-      // Limpiar el teléfono para URL
       let cleanPhone = telefono.replace(/\s/g, '').replace(/[()\-]/g, '');
       if (cleanPhone.startsWith('444')) {
         window.location.href = `tel:${cleanPhone}`;
       } else if (telefono.includes('WhatsApp')) {
-        // Extraer número de WhatsApp
         const match = telefono.match(/\d{3}\s*\d{3}\s*\d{4}/);
-        if (match) {
-          window.location.href = `https://wa.me/52${match[0].replace(/\s/g, '')}`;
-        } else {
-          alert('Por favor contacta por teléfono al número indicado.');
-        }
+        if (match) window.location.href = `https://wa.me/52${match[0].replace(/\s/g, '')}`;
       } else {
         alert('Por favor contacta por teléfono al número indicado.');
       }
+    });
+
+    // ===== MODAL MENTOR =====
+    btnRegistroMentor.addEventListener('click', function() {
+      mentorOverlay.classList.add('open');
+    });
+
+    btnCancelarMentor.addEventListener('click', function() {
+      mentorOverlay.classList.remove('open');
+      formMentor.reset();
+    });
+
+    mentorOverlay.addEventListener('click', function(e) {
+      if (e.target === mentorOverlay) {
+        mentorOverlay.classList.remove('open');
+        formMentor.reset();
+      }
+    });
+
+    formMentor.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const nombre = document.getElementById('mentorNombre').value.trim();
+      const grupo = document.getElementById('mentorGrupo').value.trim();
+      const cum = document.getElementById('mentorCum').value.trim();
+      const correo = document.getElementById('mentorCorreo').value.trim();
+      const telefono = document.getElementById('mentorTelefono').value.trim();
+      const select = document.getElementById('mentorExperiencia');
+      const experiencia = Array.from(select.selectedOptions).map(opt => opt.value);
+      const descripcion = document.getElementById('mentorDescripcion').value.trim();
+
+      if (!nombre || !grupo || !cum || !correo || !telefono || experiencia.length === 0 || !descripcion) {
+        alert('Por favor completa todos los campos obligatorios.');
+        return;
+      }
+
+      const nuevoMentor = {
+        id: mentores.length + 1,
+        nombre,
+        grupo,
+        cum,
+        correo,
+        telefono,
+        experiencia,
+        descripcion
+      };
+
+      mentores.push(nuevoMentor);
+      renderMentores(mentores);
+
+      mentorOverlay.classList.remove('open');
+      formMentor.reset();
+
+      toast.textContent = '✅ ¡Te has registrado como mentor exitosamente!';
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+        toast.innerHTML = '<span class="check">✔</span><span>¡Puerta abierta con éxito! El balón está en tu cancha, ¡cambia tu entorno!</span>';
+      }, 4000);
     });
 
     // ===== FORMULARIO Y GENERACIÓN PDF =====
@@ -1182,7 +1666,6 @@
         const margin = 20;
         let y = 20;
 
-        // ===== FUNCIÓN auxiliar para texto con wrap =====
         function addTextLines(text, x, y, fontSize = 11, isBold = false, maxWidth = pageWidth - 2 * margin) {
           doc.setFontSize(fontSize);
           doc.setFont(undefined, isBold ? 'bold' : 'normal');
@@ -1193,7 +1676,7 @@
           return y + (lines.length * 6.5) + 2;
         }
 
-        // ===== 1. ENCABEZADO CON LOGOS =====
+        // Encabezado
         doc.setFillColor(111, 45, 189);
         doc.rect(0, 0, pageWidth, 12, 'F');
         doc.setFontSize(14);
@@ -1202,11 +1685,9 @@
         doc.setFontSize(10);
         doc.text('Provincia San Luis Potosí', pageWidth - margin - 35, 9);
 
-        // Logos
         const logoY = 15;
         const logoHeight = 13;
         const logoWidth = 25;
-
         try { doc.addImage('as.jpg', 'JPEG', margin, logoY, logoWidth, logoHeight); } catch(e) {}
         try { doc.addImage('red slp logo.jpg', 'JPEG', pageWidth/2 - 15, logoY, logoWidth, logoHeight); } catch(e) {}
         try { doc.addImage('Provincia.jpg', 'JPEG', pageWidth - margin - logoWidth, logoY, logoWidth, logoHeight); } catch(e) {}
@@ -1215,7 +1696,6 @@
         doc.setLineWidth(0.3);
         doc.line(margin, 31, pageWidth - margin, 31);
 
-        // ===== FECHA =====
         const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
         const hoy = new Date();
         const fechaStr = `San Luis Potosí, S.L.P. A ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
@@ -1223,25 +1703,18 @@
         doc.setTextColor(30);
         y = addTextLines(fechaStr, pageWidth - margin - 55, 35, 11, false, 55);
 
-        // ===== ASUNTO =====
         y = addTextLines(`Asunto: Propuesta de colaboración para ${proyecto}`, margin, y + 8, 12, true);
-
-        // ===== DESTINATARIO =====
         y = addTextLines(`Estimada oficina de ${institucion} en San Luis Potosí, por medio de la presente, reciba un cordial saludo.`, margin, y + 4, 11, false);
 
-        // ===== CUERPO =====
         y = addTextLines(`Nos permitimos poner a su disposición el talento y la disposición de servicio de la Red de Jóvenes de la Provincia San Luis Potosí, organismo que representa a la juventud de la Asociación de Scouts de México, A.C. en nuestro estado.`, margin, y + 6, 11, false);
-
         y = addTextLines(`Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
 
         y = addTextLines(`• Objetivo principal: ${objetivo}`, margin + 4, y + 4, 11, false);
         y = addTextLines(`• Actividades propuestas: ${actividades}`, margin + 4, y + 2, 11, false);
 
         y = addTextLines(`Agradecemos de antemano su atención a esta propuesta, con la seguridad de que nuestra participación contribuirá a fortalecer los lazos comunitarios en beneficio de quienes más lo necesitan.`, margin, y + 6, 11, false);
-
         y = addTextLines(`Quedamos atentos a sus comentarios para coordinar una breve reunión y, en su caso, formalizar esta alianza estratégica.`, margin, y + 4, 11, false);
 
-        // ===== FIRMA DOBLE =====
         y = addTextLines(`Siempre listos para servir,`, margin, y + 10, 12, true);
 
         const leftX = margin;
@@ -1251,18 +1724,12 @@
 
         doc.setFontSize(11);
         doc.setFont(undefined, 'normal');
-
         doc.setDrawColor(180, 180, 180);
         doc.setLineWidth(0.5);
         doc.line(centerX - 2, firmaY - 4, centerX - 2, firmaY + 38);
 
-        // Columna Izquierda - Rafael Magaña
         doc.text('_______________________________', leftX, firmaY);
-        try {
-          doc.addImage('rmr.jpg', 'JPEG', leftX + 5, firmaY - 8, 50, 12);
-        } catch(e) {
-          doc.text('Rafael Magaña Rangel', leftX, firmaY + 6);
-        }
+        try { doc.addImage('rmr.jpg', 'JPEG', leftX + 5, firmaY - 8, 50, 12); } catch(e) { doc.text('Rafael Magaña Rangel', leftX, firmaY + 6); }
 
         const yFirma = firmaY + 8;
         doc.text('Rafael Magaña Rangel', leftX, yFirma + 4);
@@ -1273,24 +1740,18 @@
         doc.setTextColor(0, 100, 200);
         const emailTexto = 'Tel: 4447135378 | Email: red.jovenes.san_luis_potosi@scouts.org.mx';
         const emailLines = doc.splitTextToSize(emailTexto, 80);
-        emailLines.forEach((line, idx) => {
-          doc.text(line, leftX, yFirma + 28 + (idx * 6.5));
-        });
+        emailLines.forEach((line, idx) => { doc.text(line, leftX, yFirma + 28 + (idx * 6.5)); });
         doc.setTextColor(30);
 
-        // Columna Derecha - Clan/Rover
         doc.text('_______________________________', rightX, firmaY);
         doc.text(`${responsable} (CUM: ${cum})`, rightX, firmaY + 6);
         doc.text(`Responsable de Proyecto - Clan: ${clan}`, rightX, firmaY + 12);
         doc.setTextColor(0, 100, 200);
         const emailRover = `Tel: ${telefono} | Email: ${correo}`;
         const roverLines = doc.splitTextToSize(emailRover, 80);
-        roverLines.forEach((line, idx) => {
-          doc.text(line, rightX, firmaY + 18 + (idx * 6.5));
-        });
+        roverLines.forEach((line, idx) => { doc.text(line, rightX, firmaY + 18 + (idx * 6.5)); });
         doc.setTextColor(30);
 
-        // ===== GUARDAR PDF =====
         const guardarPDF = function() {
           doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
           mostrarDecisiones();
@@ -1301,10 +1762,7 @@
         if (firmaFile) {
           const reader = new FileReader();
           reader.onload = function(ev) {
-            try {
-              const imgData = ev.target.result;
-              doc.addImage(imgData, 'JPEG', rightX + 10, firmaY - 8, 30, 10);
-            } catch(e) {}
+            try { doc.addImage(ev.target.result, 'JPEG', rightX + 10, firmaY - 8, 30, 10); } catch(e) {}
             guardarPDF();
           };
           reader.readAsDataURL(firmaFile);
@@ -1319,6 +1777,7 @@
 
     // ===== INICIO =====
     renderCards(organizations);
+    renderMentores(mentores);
   })();
 </script>
 </body>
