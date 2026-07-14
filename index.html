@@ -92,6 +92,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
     .btn-login {
@@ -165,7 +166,6 @@
       .nav-actions {
         width: 100%;
         justify-content: center;
-        flex-wrap: wrap;
       }
     }
 
@@ -600,13 +600,36 @@
     .btn-accion.rechazar:hover {
       background: #b02a37;
     }
-
     .btn-accion.ver-pdf {
       background: var(--morado);
       color: white;
     }
     .btn-accion.ver-pdf:hover {
       background: #551b99;
+    }
+    .btn-accion.eliminar {
+      background: #6c757d;
+      color: white;
+    }
+    .btn-accion.eliminar:hover {
+      background: #5a6268;
+    }
+
+    .btn-agregar-org {
+      background: var(--verde-scout);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-bottom: 16px;
+    }
+    .btn-agregar-org:hover {
+      background: #007d38;
+      transform: scale(1.02);
     }
 
     /* ===== BOTÓN REGISTRO MENTOR ===== */
@@ -736,6 +759,119 @@
       text-align: center;
       margin-top: 12px;
       display: none;
+    }
+
+    /* ===== MODAL AGREGAR ORGANIZACIÓN ===== */
+    .org-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 5, 20, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1800;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s;
+      padding: 20px;
+    }
+    .org-overlay.open {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .org-panel {
+      background: white;
+      width: 100%;
+      max-width: 560px;
+      border-radius: 28px;
+      padding: 32px 36px 36px;
+      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+      animation: fadeUp 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .org-panel h2 {
+      font-size: 1.6rem;
+      color: var(--morado);
+      margin-bottom: 4px;
+    }
+
+    .org-panel .sub {
+      color: #3d3250;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    .org-panel form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .org-panel label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #2b1d3b;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .org-panel input,
+    .org-panel textarea,
+    .org-panel select {
+      padding: 12px 14px;
+      border: 1px solid #d5cbe0;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      background: #fcfafd;
+      transition: 0.2s;
+    }
+    .org-panel input:focus,
+    .org-panel textarea:focus,
+    .org-panel select:focus {
+      outline: 2px solid var(--morado);
+      border-color: transparent;
+      background: white;
+    }
+    .org-panel textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+
+    .org-panel .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .org-panel .form-actions button {
+      padding: 14px 24px;
+      border-radius: 60px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      flex: 1;
+    }
+    .btn-cancelar-org {
+      background: #ece6f3;
+      color: var(--morado);
+    }
+    .btn-cancelar-org:hover {
+      background: #ddd2ea;
+    }
+    .btn-guardar-org {
+      background: var(--verde-scout);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 154, 68, 0.3);
+    }
+    .btn-guardar-org:hover {
+      background: #007d38;
+      transform: scale(1.02);
     }
 
     /* ===== MODAL REGISTRO MENTOR ===== */
@@ -1323,6 +1459,7 @@
       .contacto-panel { padding: 24px 20px; }
       .contacto-item { flex-direction: column; text-align: center; gap: 8px; }
       .mentor-panel { padding: 24px 20px; }
+      .org-panel { padding: 24px 20px; }
       .admin-table { font-size: 0.75rem; }
       .admin-table th, .admin-table td { padding: 8px 10px; }
       .admin-table .btn-accion { font-size: 0.7rem; padding: 4px 10px; }
@@ -1332,12 +1469,9 @@
     /* Scroll suave */
     html { scroll-behavior: smooth; }
 
-    /* Ocultar cosas de admin si no está logueado */
+    /* Admin only */
     .admin-only { display: none; }
     .admin-only.visible { display: block; }
-
-    .user-only { display: none; }
-    .user-only.visible { display: block; }
   </style>
 </head>
 <body>
@@ -1355,7 +1489,7 @@
       <img src="Provincia.jpg" alt="Provincia SLP" class="logo-centenario" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2248%22%3E%3Crect width=%22120%22 height=%2248%22 fill=%22%23f68b2c%22/%3E%3Ctext x=%226%22 y=%2232%22 fill=%22white%22 font-size=%2216%22%3EProvincia%3C/text%3E%3C/svg%3E'">
     </div>
     <div class="nav-actions" id="navActions">
-      <!-- Esto se llena con JavaScript -->
+      <!-- Se llena con JavaScript -->
     </div>
   </nav>
 
@@ -1392,7 +1526,6 @@
         <button class="filter-btn" data-filter="ODS 17">🤝 ODS 17 · Alianzas</button>
       </div>
     </div>
-
     <div class="grid-cards" id="cardsContainer"></div>
   </div>
 
@@ -1408,10 +1541,23 @@
 
   <!-- ===== TAB: ADMIN ===== -->
   <div class="tab-content admin-only" id="tabAdmin">
-    <!-- Panel de Administración -->
     <div class="admin-panel">
       <h2>🔐 Panel de Administración</h2>
       
+      <!-- Sección: Organizaciones -->
+      <div style="margin-bottom: 30px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 12px;">
+          <h3 style="color: var(--morado); display: flex; align-items: center; gap: 8px;">
+            🏢 Organizaciones
+            <span class="badge-count" id="orgsCount">0</span>
+          </h3>
+          <button class="btn-agregar-org" id="btnAgregarOrg">+ Agregar Organización</button>
+        </div>
+        <div id="organizacionesContainer">
+          <p style="color: #73608a;">Cargando organizaciones...</p>
+        </div>
+      </div>
+
       <!-- Sección: Solicitudes de Mentores -->
       <div style="margin-bottom: 30px;">
         <h3 style="color: var(--morado); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
@@ -1454,6 +1600,57 @@
       <div class="login-error" id="loginError">Credenciales incorrectas. Intenta de nuevo.</div>
       <button type="submit" class="btn-login-submit">Iniciar Sesión</button>
       <button type="button" class="btn-cerrar-login" id="btnCerrarLogin">Cancelar</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== MODAL AGREGAR ORGANIZACIÓN ===== -->
+<div class="org-overlay" id="orgOverlay">
+  <div class="org-panel">
+    <h2>🏢 Agregar Organización</h2>
+    <p class="sub">Completa los datos de la nueva organización</p>
+    <form id="formOrganizacion">
+      <label>
+        Nombre de la organización *
+        <input type="text" id="orgNombre" placeholder="Ej. Fundación Ejemplo" required>
+      </label>
+      <label>
+        Sector *
+        <input type="text" id="orgSector" placeholder="Ej. Asistencia social" required>
+      </label>
+      <label>
+        ODS relacionados (separados por coma)
+        <input type="text" id="orgODS" placeholder="ODS 1, ODS 3, ODS 10">
+      </label>
+      <label>
+        Descripción *
+        <textarea id="orgDescripcion" placeholder="Describe qué hace la organización..." required></textarea>
+      </label>
+      <label>
+        Contacto sugerido
+        <input type="text" id="orgContacto" placeholder="Ej. Dirección General">
+      </label>
+      <label>
+        Correo electrónico
+        <input type="email" id="orgCorreo" placeholder="contacto@ejemplo.com">
+      </label>
+      <label>
+        Teléfono
+        <input type="text" id="orgTelefono" placeholder="(444) 123-4567">
+      </label>
+      <label>
+        Dirección
+        <input type="text" id="orgDireccion" placeholder="Calle, número, colonia, C.P., ciudad">
+      </label>
+      <label>
+        URL del mapa (Google Maps embed)
+        <input type="text" id="orgMapa" placeholder="https://maps.google.com/maps?q=...">
+      </label>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancelar-org" id="btnCancelarOrg">Cancelar</button>
+        <button type="submit" class="btn-guardar-org">💾 Guardar Organización</button>
+      </div>
     </form>
   </div>
 </div>
@@ -1642,8 +1839,7 @@ import {
   query,
   where,
   orderBy,
-  serverTimestamp,
-  onSnapshot
+  serverTimestamp
 } from "firebase/firestore";
 import {
   getAuth,
@@ -1651,12 +1847,6 @@ import {
   signOut,
   onAuthStateChanged
 } from "firebase/auth";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "firebase/storage";
 
 // ===== CONFIGURACIÓN =====
 const firebaseConfig = {
@@ -1674,14 +1864,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-const storage = getStorage(app);
 
 console.log('🔥 Firebase conectado correctamente');
 
 // ============================================================
-// ===== DATOS DE ORGANIZACIONES =====
+// ===== DATOS DE ORGANIZACIONES (LOCAL) =====
 // ============================================================
-const organizations = [
+const organizationsLocal = [
   { id: 1, nombre: "Cáritas San Luis Potosí Oficinas Centrales", sector: "Asistencia social", ods: ["ODS 1", "ODS 2", "ODS 10"], descripcion: "Programas de alimentación, salud, desarrollo comunitario y apoyo a personas vulnerables.", contacto: "Dirección General o Coordinación de Voluntariado", correo: "Solicitar vía oficina central", telefono: "(444) 812-2351", direccion: "Álvaro Obregón 626, Zona Centro, C.P. 78000, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Alvaro+Obregon+626,+Zona+Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
   { id: 2, nombre: "Casa de la Caridad Hogar del Migrante Mons. Luis Morales Reyes", sector: "Migración", ods: ["ODS 10", "ODS 16"], descripcion: "Alberga y brinda apoyo integral a personas migrantes.", contacto: "Dirección General", correo: "Solicitar vía recepción", telefono: "(444) 815-6225", direccion: "Juan Álvarez No. 210, Barrio de Tlaxcala, C.P. 78038, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Juan+Alvarez+210,+Barrio+de+Tlaxcala,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
   { id: 3, nombre: "Perteneces A.C.", sector: "Inclusión", ods: ["ODS 10", "ODS 5"], descripcion: "Programas de inclusión social y atención a personas con discapacidad.", contacto: "Dirección General", correo: "Solicitar por oficina", telefono: "(444) 811-4431", direccion: "Tangamanga, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Tangamanga,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
@@ -1709,6 +1898,9 @@ const organizations = [
 // ============================================================
 const cardsContainer = document.getElementById('cardsContainer');
 const mentoresContainer = document.getElementById('mentoresContainer');
+const organizacionesContainer = document.getElementById('organizacionesContainer');
+const solicitudesContainer = document.getElementById('solicitudesContainer');
+const pdfsContainer = document.getElementById('pdfsContainer');
 const searchInput = document.getElementById('searchInput');
 const searchBtn = document.getElementById('searchBtn');
 const filterBtns = document.querySelectorAll('.filter-btn');
@@ -1730,17 +1922,22 @@ const loginPassword = document.getElementById('loginPassword');
 const loginError = document.getElementById('loginError');
 const btnCerrarLogin = document.getElementById('btnCerrarLogin');
 
+// Agregar Organización
+const orgOverlay = document.getElementById('orgOverlay');
+const formOrganizacion = document.getElementById('formOrganizacion');
+const btnAgregarOrg = document.getElementById('btnAgregarOrg');
+const btnCancelarOrg = document.getElementById('btnCancelarOrg');
+
 // Tabs
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabOrganizaciones = document.getElementById('tabOrganizaciones');
 const tabMentores = document.getElementById('tabMentores');
 const tabAdmin = document.getElementById('tabAdmin');
 
-// Admin
-const solicitudesContainer = document.getElementById('solicitudesContainer');
-const pdfsContainer = document.getElementById('pdfsContainer');
+// Contadores
 const pendientesCount = document.getElementById('pendientesCount');
 const pdfsCount = document.getElementById('pdfsCount');
+const orgsCount = document.getElementById('orgsCount');
 
 // Decision Modal
 const decisionOverlay = document.getElementById('decisionOverlay');
@@ -1773,16 +1970,113 @@ const fichaTelefono = document.getElementById('fichaTelefono');
 const fichaDireccion = document.getElementById('fichaDireccion');
 const fichaMapa = document.getElementById('fichaMapa');
 
-// Nav
 const navActions = document.getElementById('navActions');
 
 let currentOrg = null;
 let currentFilter = 'all';
 let currentUser = null;
 let isAdmin = false;
+let organizationsData = [...organizationsLocal];
 let mentoresList = [];
 let pdfsList = [];
 let solicitudesList = [];
+
+// ============================================================
+// ===== FUNCIONES DE FIRESTORE =====
+// ============================================================
+async function guardarPDFenFirebase(datosPDF) {
+  try {
+    const docRef = await addDoc(collection(db, 'pdfs'), {
+      ...datosPDF,
+      fechaGeneracion: serverTimestamp(),
+      estado: 'activo'
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error('Error al guardar PDF:', error);
+    return null;
+  }
+}
+
+async function guardarOrganizacion(datos) {
+  try {
+    const docRef = await addDoc(collection(db, 'organizaciones'), {
+      ...datos,
+      fechaRegistro: serverTimestamp(),
+      activo: true
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error('Error al guardar organización:', error);
+    return null;
+  }
+}
+
+async function guardarMentor(datosMentor) {
+  try {
+    const docRef = await addDoc(collection(db, 'mentores'), {
+      ...datosMentor,
+      estado: 'pendiente',
+      fechaRegistro: serverTimestamp()
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error('Error al guardar mentor:', error);
+    return null;
+  }
+}
+
+async function obtenerMentores(estado = 'aprobado') {
+  try {
+    const q = query(collection(db, 'mentores'), where('estado', '==', estado));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error('Error al obtener mentores:', error);
+    return [];
+  }
+}
+
+async function obtenerPDFs() {
+  try {
+    const q = query(collection(db, 'pdfs'), orderBy('fechaGeneracion', 'desc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error('Error al obtener PDFs:', error);
+    return [];
+  }
+}
+
+async function obtenerOrganizacionesFirestore() {
+  try {
+    const snapshot = await getDocs(collection(db, 'organizaciones'));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error('Error al obtener organizaciones:', error);
+    return [];
+  }
+}
+
+async function actualizarMentor(id, datos) {
+  try {
+    await updateDoc(doc(db, 'mentores', id), datos);
+    return true;
+  } catch (error) {
+    console.error('Error al actualizar mentor:', error);
+    return false;
+  }
+}
+
+async function eliminarOrganizacion(id) {
+  try {
+    await deleteDoc(doc(db, 'organizaciones', id));
+    return true;
+  } catch (error) {
+    console.error('Error al eliminar organización:', error);
+    return false;
+  }
+}
 
 // ============================================================
 // ===== FUNCIONES DE AUTENTICACIÓN =====
@@ -1803,12 +2097,10 @@ loginForm.addEventListener('submit', async function(e) {
   const password = loginPassword.value.trim();
   
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    await signInWithEmailAndPassword(auth, email, password);
     loginError.style.display = 'none';
     cerrarLogin();
-    toast.innerHTML = '<span class="check">✅</span><span>Bienvenido, Administrador</span>';
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
+    mostrarToast('✅', 'Bienvenido, Administrador');
   } catch (error) {
     loginError.style.display = 'block';
     console.error('Error de login:', error);
@@ -1827,13 +2119,10 @@ async function cerrarSesion() {
     currentUser = null;
     actualizarNav();
     document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('visible'));
-    // Si está en pestaña admin, cambiar a organizaciones
     if (document.querySelector('.tab-btn.active')?.dataset.tab === 'admin') {
       document.querySelector('.tab-btn[data-tab="organizaciones"]')?.click();
     }
-    toast.innerHTML = '<span class="check">👋</span><span>Sesión cerrada correctamente</span>';
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
+    mostrarToast('👋', 'Sesión cerrada correctamente');
   } catch (error) {
     console.error('Error al cerrar sesión:', error);
   }
@@ -1850,7 +2139,6 @@ function actualizarNav() {
     `;
     document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
     document.querySelectorAll('.admin-only').forEach(el => el.classList.add('visible'));
-    // Cargar datos de admin
     cargarDatosAdmin();
   } else {
     navActions.innerHTML = `
@@ -1861,11 +2149,16 @@ function actualizarNav() {
   }
 }
 
+function mostrarToast(icono, mensaje) {
+  toast.innerHTML = `<span class="check">${icono}</span><span>${mensaje}</span>`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
 // Observar estado de autenticación
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
-    // Verificar si es admin (correo específico)
     isAdmin = user.email === 'admin@conectared.mx';
     actualizarNav();
   } else {
@@ -1876,98 +2169,36 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // ============================================================
-// ===== FUNCIONES DE FIRESTORE =====
-// ============================================================
-async function guardarPDFenFirebase(datosPDF) {
-  try {
-    const docRef = await addDoc(collection(db, 'pdfs'), {
-      ...datosPDF,
-      fechaGeneracion: serverTimestamp(),
-      estado: 'activo'
-    });
-    console.log('✅ PDF guardado con ID:', docRef.id);
-    return docRef.id;
-  } catch (error) {
-    console.error('❌ Error al guardar PDF:', error);
-    return null;
-  }
-}
-
-async function guardarMentor(datosMentor) {
-  try {
-    const docRef = await addDoc(collection(db, 'mentores'), {
-      ...datosMentor,
-      estado: 'pendiente',
-      fechaRegistro: serverTimestamp()
-    });
-    console.log('✅ Solicitud de mentor guardada:', docRef.id);
-    return docRef.id;
-  } catch (error) {
-    console.error('❌ Error al guardar mentor:', error);
-    return null;
-  }
-}
-
-async function obtenerMentores(estado = 'aprobado') {
-  try {
-    const q = query(collection(db, 'mentores'), where('estado', '==', estado));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  } catch (error) {
-    console.error('❌ Error al obtener mentores:', error);
-    return [];
-  }
-}
-
-async function obtenerPDFs() {
-  try {
-    const q = query(collection(db, 'pdfs'), orderBy('fechaGeneracion', 'desc'));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  } catch (error) {
-    console.error('❌ Error al obtener PDFs:', error);
-    return [];
-  }
-}
-
-async function actualizarMentor(id, datos) {
-  try {
-    await updateDoc(doc(db, 'mentores', id), datos);
-    console.log('✅ Mentor actualizado:', id);
-    return true;
-  } catch (error) {
-    console.error('❌ Error al actualizar mentor:', error);
-    return false;
-  }
-}
-
-// ============================================================
 // ===== RENDER TARJETAS DE ORGANIZACIONES =====
 // ============================================================
 function renderCards(list) {
   cardsContainer.innerHTML = '';
-  if (list.length === 0) {
-    cardsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #73608a;">No se encontraron organizaciones con los filtros seleccionados.</p>';
+  if (!list || list.length === 0) {
+    cardsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #73608a;">No se encontraron organizaciones.</p>';
     return;
   }
   list.forEach(org => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.dataset.sector = org.sector;
     card.innerHTML = `
-      <div class="ods-tag">${org.ods.join(' · ')}</div>
-      <h3>${org.nombre}</h3>
-      <span class="tag">${org.sector}</span>
-      <p class="desc">${org.descripcion}</p>
-      <button class="btn-vinculacion" data-id="${org.id}">Ver ficha y vincular ⚡</button>
+      <div class="ods-tag">${org.ods ? org.ods.join(' · ') : ''}</div>
+      <h3>${org.nombre || 'Sin nombre'}</h3>
+      <span class="tag">${org.sector || 'Sin sector'}</span>
+      <p class="desc">${org.descripcion || ''}</p>
+      <button class="btn-vinculacion" data-id="${org.id || org._id}">Ver ficha y vincular ⚡</button>
     `;
     cardsContainer.appendChild(card);
   });
   document.querySelectorAll('.btn-vinculacion').forEach(btn => {
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
-      const id = parseInt(this.dataset.id);
-      const org = organizations.find(o => o.id === id);
+      const id = this.dataset.id;
+      // Buscar primero en organizationsData
+      let org = organizationsData.find(o => o.id == id || o._id == id);
+      if (!org) {
+        // Buscar en la lista local
+        org = organizationsLocal.find(o => o.id == id);
+      }
       if (org) openFicha(org);
     });
   });
@@ -1978,20 +2209,20 @@ function renderCards(list) {
 // ============================================================
 function renderMentores(list) {
   mentoresContainer.innerHTML = '';
-  if (list.length === 0) {
+  if (!list || list.length === 0) {
     mentoresContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #73608a;">No hay mentores registrados aún. ¡Sé el primero en registrarte!</p>';
     return;
   }
   list.forEach(mentor => {
     const card = document.createElement('div');
     card.className = 'card-mentor';
-    const iniciales = mentor.nombre.split(' ').map(n => n[0]).join('');
+    const iniciales = (mentor.nombre || 'M').split(' ').map(n => n[0]).join('');
     card.innerHTML = `
       <div class="mentor-header">
         <div class="mentor-avatar">${iniciales}</div>
         <div class="mentor-info">
-          <h3>${mentor.nombre}</h3>
-          <div class="sub">${mentor.grupo} · CUM: ${mentor.cum}</div>
+          <h3>${mentor.nombre || 'Sin nombre'}</h3>
+          <div class="sub">${mentor.grupo || ''} · CUM: ${mentor.cum || ''}</div>
         </div>
       </div>
       <div class="skills">
@@ -1999,8 +2230,8 @@ function renderMentores(list) {
       </div>
       <p style="color: #2f2a3b; font-size: 0.9rem; line-height: 1.5; margin: 4px 0 12px 0;">${mentor.descripcion || ''}</p>
       <div class="contact-buttons">
-        <button class="btn-whatsapp" data-telefono="${mentor.telefono || ''}" data-nombre="${mentor.nombre}">💬 WhatsApp</button>
-        <button class="btn-email-mentor" data-correo="${mentor.correo || ''}" data-nombre="${mentor.nombre}">✉️ Correo</button>
+        <button class="btn-whatsapp" data-telefono="${mentor.telefono || ''}" data-nombre="${mentor.nombre || 'Mentor'}">💬 WhatsApp</button>
+        <button class="btn-email-mentor" data-correo="${mentor.correo || ''}" data-nombre="${mentor.nombre || 'Mentor'}">✉️ Correo</button>
       </div>
     `;
     mentoresContainer.appendChild(card);
@@ -2010,7 +2241,7 @@ function renderMentores(list) {
     btn.addEventListener('click', function() {
       const telefono = this.dataset.telefono;
       const nombre = this.dataset.nombre;
-      const mensaje = encodeURIComponent(`Hola ${nombre}, soy un Rover interesado en tu mentoría para un proyecto scout. Me gustaría conocer más sobre tu experiencia y cómo podrías apoyarme. ¡Gracias!`);
+      const mensaje = encodeURIComponent(`Hola ${nombre}, soy un Rover interesado en tu mentoría para un proyecto scout.`);
       if (telefono) {
         window.open(`https://wa.me/52${telefono}?text=${mensaje}`, '_blank');
       } else {
@@ -2024,7 +2255,7 @@ function renderMentores(list) {
       const correo = this.dataset.correo;
       const nombre = this.dataset.nombre;
       const asunto = encodeURIComponent('Interés en mentoría - ConectaRed');
-      const cuerpo = encodeURIComponent(`Hola ${nombre},\n\nSoy un Rover interesado en tu mentoría para un proyecto scout. Me gustaría conocer más sobre tu experiencia y cómo podrías apoyarme.\n\n¡Gracias!`);
+      const cuerpo = encodeURIComponent(`Hola ${nombre},\n\nSoy un Rover interesado en tu mentoría para un proyecto scout.\n\n¡Gracias!`);
       if (correo) {
         window.location.href = `mailto:${correo}?subject=${asunto}&body=${cuerpo}`;
       } else {
@@ -2038,7 +2269,58 @@ function renderMentores(list) {
 // ===== RENDER ADMIN =====
 // ============================================================
 async function cargarDatosAdmin() {
-  // Cargar solicitudes pendientes
+  // Organizaciones desde Firestore
+  try {
+    const orgs = await obtenerOrganizacionesFirestore();
+    const orgsLocal = organizationsLocal;
+    const todas = [...orgs, ...orgsLocal.map(o => ({ ...o, _id: o.id }))];
+    organizationsData = todas;
+    orgsCount.textContent = todas.length;
+    
+    if (todas.length === 0) {
+      organizacionesContainer.innerHTML = '<p style="color: #73608a;">No hay organizaciones registradas.</p>';
+    } else {
+      let html = `<table class="admin-table"><thead><tr><th>Nombre</th><th>Sector</th><th>ODS</th><th>Acciones</th></tr></thead><tbody>`;
+      todas.forEach(o => {
+        const id = o.id || o._id;
+        html += `
+          <tr>
+            <td><strong>${o.nombre || 'Sin nombre'}</strong></td>
+            <td>${o.sector || ''}</td>
+            <td>${o.ods ? o.ods.join(', ') : ''}</td>
+            <td>
+              <button class="btn-accion eliminar" data-id="${id}" data-fb="${o.id ? 'true' : 'false'}">🗑️ Eliminar</button>
+            </td>
+          </tr>
+        `;
+      });
+      html += `</tbody></table>`;
+      organizacionesContainer.innerHTML = html;
+      
+      document.querySelectorAll('.btn-accion.eliminar').forEach(btn => {
+        btn.addEventListener('click', async function() {
+          const id = this.dataset.id;
+          const isFirebase = this.dataset.fb === 'true';
+          if (confirm('¿Eliminar esta organización?')) {
+            if (isFirebase) {
+              await eliminarOrganizacion(id);
+            }
+            // Eliminar de la lista local
+            const index = organizationsData.findIndex(o => (o.id == id || o._id == id));
+            if (index !== -1) organizationsData.splice(index, 1);
+            cargarDatosAdmin();
+            cargarOrganizaciones();
+            mostrarToast('🗑️', 'Organización eliminada');
+          }
+        });
+      });
+    }
+  } catch (error) {
+    console.error('Error cargando organizaciones:', error);
+    organizacionesContainer.innerHTML = '<p style="color: var(--rojo);">Error al cargar organizaciones.</p>';
+  }
+
+  // Solicitudes pendientes
   try {
     const solicitudes = await obtenerMentores('pendiente');
     solicitudesList = solicitudes;
@@ -2047,17 +2329,7 @@ async function cargarDatosAdmin() {
     if (solicitudes.length === 0) {
       solicitudesContainer.innerHTML = '<p style="color: #73608a;">No hay solicitudes de mentor pendientes.</p>';
     } else {
-      let html = `<table class="admin-table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Grupo</th>
-            <th>Correo</th>
-            <th>Experiencia</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>`;
+      let html = `<table class="admin-table"><thead><tr><th>Nombre</th><th>Grupo</th><th>Correo</th><th>Experiencia</th><th>Acciones</th></tr></thead><tbody>`;
       solicitudes.forEach(s => {
         html += `
           <tr>
@@ -2075,7 +2347,6 @@ async function cargarDatosAdmin() {
       html += `</tbody></table>`;
       solicitudesContainer.innerHTML = html;
       
-      // Eventos de aprobar/rechazar
       document.querySelectorAll('.btn-accion.aprobar').forEach(btn => {
         btn.addEventListener('click', async function() {
           const id = this.dataset.id;
@@ -2083,9 +2354,7 @@ async function cargarDatosAdmin() {
             await actualizarMentor(id, { estado: 'aprobado' });
             cargarDatosAdmin();
             cargarMentores();
-            toast.innerHTML = '<span class="check">✅</span><span>Mentor aprobado correctamente</span>';
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            mostrarToast('✅', 'Mentor aprobado correctamente');
           }
         });
       });
@@ -2096,9 +2365,7 @@ async function cargarDatosAdmin() {
           if (confirm('¿Rechazar este mentor?')) {
             await actualizarMentor(id, { estado: 'rechazado' });
             cargarDatosAdmin();
-            toast.innerHTML = '<span class="check">❌</span><span>Mentor rechazado</span>';
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            mostrarToast('❌', 'Mentor rechazado');
           }
         });
       });
@@ -2108,7 +2375,7 @@ async function cargarDatosAdmin() {
     solicitudesContainer.innerHTML = '<p style="color: var(--rojo);">Error al cargar solicitudes.</p>';
   }
   
-  // Cargar PDFs
+  // PDFs
   try {
     const pdfs = await obtenerPDFs();
     pdfsList = pdfs;
@@ -2117,19 +2384,7 @@ async function cargarDatosAdmin() {
     if (pdfs.length === 0) {
       pdfsContainer.innerHTML = '<p style="color: #73608a;">No hay PDFs generados aún.</p>';
     } else {
-      let html = `<table class="admin-table">
-        <thead>
-          <tr>
-            <th>Proyecto</th>
-            <th>Responsable</th>
-            <th>Clan</th>
-            <th>Organización</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>`;
+      let html = `<table class="admin-table"><thead><tr><th>Proyecto</th><th>Responsable</th><th>Clan</th><th>Organización</th><th>Fecha</th><th>Estado</th></tr></thead><tbody>`;
       pdfs.forEach(p => {
         const fecha = p.fechaGeneracion ? new Date(p.fechaGeneracion.seconds * 1000).toLocaleDateString('es-MX') : 'N/A';
         html += `
@@ -2140,26 +2395,11 @@ async function cargarDatosAdmin() {
             <td>${p.organizacion || ''}</td>
             <td>${fecha}</td>
             <td><span class="estado ${p.estado || 'activo'}">${p.estado || 'activo'}</span></td>
-            <td>
-              <button class="btn-accion ver-pdf" data-id="${p.id}">📄 Ver PDF</button>
-            </td>
           </tr>
         `;
       });
       html += `</tbody></table>`;
       pdfsContainer.innerHTML = html;
-      
-      document.querySelectorAll('.btn-accion.ver-pdf').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const id = this.dataset.id;
-          const pdf = pdfsList.find(p => p.id === id);
-          if (pdf && pdf.pdfUrl) {
-            window.open(pdf.pdfUrl, '_blank');
-          } else {
-            alert('Este PDF no tiene URL guardada.');
-          }
-        });
-      });
     }
   } catch (error) {
     console.error('Error cargando PDFs:', error);
@@ -2168,38 +2408,45 @@ async function cargarDatosAdmin() {
 }
 
 // ============================================================
-// ===== FILTROS Y BÚSQUEDA =====
+// ===== CARGAR ORGANIZACIONES =====
 // ============================================================
-function filterCards() {
+function cargarOrganizaciones() {
   const query = searchInput.value.toLowerCase().trim();
   const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
 
-  const filtered = organizations.filter(org => {
-    const matchText = org.nombre.toLowerCase().includes(query) ||
-                      org.descripcion.toLowerCase().includes(query) ||
-                      org.sector.toLowerCase().includes(query) ||
-                      org.ods.some(o => o.toLowerCase().includes(query));
+  const filtered = organizationsData.filter(org => {
+    const nombre = org.nombre || '';
+    const desc = org.descripcion || '';
+    const sector = org.sector || '';
+    const ods = org.ods || [];
+    
+    const matchText = nombre.toLowerCase().includes(query) ||
+                      desc.toLowerCase().includes(query) ||
+                      sector.toLowerCase().includes(query) ||
+                      ods.some(o => o.toLowerCase().includes(query));
 
     const matchFilter = activeFilter === 'all' ||
-                        org.sector === activeFilter ||
-                        org.ods.includes(activeFilter);
+                        sector === activeFilter ||
+                        ods.includes(activeFilter);
 
     return matchText && matchFilter;
   });
   renderCards(filtered);
 }
 
+// ============================================================
+// ===== FILTROS =====
+// ============================================================
 filterBtns.forEach(btn => {
   btn.addEventListener('click', function() {
     filterBtns.forEach(b => b.classList.remove('active'));
     this.classList.add('active');
-    currentFilter = this.dataset.filter;
-    filterCards();
+    cargarOrganizaciones();
   });
 });
 
-searchBtn.addEventListener('click', filterCards);
-searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') filterCards(); });
+searchBtn.addEventListener('click', cargarOrganizaciones);
+searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') cargarOrganizaciones(); });
 
 // ============================================================
 // ===== TABS =====
@@ -2218,13 +2465,12 @@ tabBtns.forEach(btn => {
       tabOrganizaciones.classList.remove('active');
       tabMentores.classList.add('active');
       tabAdmin.classList.remove('active');
+      cargarMentores();
     } else if (tab === 'admin') {
       tabOrganizaciones.classList.remove('active');
       tabMentores.classList.remove('active');
       tabAdmin.classList.add('active');
-      if (isAdmin) {
-        cargarDatosAdmin();
-      }
+      if (isAdmin) cargarDatosAdmin();
     }
   });
 });
@@ -2234,16 +2480,16 @@ tabBtns.forEach(btn => {
 // ============================================================
 function openFicha(org) {
   currentOrg = org;
-  fichaNombre.textContent = org.nombre;
-  fichaSector.textContent = org.sector;
-  fichaDesc.textContent = org.descripcion;
-  fichaODS.textContent = org.ods.join(' · ');
-  fichaContacto.textContent = org.contacto;
-  fichaCorreo.textContent = org.correo;
-  fichaTelefono.textContent = org.telefono;
-  fichaDireccion.textContent = org.direccion;
-  fichaMapa.src = org.mapa;
-  institucionHidden.value = org.nombre;
+  fichaNombre.textContent = org.nombre || 'Sin nombre';
+  fichaSector.textContent = org.sector || 'Sin sector';
+  fichaDesc.textContent = org.descripcion || '';
+  fichaODS.textContent = org.ods ? org.ods.join(' · ') : '';
+  fichaContacto.textContent = org.contacto || '';
+  fichaCorreo.textContent = org.correo || '';
+  fichaTelefono.textContent = org.telefono || '';
+  fichaDireccion.textContent = org.direccion || '';
+  fichaMapa.src = org.mapa || '';
+  institucionHidden.value = org.nombre || '';
 
   fichaView.classList.remove('hidden');
   formView.classList.remove('active');
@@ -2283,9 +2529,9 @@ function cerrarDecisiones() {
 }
 
 function mostrarContacto(org) {
-  contactoOrgName.textContent = org.nombre;
-  contactoCorreoValor.textContent = org.correo;
-  contactoTelefonoValor.textContent = org.telefono;
+  contactoOrgName.textContent = org.nombre || 'Organización';
+  contactoCorreoValor.textContent = org.correo || '';
+  contactoTelefonoValor.textContent = org.telefono || '';
   contactoOverlay.classList.add('open');
 }
 
@@ -2299,15 +2545,14 @@ btnEnviarAsociacion.addEventListener('click', function() {
     setTimeout(() => mostrarContacto(currentOrg), 300);
   } else {
     const nombre = institucionHidden.value || 'Organización';
-    const org = organizations.find(o => o.nombre === nombre);
+    const org = organizationsData.find(o => o.nombre === nombre);
     if (org) setTimeout(() => mostrarContacto(org), 300);
   }
 });
 
 btnSoloContinuar.addEventListener('click', function() {
   cerrarDecisiones();
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 5000);
+  mostrarToast('✅', '¡Proceso completado!');
   closeModal();
   form.reset();
   institucionHidden.value = '';
@@ -2337,6 +2582,69 @@ contactoTelefono.addEventListener('click', function() {
     if (match) window.location.href = `https://wa.me/52${match[0].replace(/\s/g, '')}`;
   } else {
     alert('Por favor contacta por teléfono al número indicado.');
+  }
+});
+
+// ============================================================
+// ===== MODAL AGREGAR ORGANIZACIÓN =====
+// ============================================================
+btnAgregarOrg.addEventListener('click', function() {
+  orgOverlay.classList.add('open');
+});
+
+btnCancelarOrg.addEventListener('click', function() {
+  orgOverlay.classList.remove('open');
+  formOrganizacion.reset();
+});
+
+orgOverlay.addEventListener('click', function(e) {
+  if (e.target === orgOverlay) {
+    orgOverlay.classList.remove('open');
+    formOrganizacion.reset();
+  }
+});
+
+formOrganizacion.addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const nombre = document.getElementById('orgNombre').value.trim();
+  const sector = document.getElementById('orgSector').value.trim();
+  const odsInput = document.getElementById('orgODS').value.trim();
+  const descripcion = document.getElementById('orgDescripcion').value.trim();
+  const contacto = document.getElementById('orgContacto').value.trim();
+  const correo = document.getElementById('orgCorreo').value.trim();
+  const telefono = document.getElementById('orgTelefono').value.trim();
+  const direccion = document.getElementById('orgDireccion').value.trim();
+  const mapa = document.getElementById('orgMapa').value.trim();
+
+  if (!nombre || !sector || !descripcion) {
+    alert('Por favor completa los campos obligatorios: Nombre, Sector y Descripción.');
+    return;
+  }
+
+  const ods = odsInput ? odsInput.split(',').map(s => s.trim()).filter(s => s) : [];
+
+  const datos = {
+    nombre,
+    sector,
+    ods,
+    descripcion,
+    contacto: contacto || '',
+    correo: correo || '',
+    telefono: telefono || '',
+    direccion: direccion || '',
+    mapa: mapa || ''
+  };
+
+  const id = await guardarOrganizacion(datos);
+  
+  if (id) {
+    organizationsData.push({ ...datos, id, _id: id });
+    orgOverlay.classList.remove('open');
+    formOrganizacion.reset();
+    cargarOrganizaciones();
+    cargarDatosAdmin();
+    mostrarToast('🏢', 'Organización agregada correctamente');
   }
 });
 
@@ -2376,24 +2684,13 @@ formMentor.addEventListener('submit', async function(e) {
     return;
   }
 
-  const mentorData = {
-    nombre,
-    grupo,
-    cum,
-    correo,
-    telefono,
-    experiencia,
-    descripcion
-  };
-
+  const mentorData = { nombre, grupo, cum, correo, telefono, experiencia, descripcion };
   const id = await guardarMentor(mentorData);
   
   if (id) {
     mentorOverlay.classList.remove('open');
     formMentor.reset();
-    toast.innerHTML = '<span class="check">📤</span><span>¡Solicitud enviada! Espera la validación del administrador.</span>';
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 5000);
+    mostrarToast('📤', '¡Solicitud enviada! Espera la validación del administrador.');
   }
 });
 
@@ -2428,21 +2725,7 @@ form.addEventListener('submit', async function(e) {
     return;
   }
 
-  // Guardar en Firebase primero (incluso antes del PDF)
-  const datosPDF = {
-    proyecto,
-    objetivo,
-    actividades,
-    clan,
-    responsable,
-    cum,
-    telefono,
-    correo,
-    organizacion: institucion,
-    fechaInicio: fecha,
-    uid: currentUser ? currentUser.uid : 'anonimo'
-  };
-
+  const datosPDF = { proyecto, objetivo, actividades, clan, responsable, cum, telefono, correo, organizacion: institucion, fechaInicio: fecha };
   const pdfId = await guardarPDFenFirebase(datosPDF);
 
   if (typeof window.jspdf !== 'undefined') {
@@ -2462,7 +2745,6 @@ form.addEventListener('submit', async function(e) {
       return y + (lines.length * 6.5) + 2;
     }
 
-    // Encabezado
     doc.setFillColor(111, 45, 189);
     doc.rect(0, 0, pageWidth, 12, 'F');
     doc.setFontSize(14);
@@ -2491,13 +2773,10 @@ form.addEventListener('submit', async function(e) {
 
     y = addTextLines(`Asunto: Propuesta de colaboración para ${proyecto}`, margin, y + 8, 12, true);
     y = addTextLines(`Estimada oficina de ${institucion} en San Luis Potosí, por medio de la presente, reciba un cordial saludo.`, margin, y + 4, 11, false);
-
     y = addTextLines(`Nos permitimos poner a su disposición el talento y la disposición de servicio de la Red de Jóvenes de la Provincia San Luis Potosí, organismo que representa a la juventud de la Asociación de Scouts de México, A.C. en nuestro estado.`, margin, y + 6, 11, false);
     y = addTextLines(`Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
-
     y = addTextLines(`• Objetivo principal: ${objetivo}`, margin + 4, y + 4, 11, false);
     y = addTextLines(`• Actividades propuestas: ${actividades}`, margin + 4, y + 2, 11, false);
-
     y = addTextLines(`Agradecemos de antemano su atención a esta propuesta, con la seguridad de que nuestra participación contribuirá a fortalecer los lazos comunitarios en beneficio de quienes más lo necesitan.`, margin, y + 6, 11, false);
     y = addTextLines(`Quedamos atentos a sus comentarios para coordinar una breve reunión y, en su caso, formalizar esta alianza estratégica.`, margin, y + 4, 11, false);
 
@@ -2547,8 +2826,7 @@ form.addEventListener('submit', async function(e) {
     doc.setTextColor(30);
 
     const guardarPDF = function() {
-      const nombreArchivo = `carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`;
-      doc.save(nombreArchivo);
+      doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
       mostrarDecisiones();
       form.reset();
       institucionHidden.value = '';
@@ -2564,7 +2842,6 @@ form.addEventListener('submit', async function(e) {
     } else {
       guardarPDF();
     }
-
   } else {
     alert('La librería jspdf no se cargó correctamente.');
   }
@@ -2573,7 +2850,7 @@ form.addEventListener('submit', async function(e) {
 // ============================================================
 // ===== INICIO =====
 // ============================================================
-renderCards(organizations);
+cargarOrganizaciones();
 cargarMentores();
 actualizarNav();
 
