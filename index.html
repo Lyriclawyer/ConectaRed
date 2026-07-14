@@ -14,7 +14,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
 
     /* ============================================================
-       ===== RESET & BASE =====
+       ===== RESET & BASE - FONDO BLANCO =====
        ============================================================ */
     * {
       margin: 0;
@@ -26,7 +26,7 @@
       --morado: #6F2DBD;
       --morado-claro: #8B5CF6;
       --morado-oscuro: #4C1D95;
-      --morado-glow: rgba(111, 45, 189, 0.4);
+      --morado-glow: rgba(111, 45, 189, 0.15);
       --verde-scout: #009A44;
       --verde-claro: #10B981;
       --naranja: #F59E0B;
@@ -34,11 +34,13 @@
       --blanco: #FFFFFF;
       --negro: #0F0A1A;
       --gris-claro: #F8F6FC;
+      --gris-medio: #E5E0EB;
       --gris-texto: #6B5B7B;
-      --fondo-gradiente: linear-gradient(135deg, #0F0A1A 0%, #1A0F2E 50%, #2D1B4E 100%);
-      --sombra-card: 0 20px 60px rgba(111, 45, 189, 0.15), 0 8px 24px rgba(0, 0, 0, 0.1);
-      --sombra-hover: 0 30px 80px rgba(111, 45, 189, 0.25), 0 12px 40px rgba(0, 0, 0, 0.15);
-      --border-glow: 0 0 30px rgba(111, 45, 189, 0.2);
+      --gris-oscuro: #3D2E4B;
+      --fondo-blanco: #FFFFFF;
+      --sombra-card: 0 20px 60px rgba(111, 45, 189, 0.08), 0 8px 24px rgba(0, 0, 0, 0.04);
+      --sombra-hover: 0 30px 80px rgba(111, 45, 189, 0.12), 0 12px 40px rgba(0, 0, 0, 0.06);
+      --border-glow: 0 0 30px rgba(111, 45, 189, 0.08);
       --radio: 20px;
       --transition: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
@@ -49,15 +51,15 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--fondo-gradiente);
-      color: var(--blanco);
+      background: var(--fondo-blanco);
+      color: var(--negro);
       min-height: 100vh;
       overflow-x: hidden;
       position: relative;
     }
 
     /* ============================================================
-       ===== FONDO CON PARTÍCULAS =====
+       ===== FONDO CON PARTÍCULAS (más sutiles) =====
        ============================================================ */
     #particles-canvas {
       position: fixed;
@@ -67,7 +69,7 @@
       height: 100%;
       z-index: 0;
       pointer-events: none;
-      opacity: 0.6;
+      opacity: 0.3;
     }
 
     /* ============================================================
@@ -96,7 +98,7 @@
     .glow-orb--1 {
       width: 400px;
       height: 400px;
-      background: rgba(111, 45, 189, 0.15);
+      background: rgba(111, 45, 189, 0.06);
       top: -100px;
       right: -100px;
     }
@@ -104,7 +106,7 @@
     .glow-orb--2 {
       width: 300px;
       height: 300px;
-      background: rgba(245, 158, 11, 0.1);
+      background: rgba(245, 158, 11, 0.04);
       bottom: -50px;
       left: -50px;
       animation-delay: 4s;
@@ -123,22 +125,20 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--blanco);
+      border: 1px solid var(--gris-medio);
       border-radius: 60px;
       padding: 12px 24px;
       margin-bottom: 30px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--sombra-card);
       transition: var(--transition);
       position: relative;
       z-index: 10;
     }
 
     .navbar:hover {
-      border-color: rgba(111, 45, 189, 0.3);
-      box-shadow: 0 8px 40px rgba(111, 45, 189, 0.1), var(--border-glow);
+      border-color: var(--morado-claro);
+      box-shadow: var(--sombra-hover), var(--border-glow);
     }
 
     .logo-group {
@@ -153,12 +153,10 @@
       width: auto;
       object-fit: contain;
       transition: var(--transition);
-      filter: brightness(0.9) saturate(1.2);
     }
 
     .logo-group img:hover {
       transform: scale(1.05) rotate(-2deg);
-      filter: brightness(1.1) saturate(1.4);
     }
 
     .nav-actions {
@@ -178,7 +176,7 @@
       font-size: 0.85rem;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 4px 16px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 4px 16px rgba(111, 45, 189, 0.2);
       letter-spacing: 0.3px;
       display: flex;
       align-items: center;
@@ -187,7 +185,7 @@
 
     .btn-login:hover {
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.4);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.3);
     }
 
     .btn-login:active {
@@ -204,27 +202,26 @@
       font-size: 0.85rem;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2);
       letter-spacing: 0.3px;
     }
 
     .btn-logout:hover {
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4);
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.3);
     }
 
     .user-badge {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(111, 45, 189, 0.2);
-      backdrop-filter: blur(10px);
+      background: #F0EBF8;
       padding: 6px 18px 6px 10px;
       border-radius: 40px;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.85rem;
-      color: var(--morado-claro);
-      border: 1px solid rgba(111, 45, 189, 0.2);
+      color: var(--morado);
+      border: 1px solid var(--gris-medio);
     }
 
     .user-badge .avatar {
@@ -238,7 +235,6 @@
       justify-content: center;
       font-size: 0.75rem;
       font-weight: 800;
-      box-shadow: 0 0 20px rgba(111, 45, 189, 0.3);
     }
 
     @media (max-width: 700px) {
@@ -271,23 +267,22 @@
 
     .hero .badge-hero {
       display: inline-block;
-      background: rgba(111, 45, 189, 0.2);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(111, 45, 189, 0.2);
+      background: #F0EBF8;
       padding: 6px 20px;
       border-radius: 40px;
       font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--morado-claro);
+      font-weight: 700;
+      color: var(--morado);
       letter-spacing: 0.5px;
       text-transform: uppercase;
       margin-bottom: 16px;
       animation: pulseBadge 3s ease-in-out infinite;
+      border: 1px solid var(--gris-medio);
     }
 
     @keyframes pulseBadge {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(0.98); }
     }
 
     .hero h1 {
@@ -295,16 +290,13 @@
       font-weight: 900;
       line-height: 1.05;
       margin-bottom: 16px;
-      background: linear-gradient(135deg, #FFFFFF 0%, var(--morado-claro) 50%, var(--naranja) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--negro);
       letter-spacing: -0.02em;
       animation: fadeInUp 0.8s ease;
     }
 
     .hero h1 .highlight {
-      background: linear-gradient(135deg, var(--naranja), #FCD34D);
+      background: linear-gradient(135deg, var(--morado), var(--morado-claro));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -312,7 +304,7 @@
 
     .hero p.sub {
       font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--gris-texto);
       max-width: 680px;
       margin: 0 auto 10px auto;
       font-weight: 400;
@@ -334,11 +326,10 @@
       gap: 8px;
       margin: 24px 0 20px 0;
       flex-wrap: wrap;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
+      background: var(--gris-claro);
       border-radius: 60px;
       padding: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--gris-medio);
     }
 
     .tab-btn {
@@ -348,26 +339,26 @@
       background: transparent;
       font-weight: 700;
       font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.5);
+      color: var(--gris-texto);
       cursor: pointer;
       transition: var(--transition);
       position: relative;
     }
 
     .tab-btn:hover {
-      color: rgba(255, 255, 255, 0.8);
-      background: rgba(255, 255, 255, 0.05);
+      color: var(--morado);
+      background: rgba(111, 45, 189, 0.05);
     }
 
     .tab-btn.active {
       background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
-      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.2);
     }
 
     .tab-btn.active:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.4);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.3);
     }
 
     .tab-btn:active {
@@ -399,33 +390,34 @@
        ===== SEARCH =====
        ============================================================ */
     .search-section {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
+      background: var(--blanco);
       border-radius: var(--radio);
       padding: 24px 28px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--gris-medio);
       margin: 10px 0 30px 0;
       transition: var(--transition);
+      box-shadow: var(--sombra-card);
     }
 
     .search-section:hover {
-      border-color: rgba(111, 45, 189, 0.2);
+      border-color: var(--morado-claro);
+      box-shadow: var(--sombra-hover);
     }
 
     .search-bar {
       display: flex;
       align-items: center;
-      background: rgba(255, 255, 255, 0.06);
+      background: var(--gris-claro);
       border-radius: 60px;
       padding: 4px 4px 4px 20px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--gris-medio);
       transition: var(--transition);
     }
 
     .search-bar:focus-within {
       border-color: var(--morado);
-      box-shadow: 0 0 0 4px rgba(111, 45, 189, 0.15);
-      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 4px rgba(111, 45, 189, 0.1);
+      background: var(--blanco);
     }
 
     .search-bar input {
@@ -435,12 +427,12 @@
       padding: 14px 10px;
       font-size: 1rem;
       outline: none;
-      color: white;
+      color: var(--negro);
       font-family: 'Inter', sans-serif;
     }
 
     .search-bar input::placeholder {
-      color: rgba(255, 255, 255, 0.3);
+      color: var(--gris-texto);
     }
 
     .search-bar button {
@@ -458,7 +450,7 @@
 
     .search-bar button:hover {
       transform: scale(1.02);
-      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.2);
     }
 
     .search-bar button:active {
@@ -474,22 +466,22 @@
     }
 
     .filter-btn {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--gris-claro);
+      border: 1px solid var(--gris-medio);
       padding: 8px 18px;
       border-radius: 40px;
       font-weight: 600;
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.5);
+      color: var(--gris-texto);
       cursor: pointer;
       transition: var(--transition);
       font-family: 'Inter', sans-serif;
     }
 
     .filter-btn:hover {
-      background: rgba(111, 45, 189, 0.15);
-      color: white;
-      border-color: rgba(111, 45, 189, 0.3);
+      background: rgba(111, 45, 189, 0.08);
+      color: var(--morado);
+      border-color: var(--morado-claro);
       transform: translateY(-2px);
     }
 
@@ -497,7 +489,7 @@
       background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
       border-color: transparent;
-      box-shadow: 0 4px 16px rgba(111, 45, 189, 0.2);
+      box-shadow: 0 4px 16px rgba(111, 45, 189, 0.15);
     }
 
     .filter-btn:active {
@@ -506,8 +498,8 @@
 
     @media (max-width: 600px) {
       .search-section { padding: 16px; }
-      .search-bar { flex-wrap: wrap; gap: 8px; background: transparent; padding: 0; }
-      .search-bar input { width: 100%; background: rgba(255,255,255,0.06); border-radius: 40px; padding: 12px 18px; }
+      .search-bar { flex-wrap: wrap; gap: 8px; background: transparent; padding: 0; border: none; }
+      .search-bar input { width: 100%; background: var(--gris-claro); border-radius: 40px; padding: 12px 18px; border: 1px solid var(--gris-medio); }
       .search-bar button { width: 100%; justify-content: center; }
       .filter-btn { font-size: 0.7rem; padding: 6px 12px; }
     }
@@ -523,17 +515,17 @@
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(20px);
+      background: var(--blanco);
       border-radius: var(--radio);
       padding: 24px 22px 28px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--gris-medio);
       transition: var(--transition);
       display: flex;
       flex-direction: column;
       cursor: pointer;
       position: relative;
       overflow: hidden;
+      box-shadow: var(--sombra-card);
     }
 
     .card::before {
@@ -543,7 +535,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(135deg, rgba(111, 45, 189, 0.05), transparent);
+      background: linear-gradient(135deg, rgba(111, 45, 189, 0.03), transparent);
       opacity: 0;
       transition: var(--transition);
       pointer-events: none;
@@ -555,7 +547,7 @@
 
     .card:hover {
       transform: translateY(-8px);
-      border-color: rgba(111, 45, 189, 0.3);
+      border-color: var(--morado-claro);
       box-shadow: var(--sombra-hover), var(--border-glow);
     }
 
@@ -565,8 +557,8 @@
 
     .card .ods-tag {
       display: inline-block;
-      background: rgba(111, 45, 189, 0.2);
-      color: var(--morado-claro);
+      background: #F0EBF8;
+      color: var(--morado);
       font-weight: 600;
       font-size: 0.65rem;
       padding: 3px 12px;
@@ -574,32 +566,32 @@
       letter-spacing: 0.3px;
       align-self: flex-start;
       margin-bottom: 8px;
-      border: 1px solid rgba(111, 45, 189, 0.1);
+      border: 1px solid var(--gris-medio);
     }
 
     .card h3 {
       font-size: 1.2rem;
       font-weight: 700;
-      color: white;
+      color: var(--negro);
       margin-bottom: 4px;
       line-height: 1.3;
     }
 
     .card .tag {
       display: inline-block;
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--naranja);
+      background: #FEF3C7;
+      color: var(--naranja-oscuro);
       font-weight: 600;
       font-size: 0.7rem;
       padding: 3px 14px;
       border-radius: 40px;
       align-self: flex-start;
       margin-bottom: 10px;
-      border: 1px solid rgba(245, 158, 11, 0.1);
+      border: 1px solid #FDE68A;
     }
 
     .card .desc {
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--gris-texto);
       line-height: 1.6;
       font-size: 0.9rem;
       flex: 1;
@@ -621,12 +613,12 @@
       justify-content: center;
       gap: 8px;
       font-family: 'Inter', sans-serif;
-      box-shadow: 0 4px 16px rgba(0, 154, 68, 0.2);
+      box-shadow: 0 4px 16px rgba(0, 154, 68, 0.15);
     }
 
     .card .btn-vinculacion:hover {
       transform: scale(1.02);
-      box-shadow: 0 8px 30px rgba(0, 154, 68, 0.3);
+      box-shadow: 0 8px 30px rgba(0, 154, 68, 0.25);
     }
 
     .card .btn-vinculacion:active {
@@ -644,19 +636,19 @@
        ===== TARJETAS DE MENTORES =====
        ============================================================ */
     .card-mentor {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(20px);
+      background: var(--blanco);
       border-radius: var(--radio);
       padding: 24px 22px 28px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--gris-medio);
       transition: var(--transition);
       display: flex;
       flex-direction: column;
+      box-shadow: var(--sombra-card);
     }
 
     .card-mentor:hover {
       transform: translateY(-8px);
-      border-color: rgba(111, 45, 189, 0.3);
+      border-color: var(--morado-claro);
       box-shadow: var(--sombra-hover), var(--border-glow);
     }
 
@@ -679,24 +671,24 @@
       font-size: 1.3rem;
       font-weight: 800;
       flex-shrink: 0;
-      box-shadow: 0 0 30px rgba(111, 45, 189, 0.2);
+      box-shadow: 0 0 30px rgba(111, 45, 189, 0.1);
       transition: var(--transition);
     }
 
     .card-mentor:hover .mentor-avatar {
       transform: scale(1.05) rotate(-5deg);
-      box-shadow: 0 0 40px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 0 40px rgba(111, 45, 189, 0.2);
     }
 
     .card-mentor .mentor-info h3 {
       font-size: 1.1rem;
       font-weight: 700;
-      color: white;
+      color: var(--negro);
     }
 
     .card-mentor .mentor-info .sub {
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--gris-texto);
     }
 
     .card-mentor .skills {
@@ -707,17 +699,17 @@
     }
 
     .card-mentor .skills span {
-      background: rgba(111, 45, 189, 0.15);
-      color: var(--morado-claro);
+      background: #F0EBF8;
+      color: var(--morado);
       padding: 4px 12px;
       border-radius: 40px;
       font-size: 0.7rem;
       font-weight: 600;
-      border: 1px solid rgba(111, 45, 189, 0.1);
+      border: 1px solid var(--gris-medio);
     }
 
     .card-mentor .desc {
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--gris-texto);
       font-size: 0.9rem;
       line-height: 1.6;
       margin: 4px 0 12px;
@@ -752,23 +744,23 @@
     .btn-whatsapp {
       background: linear-gradient(135deg, #25D366, #128C7E);
       color: white;
-      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.2);
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.15);
     }
 
     .btn-whatsapp:hover {
       transform: scale(1.02);
-      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.25);
     }
 
     .btn-email-mentor {
       background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
-      box-shadow: 0 4px 16px rgba(111, 45, 189, 0.2);
+      box-shadow: 0 4px 16px rgba(111, 45, 189, 0.15);
     }
 
     .btn-email-mentor:hover {
       transform: scale(1.02);
-      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.25);
     }
 
     @media (max-width: 600px) {
@@ -791,14 +783,14 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.2);
       font-family: 'Inter', sans-serif;
       margin: 10px 0 20px;
     }
 
     .btn-registro-mentor:hover {
       transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 8px 40px rgba(111, 45, 189, 0.4);
+      box-shadow: 0 8px 40px rgba(111, 45, 189, 0.3);
     }
 
     .btn-registro-mentor:active {
@@ -809,16 +801,16 @@
        ===== ADMIN PANEL =====
        ============================================================ */
     .admin-panel {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(20px);
+      background: var(--blanco);
       border-radius: var(--radio);
       padding: 28px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--gris-medio);
       margin: 20px 0;
+      box-shadow: var(--sombra-card);
     }
 
     .admin-panel h2 {
-      color: white;
+      color: var(--negro);
       font-size: 1.5rem;
       margin-bottom: 20px;
       display: flex;
@@ -835,7 +827,7 @@
     }
 
     .admin-panel h3 {
-      color: rgba(255, 255, 255, 0.8);
+      color: var(--gris-oscuro);
       margin-bottom: 12px;
       display: flex;
       align-items: center;
@@ -850,22 +842,22 @@
     }
 
     .admin-table th {
-      background: rgba(255, 255, 255, 0.04);
-      color: rgba(255, 255, 255, 0.6);
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
       padding: 12px 16px;
       text-align: left;
-      font-weight: 600;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-weight: 700;
+      border-bottom: 1px solid var(--gris-medio);
     }
 
     .admin-table td {
       padding: 12px 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      color: rgba(255, 255, 255, 0.8);
+      border-bottom: 1px solid var(--gris-medio);
+      color: var(--gris-oscuro);
     }
 
     .admin-table tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
+      background: var(--gris-claro);
     }
 
     .admin-table .estado {
@@ -876,12 +868,12 @@
       font-weight: 600;
     }
     .admin-table .estado.activo {
-      background: rgba(0, 154, 68, 0.2);
-      color: var(--verde-claro);
+      background: #D1FAE5;
+      color: var(--verde-scout);
     }
     .admin-table .estado.pendiente {
-      background: rgba(245, 158, 11, 0.2);
-      color: var(--naranja);
+      background: #FEF3C7;
+      color: var(--naranja-oscuro);
     }
 
     .btn-accion {
@@ -905,7 +897,7 @@
     }
     .btn-accion.aprobar:hover {
       transform: scale(1.05);
-      box-shadow: 0 4px 20px rgba(0, 154, 68, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 154, 68, 0.2);
     }
 
     .btn-accion.rechazar {
@@ -914,16 +906,16 @@
     }
     .btn-accion.rechazar:hover {
       transform: scale(1.05);
-      box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+      box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
     }
 
     .btn-accion.eliminar {
-      background: rgba(239, 68, 68, 0.15);
-      color: #EF4444;
-      border: 1px solid rgba(239, 68, 68, 0.1);
+      background: #FEE2E2;
+      color: #DC2626;
+      border: 1px solid #FECACA;
     }
     .btn-accion.eliminar:hover {
-      background: rgba(239, 68, 68, 0.25);
+      background: #FECACA;
     }
 
     .btn-agregar {
@@ -940,7 +932,7 @@
 
     .btn-agregar:hover {
       transform: scale(1.05);
-      box-shadow: 0 4px 20px rgba(0, 154, 68, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 154, 68, 0.2);
     }
 
     .btn-agregar:active {
@@ -962,9 +954,9 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -981,15 +973,14 @@
     }
 
     .modal-panel {
-      background: rgba(20, 12, 35, 0.95);
-      backdrop-filter: blur(30px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--blanco);
+      border: 1px solid var(--gris-medio);
       width: 100%;
       max-width: 700px;
       max-height: 90vh;
       border-radius: 28px;
       padding: 28px 32px;
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), var(--border-glow);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15);
       overflow-y: auto;
       position: relative;
       transform: scale(0.9);
@@ -1004,14 +995,14 @@
       position: sticky;
       top: 0;
       float: right;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--gris-claro);
+      border: 1px solid var(--gris-medio);
       border-radius: 50%;
       width: 40px;
       height: 40px;
       font-size: 1.4rem;
       cursor: pointer;
-      color: rgba(255, 255, 255, 0.5);
+      color: var(--gris-texto);
       transition: var(--transition);
       display: flex;
       align-items: center;
@@ -1020,26 +1011,26 @@
     }
 
     .modal-close:hover {
-      background: rgba(239, 68, 68, 0.15);
-      color: #EF4444;
+      background: #FEE2E2;
+      color: #DC2626;
       transform: rotate(90deg);
     }
 
     .modal-panel h2 {
-      color: white;
+      color: var(--negro);
       font-size: 1.6rem;
       margin-bottom: 4px;
     }
 
     .modal-panel .sub {
-      color: rgba(255, 255, 255, 0.5);
+      color: var(--gris-texto);
       margin-bottom: 16px;
     }
 
     .modal-panel label {
       font-weight: 600;
       font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--gris-oscuro);
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -1049,11 +1040,11 @@
     .modal-panel textarea,
     .modal-panel select {
       padding: 12px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--gris-medio);
       border-radius: 14px;
       font-size: 0.95rem;
-      background: rgba(255, 255, 255, 0.04);
-      color: white;
+      background: var(--gris-claro);
+      color: var(--negro);
       transition: var(--transition);
       font-family: 'Inter', sans-serif;
     }
@@ -1063,12 +1054,12 @@
     .modal-panel select:focus {
       outline: 2px solid var(--morado);
       border-color: transparent;
-      background: rgba(255, 255, 255, 0.06);
+      background: var(--blanco);
     }
 
     .modal-panel input::placeholder,
     .modal-panel textarea::placeholder {
-      color: rgba(255, 255, 255, 0.2);
+      color: var(--gris-texto);
     }
 
     .modal-panel textarea {
@@ -1100,39 +1091,39 @@
     }
 
     .btn-volver {
-      background: rgba(255, 255, 255, 0.06);
-      color: rgba(255, 255, 255, 0.7);
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
     }
     .btn-volver:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--gris-medio);
     }
 
     .btn-enviar {
       background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
-      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.2);
     }
     .btn-enviar:hover {
       transform: scale(1.02);
-      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.4);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.3);
     }
 
     .btn-guardar-org {
       background: linear-gradient(135deg, var(--verde-scout), var(--verde-claro));
       color: white;
-      box-shadow: 0 4px 20px rgba(0, 154, 68, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 154, 68, 0.2);
     }
     .btn-guardar-org:hover {
       transform: scale(1.02);
-      box-shadow: 0 8px 30px rgba(0, 154, 68, 0.4);
+      box-shadow: 0 8px 30px rgba(0, 154, 68, 0.3);
     }
 
     .btn-cancelar-org {
-      background: rgba(255, 255, 255, 0.06);
-      color: rgba(255, 255, 255, 0.7);
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
     }
     .btn-cancelar-org:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--gris-medio);
     }
 
     .btn-login-submit {
@@ -1148,12 +1139,12 @@
       width: 100%;
       margin-top: 4px;
       font-family: 'Inter', sans-serif;
-      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.2);
     }
 
     .btn-login-submit:hover {
       transform: scale(1.01);
-      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.4);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.3);
     }
 
     .btn-login-submit:active {
@@ -1162,7 +1153,7 @@
 
     .btn-cerrar-login {
       background: transparent;
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--gris-texto);
       border: none;
       padding: 10px;
       font-weight: 600;
@@ -1173,11 +1164,11 @@
     }
 
     .btn-cerrar-login:hover {
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--negro);
     }
 
     .login-error {
-      color: #EF4444;
+      color: #DC2626;
       font-size: 0.85rem;
       text-align: center;
       margin-top: 8px;
@@ -1192,14 +1183,14 @@
 
     .ficha-view .sector-tag {
       display: inline-block;
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--naranja);
+      background: #FEF3C7;
+      color: var(--naranja-oscuro);
       font-weight: 600;
       font-size: 0.8rem;
       padding: 4px 18px;
       border-radius: 40px;
       margin: 4px 0 14px;
-      border: 1px solid rgba(245, 158, 11, 0.1);
+      border: 1px solid #FDE68A;
     }
 
     .ficha-grid {
@@ -1218,13 +1209,13 @@
       font-size: 0.65rem;
       font-weight: 700;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.3);
+      color: var(--gris-texto);
       letter-spacing: 0.5px;
     }
 
     .ficha-grid .item span {
       font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.9);
+      color: var(--negro);
       word-break: break-word;
     }
 
@@ -1234,7 +1225,7 @@
       border-radius: 16px;
       overflow: hidden;
       margin: 12px 0 18px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--gris-medio);
     }
 
     .mapa-container iframe {
@@ -1254,13 +1245,13 @@
       cursor: pointer;
       transition: var(--transition);
       width: 100%;
-      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2);
       font-family: 'Inter', sans-serif;
     }
 
     .btn-accion-grande:hover {
       transform: scale(1.01);
-      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.3);
     }
 
     .btn-accion-grande:active {
@@ -1278,17 +1269,16 @@
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%) scale(0.9);
-      background: rgba(20, 12, 35, 0.95);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: var(--blanco);
+      border: 1px solid var(--gris-medio);
       padding: 18px 32px;
       border-radius: 60px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), var(--border-glow);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
       display: flex;
       align-items: center;
       gap: 16px;
       font-weight: 600;
-      color: white;
+      color: var(--negro);
       z-index: 2000;
       opacity: 0;
       visibility: hidden;
@@ -1338,25 +1328,24 @@
        ===== DECISION MODAL =====
        ============================================================ */
     .decision-panel {
-      background: rgba(20, 12, 35, 0.95);
-      backdrop-filter: blur(30px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--blanco);
+      border: 1px solid var(--gris-medio);
       max-width: 520px;
       border-radius: 28px;
       padding: 32px 36px;
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), var(--border-glow);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.12);
       text-align: center;
       width: 100%;
     }
 
     .decision-panel h2 {
-      color: var(--verde-claro);
+      color: var(--verde-scout);
       font-size: 1.8rem;
       margin-bottom: 8px;
     }
 
     .decision-panel p {
-      color: rgba(255, 255, 255, 0.6);
+      color: var(--gris-texto);
       margin-bottom: 24px;
       font-size: 1rem;
       line-height: 1.6;
@@ -1386,38 +1375,37 @@
     .btn-enviar-asociacion {
       background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
-      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.2);
     }
     .btn-enviar-asociacion:hover {
       transform: scale(1.02);
-      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.4);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.3);
     }
 
     .btn-solo-continuar {
-      background: rgba(255, 255, 255, 0.06);
-      color: rgba(255, 255, 255, 0.7);
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
     }
     .btn-solo-continuar:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--gris-medio);
     }
 
     /* ============================================================
        ===== CONTACTO MODAL =====
        ============================================================ */
     .contacto-panel {
-      background: rgba(20, 12, 35, 0.95);
-      backdrop-filter: blur(30px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--blanco);
+      border: 1px solid var(--gris-medio);
       max-width: 480px;
       border-radius: 28px;
       padding: 32px 36px;
-      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), var(--border-glow);
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.12);
       text-align: center;
       width: 100%;
     }
 
     .contacto-panel h2 {
-      color: white;
+      color: var(--negro);
       font-size: 1.4rem;
       margin-bottom: 4px;
     }
@@ -1425,12 +1413,12 @@
     .contacto-panel .org-name {
       font-size: 1rem;
       font-weight: 600;
-      color: var(--morado-claro);
+      color: var(--morado);
       margin-bottom: 16px;
     }
 
     .contacto-panel .sub {
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--gris-texto);
       margin-bottom: 20px;
       font-size: 0.9rem;
     }
@@ -1440,18 +1428,18 @@
       align-items: center;
       gap: 16px;
       padding: 16px 20px;
-      background: rgba(255, 255, 255, 0.04);
+      background: var(--gris-claro);
       border-radius: 16px;
       margin-bottom: 12px;
       text-align: left;
       transition: var(--transition);
       cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--gris-medio);
     }
 
     .contacto-item:hover {
-      border-color: rgba(111, 45, 189, 0.2);
-      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--morado-claro);
+      background: #F0EBF8;
     }
 
     .contacto-item .icono {
@@ -1467,19 +1455,19 @@
       font-size: 0.7rem;
       font-weight: 700;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.3);
+      color: var(--gris-texto);
       letter-spacing: 0.3px;
     }
     .contacto-item .info .valor {
       font-size: 1rem;
       font-weight: 600;
-      color: white;
+      color: var(--negro);
       word-break: break-all;
     }
 
     .btn-cerrar-contacto {
-      background: rgba(255, 255, 255, 0.06);
-      color: rgba(255, 255, 255, 0.6);
+      background: var(--gris-claro);
+      color: var(--gris-oscuro);
       padding: 12px 24px;
       border-radius: 60px;
       font-weight: 700;
@@ -1492,7 +1480,7 @@
     }
 
     .btn-cerrar-contacto:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--gris-medio);
     }
   </style>
 </head>
@@ -1518,7 +1506,7 @@
       <img src="Provincia.jpg" alt="Provincia SLP" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2248%22%3E%3Crect width=%22120%22 height=%2248%22 fill=%22%23f68b2c%22/%3E%3Ctext x=%226%22 y=%2232%22 fill=%22white%22 font-size=%2216%22%3EProvincia%3C/text%3E%3C/svg%3E'">
     </div>
     <div class="nav-actions" id="navActions">
-      <button class="btn-login" id="btnLogin" aria-label="Iniciar sesión como administrador">🔐 Admin</button>
+      <button class="btn-login" id="btnLogin" aria-label="Iniciar sesión como administrador">🔐 RDJ</button>
     </div>
   </nav>
 
@@ -1533,7 +1521,7 @@
   <div class="tabs-container" role="tablist" aria-label="Secciones">
     <button class="tab-btn active" data-tab="organizaciones" role="tab" aria-selected="true" aria-label="Organizaciones">🏢 Organizaciones</button>
     <button class="tab-btn" data-tab="mentores" role="tab" aria-selected="false" aria-label="Mentores Scouts">🧭 Mentores Scouts</button>
-    <button class="tab-btn admin-only" data-tab="admin" id="tabAdminBtn" role="tab" aria-selected="false" aria-label="Panel de Administración">🔐 Panel Admin</button>
+    <button class="tab-btn admin-only" data-tab="admin" id="tabAdminBtn" role="tab" aria-selected="false" aria-label="Panel de Administración">🔐 Panel RDJ</button>
   </div>
 
   <!-- ===== TAB: ORGANIZACIONES ===== -->
@@ -1562,51 +1550,51 @@
   <!-- ===== TAB: MENTORES ===== -->
   <div class="tab-content" id="tabMentores" role="tabpanel">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
-      <h2 style="color: white; font-size: 1.5rem;">🧭 Mentores Scouts Disponibles</h2>
+      <h2 style="color: var(--negro); font-size: 1.5rem;">🧭 Mentores Scouts Disponibles</h2>
       <button class="btn-registro-mentor" id="btnRegistroMentor" aria-label="Registrarse como mentor">➕ Registrar como Mentor</button>
     </div>
-    <p style="color: rgba(255,255,255,0.5); margin-bottom: 20px;">Conéctate con Rovers y Scouts con experiencia que pueden guiar tu proyecto.</p>
+    <p style="color: var(--gris-texto); margin-bottom: 20px;">Conéctate con Rovers y Scouts con experiencia que pueden guiar tu proyecto.</p>
     <div class="grid-cards" id="mentoresContainer" role="list" aria-label="Lista de mentores"></div>
   </div>
 
   <!-- ===== TAB: ADMIN ===== -->
   <div class="tab-content admin-only" id="tabAdmin" role="tabpanel">
     <div class="admin-panel">
-      <h2>🔐 Panel de Administración</h2>
+      <h2>🔐 Panel de Administración - RDJ</h2>
 
       <!-- Organizaciones -->
       <div style="margin-bottom: 24px;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 10px;">
-          <h3 style="color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 8px;">
+          <h3 style="color: var(--gris-oscuro); display: flex; align-items: center; gap: 8px;">
             🏢 Organizaciones
             <span class="badge-count" id="orgsCount">0</span>
           </h3>
           <button class="btn-agregar" id="btnAgregarOrg" aria-label="Agregar nueva organización">+ Agregar Organización</button>
         </div>
         <div id="organizacionesContainer">
-          <p style="color: rgba(255,255,255,0.3);">Cargando organizaciones...</p>
+          <p style="color: var(--gris-texto);">Cargando organizaciones...</p>
         </div>
       </div>
 
       <!-- Solicitudes de Mentores -->
       <div style="margin-bottom: 24px;">
-        <h3 style="color: rgba(255,255,255,0.8); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <h3 style="color: var(--gris-oscuro); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
           📋 Solicitudes de Mentores Pendientes
           <span class="badge-count" id="pendientesCount">0</span>
         </h3>
         <div id="solicitudesContainer">
-          <p style="color: rgba(255,255,255,0.3);">Cargando solicitudes...</p>
+          <p style="color: var(--gris-texto);">Cargando solicitudes...</p>
         </div>
       </div>
 
       <!-- PDFs Generados -->
       <div>
-        <h3 style="color: rgba(255,255,255,0.8); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <h3 style="color: var(--gris-oscuro); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
           📄 PDFs Generados
           <span class="badge-count" id="pdfsCount">0</span>
         </h3>
         <div id="pdfsContainer">
-          <p style="color: rgba(255,255,255,0.3);">Cargando PDFs...</p>
+          <p style="color: var(--gris-texto);">Cargando PDFs...</p>
         </div>
       </div>
     </div>
@@ -1620,8 +1608,8 @@
 <!-- ===== MODAL LOGIN ===== -->
 <div class="modal-overlay" id="loginOverlay" role="dialog" aria-labelledby="loginTitle" aria-modal="true">
   <div class="modal-panel" style="max-width: 400px;">
-    <h2 id="loginTitle" style="text-align: center;">🔐 Acceso Admin</h2>
-    <p style="text-align: center; color: rgba(255,255,255,0.4); margin-bottom: 20px;">Usuario: <strong style="color: var(--morado-claro);">RDJ</strong></p>
+    <h2 id="loginTitle" style="text-align: center;">🔐 Acceso RDJ</h2>
+    <p style="text-align: center; color: var(--gris-texto); margin-bottom: 20px;">Usuario: <strong style="color: var(--morado);">RDJ</strong></p>
     <form id="loginForm">
       <label style="display: none;">
         Usuario
@@ -1721,7 +1709,7 @@
           <option value="Psicología">Psicología</option>
           <option value="Nutrición">Nutrición</option>
         </select>
-        <span style="font-size: 0.7rem; color: rgba(255,255,255,0.3);">Mantén presionado Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones</span>
+        <span style="font-size: 0.7rem; color: var(--gris-texto);">Mantén presionado Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones</span>
       </label>
       <label>Breve descripción de tu experiencia *
         <textarea id="mentorDescripcion" placeholder="Cuéntanos sobre tu experiencia y cómo puedes ayudar..." required></textarea>
@@ -1873,14 +1861,13 @@
         this.size = Math.random() * 2 + 0.5;
         this.speedX = (Math.random() - 0.5) * 0.5;
         this.speedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.2;
+        this.opacity = Math.random() * 0.3 + 0.1;
       }
 
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        // Efecto mouse
         const dx = mouseX - this.x;
         const dy = mouseY - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -1897,12 +1884,12 @@
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
+        ctx.fillStyle = `rgba(111, 45, 189, ${this.opacity})`;
         ctx.fill();
       }
     }
 
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 80; i++) {
       particles.push(new Particle());
     }
 
@@ -1923,9 +1910,14 @@
     animateParticles();
 
     // ============================================================
-    // ===== DATOS =====
+    // ===== DATOS CON PERSISTENCIA (localStorage) =====
     // ============================================================
-    const organizations = [
+    
+    // Clave para localStorage
+    const STORAGE_KEY = 'conectared_data';
+    
+    // Datos iniciales
+    const defaultOrganizations = [
       { id: 1, nombre: "Cáritas San Luis Potosí Oficinas Centrales", sector: "Asistencia social", ods: ["ODS 1", "ODS 2", "ODS 10"], descripcion: "Programas de alimentación, salud, desarrollo comunitario y apoyo a personas vulnerables.", contacto: "Dirección General o Coordinación de Voluntariado", correo: "Solicitar vía oficina central", telefono: "(444) 812-2351", direccion: "Álvaro Obregón 626, Zona Centro, C.P. 78000, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Alvaro+Obregon+626,+Zona+Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
       { id: 2, nombre: "Casa de la Caridad Hogar del Migrante Mons. Luis Morales Reyes", sector: "Migración", ods: ["ODS 10", "ODS 16"], descripcion: "Alberga y brinda apoyo integral a personas migrantes.", contacto: "Dirección General", correo: "Solicitar vía recepción", telefono: "(444) 815-6225", direccion: "Juan Álvarez No. 210, Barrio de Tlaxcala, C.P. 78038, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Juan+Alvarez+210,+Barrio+de+Tlaxcala,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
       { id: 3, nombre: "Perteneces A.C.", sector: "Inclusión", ods: ["ODS 10", "ODS 5"], descripcion: "Programas de inclusión social y atención a personas con discapacidad.", contacto: "Dirección General", correo: "Solicitar por oficina", telefono: "(444) 811-4431", direccion: "Tangamanga, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Tangamanga,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
@@ -1948,13 +1940,55 @@
       { id: 20, nombre: "Sistema DIF Estatal de San Luis Potosí", sector: "Asistencia social", ods: ["ODS 1", "ODS 3", "ODS 10"], descripcion: "Vincula instituciones de asistencia social, programas comunitarios y apoyo a población vulnerable.", contacto: "Dirección de Gestión y Participación Social", correo: "virginia.zuniga@difslp.gob.mx", telefono: "(444) 151-5000", direccion: "Nicolás Fernando Torre 500, Col. Burócrata, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Nicolas+Fernando+Torre+500,+Col.+Burocrata,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" }
     ];
 
-    let mentores = [
+    const defaultMentores = [
       { id: 1, nombre: "Ulises Martínez", grupo: "Scouter Gpo 12", cum: "CUM-012", correo: "ulises@scouts.mx", telefono: "4444396966", experiencia: ["Recursos Humanos", "Talleres de Liderazgo", "Gestor de Proyectos", "Deportes"], descripcion: "Scouter con amplia experiencia en formación de líderes scouts, gestión de proyectos comunitarios y actividades deportivas. He coordinado más de 15 proyectos sociales en la región." }
     ];
 
-    let mentoresPendientes = [];
-    let pdfsGenerados = [];
-    let isAdmin = false;
+    // ===== CARGAR DATOS DESDE localStorage =====
+    function cargarDatos() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const data = JSON.parse(saved);
+          return {
+            organizations: data.organizations || defaultOrganizations,
+            mentores: data.mentores || defaultMentores,
+            mentoresPendientes: data.mentoresPendientes || [],
+            pdfsGenerados: data.pdfsGenerados || []
+          };
+        }
+      } catch (e) {
+        console.warn('Error al cargar datos de localStorage:', e);
+      }
+      return {
+        organizations: defaultOrganizations,
+        mentores: defaultMentores,
+        mentoresPendientes: [],
+        pdfsGenerados: []
+      };
+    }
+
+    // ===== GUARDAR DATOS EN localStorage =====
+    function guardarDatos() {
+      try {
+        const data = {
+          organizations: organizations,
+          mentores: mentores,
+          mentoresPendientes: mentoresPendientes,
+          pdfsGenerados: pdfsGenerados
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {
+        console.warn('Error al guardar datos en localStorage:', e);
+      }
+    }
+
+    // ===== CARGAR DATOS =====
+    const datosGuardados = cargarDatos();
+    let organizations = datosGuardados.organizations;
+    let mentores = datosGuardados.mentores;
+    let mentoresPendientes = datosGuardados.mentoresPendientes;
+    let pdfsGenerados = datosGuardados.pdfsGenerados;
 
     // ============================================================
     // ===== DOM REFS =====
@@ -2039,6 +2073,7 @@
 
     let currentOrg = null;
     let currentFilter = 'all';
+    let isAdmin = false;
 
     // ============================================================
     // ===== FUNCIONES TOAST =====
@@ -2087,7 +2122,6 @@
       if (e.target === loginOverlay) cerrarLogin();
     });
 
-    // Enter en el campo de contraseña
     loginPassword.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
         loginForm.dispatchEvent(new Event('submit'));
@@ -2108,19 +2142,18 @@
       if (isAdmin) {
         navActions.innerHTML = `
           <div class="user-badge">
-            <div class="avatar">A</div>
-            Admin
+            <div class="avatar">R</div>
+            RDJ
           </div>
           <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
         `;
         document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
         document.querySelectorAll('.admin-only').forEach(el => el.classList.add('visible'));
-        // Mostrar pestaña Admin
         const adminTab = document.querySelector('.tab-btn[data-tab="admin"]');
         if (adminTab) adminTab.style.display = 'inline-block';
       } else {
         navActions.innerHTML = `
-          <button class="btn-login" id="btnLogin">🔐 Admin</button>
+          <button class="btn-login" id="btnLogin">🔐 RDJ</button>
         `;
         document.getElementById('btnLogin').addEventListener('click', mostrarLogin);
         document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('visible'));
@@ -2149,6 +2182,7 @@
             const idx = organizations.findIndex(o => o.id === id);
             if (idx !== -1) {
               organizations.splice(idx, 1);
+              guardarDatos();
               renderizarAdmin();
               filterCards();
               mostrarToast('Organización eliminada', '🗑️');
@@ -2160,7 +2194,7 @@
       // Solicitudes pendientes
       pendientesCount.textContent = mentoresPendientes.length;
       if (mentoresPendientes.length === 0) {
-        solicitudesContainer.innerHTML = '<p style="color: rgba(255,255,255,0.3);">No hay solicitudes de mentor pendientes.</p>';
+        solicitudesContainer.innerHTML = '<p style="color: var(--gris-texto);">No hay solicitudes de mentor pendientes.</p>';
       } else {
         let html = `<table class="admin-table"><thead><tr><th>Nombre</th><th>Grupo</th><th>Correo</th><th>Acciones</th></tr></thead><tbody>`;
         mentoresPendientes.forEach((s, idx) => {
@@ -2180,6 +2214,7 @@
               const nuevoMentor = { id: mentores.length + 1, ...mentor };
               mentores.push(nuevoMentor);
               mentoresPendientes.splice(idx, 1);
+              guardarDatos();
               renderizarAdmin();
               renderMentores(mentores);
               mostrarToast('Mentor aprobado', '✅');
@@ -2192,6 +2227,7 @@
             const idx = parseInt(this.dataset.idx);
             if (confirm('¿Rechazar este mentor?')) {
               mentoresPendientes.splice(idx, 1);
+              guardarDatos();
               renderizarAdmin();
               mostrarToast('Mentor rechazado', '❌');
             }
@@ -2202,7 +2238,7 @@
       // PDFs
       pdfsCount.textContent = pdfsGenerados.length;
       if (pdfsGenerados.length === 0) {
-        pdfsContainer.innerHTML = '<p style="color: rgba(255,255,255,0.3);">No hay PDFs generados aún.</p>';
+        pdfsContainer.innerHTML = '<p style="color: var(--gris-texto);">No hay PDFs generados aún.</p>';
       } else {
         let html = `<table class="admin-table"><thead><tr><th>Proyecto</th><th>Responsable</th><th>Organización</th><th>Fecha</th></tr></thead><tbody>`;
         pdfsGenerados.forEach(p => {
@@ -2272,6 +2308,7 @@
       };
 
       organizations.push(nuevaOrg);
+      guardarDatos();
       orgOverlay.classList.remove('open');
       formOrganizacion.reset();
       renderizarAdmin();
@@ -2285,7 +2322,7 @@
     function renderCards(list) {
       cardsContainer.innerHTML = '';
       if (list.length === 0) {
-        cardsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: rgba(255,255,255,0.3);">No se encontraron organizaciones con los filtros seleccionados.</p>';
+        cardsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--gris-texto);">No se encontraron organizaciones con los filtros seleccionados.</p>';
         return;
       }
       list.forEach(org => {
@@ -2317,7 +2354,7 @@
     function renderMentores(list) {
       mentoresContainer.innerHTML = '';
       if (list.length === 0) {
-        mentoresContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: rgba(255,255,255,0.3);">No hay mentores registrados aún. ¡Sé el primero en registrarte!</p>';
+        mentoresContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--gris-texto);">No hay mentores registrados aún. ¡Sé el primero en registrarte!</p>';
         return;
       }
       list.forEach(mentor => {
@@ -2423,7 +2460,8 @@
     });
 
     // Ocultar pestaña Admin inicialmente
-    document.querySelector('.tab-btn[data-tab="admin"]').style.display = 'none';
+    const adminTabBtn = document.querySelector('.tab-btn[data-tab="admin"]');
+    if (adminTabBtn) adminTabBtn.style.display = 'none';
 
     // ============================================================
     // ===== MODAL FICHA =====
@@ -2571,6 +2609,7 @@
 
       const mentorPendiente = { nombre, grupo, cum, correo, telefono, experiencia, descripcion };
       mentoresPendientes.push(mentorPendiente);
+      guardarDatos();
 
       if (isAdmin) renderizarAdmin();
 
@@ -2608,6 +2647,7 @@
         organizacion: institucion,
         fecha: new Date().toLocaleDateString('es-MX')
       });
+      guardarDatos();
 
       if (isAdmin) renderizarAdmin();
 
@@ -2743,6 +2783,7 @@
     actualizarNav();
 
     console.log('🚀 ConectaRed cargado correctamente');
+    console.log('📊 Datos guardados en localStorage');
   })();
 </script>
 </body>
