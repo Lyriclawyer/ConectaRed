@@ -7,6 +7,17 @@
   <!-- jspdf CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   
+  <!-- ===== FIREBASE ===== -->
+  <script type="importmap">
+  {
+    "imports": {
+      "firebase": "https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js",
+      "firebase/firestore": "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"
+    }
+  }
+  </script>
+
   <style>
     /* ============================================================
        ===== FUENTES E IMPORTACIONES =====
@@ -128,7 +139,7 @@
       background: var(--blanco);
       border: 1px solid var(--gris-medio);
       border-radius: 60px;
-      padding: 12px 24px;
+      padding: 16px 32px;
       margin-bottom: 30px;
       box-shadow: var(--sombra-card);
       transition: var(--transition);
@@ -144,12 +155,13 @@
     .logo-group {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 40px;
       flex-wrap: wrap;
+      flex: 1;
     }
 
     .logo-group img {
-      height: 42px;
+      height: 52px;
       width: auto;
       object-fit: contain;
       transition: var(--transition);
@@ -157,6 +169,42 @@
 
     .logo-group img:hover {
       transform: scale(1.05) rotate(-2deg);
+    }
+
+    .logo-group .logo-left {
+      margin-right: auto;
+    }
+    .logo-group .logo-center {
+      margin: 0 auto;
+    }
+    .logo-group .logo-right {
+      margin-left: auto;
+    }
+
+    /* Ajuste para que los logos se distribuyan mejor */
+    .navbar .logo-group {
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    @media (max-width: 700px) {
+      .navbar {
+        flex-direction: column;
+        gap: 12px;
+        border-radius: 30px;
+        padding: 16px 20px;
+      }
+      .logo-group img {
+        height: 36px;
+      }
+      .logo-group {
+        gap: 16px;
+        justify-content: center !important;
+      }
+      .nav-actions {
+        width: 100%;
+        justify-content: center;
+      }
     }
 
     .nav-actions {
@@ -235,25 +283,6 @@
       justify-content: center;
       font-size: 0.75rem;
       font-weight: 800;
-    }
-
-    @media (max-width: 700px) {
-      .navbar {
-        flex-direction: column;
-        gap: 12px;
-        border-radius: 30px;
-        padding: 16px 20px;
-      }
-      .logo-group img {
-        height: 32px;
-      }
-      .logo-group {
-        justify-content: center;
-      }
-      .nav-actions {
-        width: 100%;
-        justify-content: center;
-      }
     }
 
     /* ============================================================
@@ -1501,9 +1530,9 @@
   <!-- ===== NAVBAR ===== -->
   <nav class="navbar" role="navigation" aria-label="Navegación principal">
     <div class="logo-group">
-      <img src="as.jpg" alt="Scouts de México" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%236F2DBD%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3EAS%3C/text%3E%3C/svg%3E'">
-      <img src="red slp logo.jpg" alt="Red de Jóvenes SLP" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%23009A44%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3ERed%20SLP%3C/text%3E%3C/svg%3E'">
-      <img src="Provincia.jpg" alt="Provincia SLP" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2248%22%3E%3Crect width=%22120%22 height=%2248%22 fill=%22%23f68b2c%22/%3E%3Ctext x=%226%22 y=%2232%22 fill=%22white%22 font-size=%2216%22%3EProvincia%3C/text%3E%3C/svg%3E'">
+      <img src="as.jpg" alt="Scouts de México" class="logo-left" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%236F2DBD%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3EAS%3C/text%3E%3C/svg%3E'">
+      <img src="red slp logo.jpg" alt="Red de Jóvenes SLP" class="logo-center" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%23009A44%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3ERed%20SLP%3C/text%3E%3C/svg%3E'">
+      <img src="Provincia.jpg" alt="Provincia SLP" class="logo-right" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2248%22%3E%3Crect width=%22120%22 height=%2248%22 fill=%22%23f68b2c%22/%3E%3Ctext x=%226%22 y=%2232%22 fill=%22white%22 font-size=%2216%22%3EProvincia%3C/text%3E%3C/svg%3E'">
     </div>
     <div class="nav-actions" id="navActions">
       <button class="btn-login" id="btnLogin" aria-label="Iniciar sesión como administrador">🔐 RDJ</button>
@@ -1682,13 +1711,13 @@
         <input type="text" id="mentorGrupo" placeholder="Scouter Gpo 12" required>
       </label>
       <label>CUM (Clave Única de Membresía) *
-        <input type="text" id="mentorCum" placeholder="CUM-12345" required>
+        <input type="text" id="mentorCum" placeholder="SLP1820..." required>
       </label>
       <label>Correo de contacto *
-        <input type="email" id="mentorCorreo" placeholder="ulises@scouts.mx" required>
+        <input type="email" id="mentorCorreo" placeholder="ejemplo@gmail.com o @scouts.mx" required>
       </label>
       <label>Teléfono de contacto *
-        <input type="text" id="mentorTelefono" placeholder="4444396966" required>
+        <input type="text" id="mentorTelefono" placeholder="123456789" required>
       </label>
       <label>Áreas de experiencia (Ctrl+clic para múltiples)
         <select id="mentorExperiencia" multiple style="height: 100px;">
@@ -1758,19 +1787,19 @@
           <textarea id="actividades" placeholder="Enumera las actividades..." required></textarea>
         </label>
         <label>Clan de Rovers *
-          <input type="text" id="clan" placeholder="Clan Águila" required>
+          <input type="text" id="clan" placeholder="Clan Cipatli" required>
         </label>
         <label>Nombre del responsable *
           <input type="text" id="responsable" placeholder="María González" required>
         </label>
         <label>CUM (Clave Única de Membresía) *
-          <input type="text" id="cum" placeholder="CUM-12345" required>
+          <input type="text" id="cum" placeholder="SLP1820..." required>
         </label>
         <label>Teléfono del Clan/Rover *
-          <input type="text" id="telefono" placeholder="4441234567" required>
+          <input type="text" id="telefono" placeholder="123456789" required>
         </label>
         <label>Correo de contacto *
-          <input type="email" id="correo" placeholder="maria@scouts.mx" required>
+          <input type="email" id="correo" placeholder="ejemplo@gmail.com o @scouts.mx" required>
         </label>
         <label>Fecha tentativa de inicio *
           <input type="date" id="fecha" required>
@@ -1831,471 +1860,1078 @@
 </div>
 
 <!-- ============================================================
-     ===== JAVASCRIPT =====
+     ===== JAVASCRIPT CON FIREBASE =====
      ============================================================ -->
-<script>
-  (function() {
-    "use strict";
+<script type="module">
+  // ============================================================
+  // ===== FIREBASE =====
+  // ============================================================
+  import { initializeApp } from "firebase/app";
+  import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    getDocs, 
+    getDoc, 
+    doc, 
+    updateDoc, 
+    deleteDoc,
+    query,
+    where,
+    orderBy,
+    serverTimestamp,
+    onSnapshot
+  } from "firebase/firestore";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "firebase/auth";
 
-    // ============================================================
-    // ===== PARTÍCULAS (Fondo animado) =====
-    // ============================================================
-    const canvas = document.getElementById('particles-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let mouseX = 0;
-    let mouseY = 0;
+  const firebaseConfig = {
+    apiKey: "AIzaSyAZDoqWwg7-3Q0TXt9qVEMQUf09iHmQ6Pk",
+    authDomain: "conectared-29c12.firebaseapp.com",
+    projectId: "conectared-29c12",
+    storageBucket: "conectared-29c12.firebasestorage.app",
+    messagingSenderId: "259513993286",
+    appId: "1:259513993286:web:26e777aa8a65eae067a247"
+  };
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  console.log('🔥 Firebase conectado');
+
+  // ============================================================
+  // ===== PARTÍCULAS =====
+  // ============================================================
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let mouseX = 0;
+  let mouseY = 0;
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.5;
+      this.speedY = (Math.random() - 0.5) * 0.5;
+      this.opacity = Math.random() * 0.3 + 0.1;
     }
 
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
 
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.3 + 0.1;
+      const dx = mouseX - this.x;
+      const dy = mouseY - this.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 150) {
+        const force = (150 - dist) / 150 * 0.02;
+        this.x += dx * force;
+        this.y += dy * force;
       }
 
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        const dx = mouseX - this.x;
-        const dy = mouseY - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 150) {
-          const force = (150 - dist) / 150 * 0.02;
-          this.x += dx * force;
-          this.y += dy * force;
-        }
-
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(111, 45, 189, ${this.opacity})`;
-        ctx.fill();
-      }
+      if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
     }
 
-    for (let i = 0; i < 80; i++) {
-      particles.push(new Particle());
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(111, 45, 189, ${this.opacity})`;
+      ctx.fill();
     }
+  }
 
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+  for (let i = 0; i < 80; i++) {
+    particles.push(new Particle());
+  }
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
     });
+    requestAnimationFrame(animateParticles);
+  }
 
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animateParticles);
-    }
+  animateParticles();
 
-    animateParticles();
+  // ============================================================
+  // ===== DOM REFS =====
+  // ============================================================
+  const $ = id => document.getElementById(id);
+  const cardsContainer = $('cardsContainer');
+  const mentoresContainer = $('mentoresContainer');
+  const organizacionesContainer = $('organizacionesContainer');
+  const solicitudesContainer = $('solicitudesContainer');
+  const pdfsContainer = $('pdfsContainer');
+  const searchInput = $('searchInput');
+  const searchBtn = $('searchBtn');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const modalOverlay = $('modalOverlay');
+  const closeModalBtn = $('closeModalBtn');
+  const fichaView = $('fichaView');
+  const formView = $('formView');
+  const btnIrFormulario = $('btnIrFormulario');
+  const btnVolverFicha = $('btnVolverFicha');
+  const form = $('formVinculacion');
+  const institucionHidden = $('institucionHidden');
+  const toast = $('toastSuccess');
+  const toastMessage = $('toastMessage');
+  const navActions = $('navActions');
 
-    // ============================================================
-    // ===== DATOS CON PERSISTENCIA (localStorage) =====
-    // ============================================================
-    
-    // Clave para localStorage
-    const STORAGE_KEY = 'conectared_data';
-    
-    // Datos iniciales
-    const defaultOrganizations = [
-      { id: 1, nombre: "Cáritas San Luis Potosí Oficinas Centrales", sector: "Asistencia social", ods: ["ODS 1", "ODS 2", "ODS 10"], descripcion: "Programas de alimentación, salud, desarrollo comunitario y apoyo a personas vulnerables.", contacto: "Dirección General o Coordinación de Voluntariado", correo: "Solicitar vía oficina central", telefono: "(444) 812-2351", direccion: "Álvaro Obregón 626, Zona Centro, C.P. 78000, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Alvaro+Obregon+626,+Zona+Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 2, nombre: "Casa de la Caridad Hogar del Migrante Mons. Luis Morales Reyes", sector: "Migración", ods: ["ODS 10", "ODS 16"], descripcion: "Alberga y brinda apoyo integral a personas migrantes.", contacto: "Dirección General", correo: "Solicitar vía recepción", telefono: "(444) 815-6225", direccion: "Juan Álvarez No. 210, Barrio de Tlaxcala, C.P. 78038, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Juan+Alvarez+210,+Barrio+de+Tlaxcala,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 3, nombre: "Perteneces A.C.", sector: "Inclusión", ods: ["ODS 10", "ODS 5"], descripcion: "Programas de inclusión social y atención a personas con discapacidad.", contacto: "Dirección General", correo: "Solicitar por oficina", telefono: "(444) 811-4431", direccion: "Tangamanga, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Tangamanga,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 4, nombre: "Fundación Nutriendo", sector: "Infancia", ods: ["ODS 2", "ODS 3"], descripcion: "Combate la desnutrición infantil y promueve alimentación saludable.", contacto: "Dirección General o Procuración de Fondos", correo: "Solicitar por oficina", telefono: "(444) 813-9913", direccion: "Av. Sierra Leona 360, Piso 11, Col. Villantigua, C.P. 78214, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Av.+Sierra+Leona+360,+Villantigua,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 5, nombre: "Fundación Somos Potosí", sector: "Desarrollo comunitario", ods: ["ODS 11", "ODS 17"], descripcion: "Promueve programas sociales, voluntariado, derechos humanos y capacitación ciudadana.", contacto: "Dirección General", correo: "info@somospotosi.com", telefono: "(444) 520-9897", direccion: "San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=San+Luis+Potosi&t=&z=12&ie=UTF8&iwloc=&output=embed" },
-      { id: 6, nombre: "Fondo Potosino", sector: "Fundación comunitaria", ods: ["ODS 8", "ODS 17"], descripcion: "Vincula empresas, OSC y ciudadanía para financiar proyectos sociales y ambientales.", contacto: "Dirección Ejecutiva", correo: "hola@fondopotosino.org", telefono: "WhatsApp (444) 130-2140", direccion: "Alttus Corporate Center & Plaza, Av. Sierra Leona 360, Suite 944, Piso 9, C.P. 78217, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Av.+Sierra+Leona+360,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 7, nombre: "Colonia Juvenil", sector: "Juventud", ods: ["ODS 4", "ODS 11"], descripcion: "Formación integral y desarrollo de niñas, niños y adolescentes.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 821-2514", direccion: "Col. Gálvez, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Col.+Galvez,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 8, nombre: "Otra Oportunidad, A.C.", sector: "Mujeres", ods: ["ODS 5", "ODS 10"], descripcion: "Atención y acompañamiento a mujeres en situación de vulnerabilidad.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 814-7231", direccion: "Barrio de San Sebastián, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Barrio+de+San+Sebastian,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 9, nombre: "Razón por la Vida", sector: "Salud", ods: ["ODS 3", "ODS 10"], descripcion: "Apoyo a personas con enfermedades y programas de acompañamiento.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 814-9402", direccion: "Col. Francisco I. Madero, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Col.+Francisco+I.+Madero,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 10, nombre: "Casa Hogar Betesda, A.C.", sector: "Casa hogar", ods: ["ODS 1", "ODS 11"], descripcion: "Atención residencial y apoyo social.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 151-5310", direccion: "Garita de Jalisco, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Garita+de+Jalisco,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 11, nombre: "Casa Hogar de Niños", sector: "Infancia", ods: ["ODS 4", "ODS 10"], descripcion: "Atención y protección de menores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 128-0389", direccion: "Barrio San Miguelito, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Barrio+San+Miguelito,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 12, nombre: "Hogar de Niños San Luis Potosí", sector: "Infancia", ods: ["ODS 4", "ODS 10"], descripcion: "Casa hogar para menores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 815-4530", direccion: "Barrio San Miguelito, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Barrio+San+Miguelito+Hogar+de+Ninos&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 13, nombre: "Asilo de Ancianos Santa Martha A.C.", sector: "Adulto mayor", ods: ["ODS 3", "ODS 11"], descripcion: "Atención integral a personas mayores.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 812-6391", direccion: "Centro Histórico, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Centro+Historico+Asilo+Santa+Martha,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 14, nombre: "Asilo de Los Pobres de San Antonio A.C.", sector: "Adulto mayor", ods: ["ODS 1", "ODS 3"], descripcion: "Atención permanente a adultos mayores.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 810-0037", direccion: "Centro Histórico, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Centro+Historico+Asilo+San+Antonio,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 15, nombre: "Casa Hogar Feliz Atardecer", sector: "Adulto mayor", ods: ["ODS 3", "ODS 11"], descripcion: "Residencia y cuidados para personas mayores.", contacto: "Dirección", correo: "Solicitar vía oficina", telefono: "(444) 412-2267", direccion: "Polanco, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Polanco,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 16, nombre: "Centro Comunitario de la Familia", sector: "Desarrollo comunitario", ods: ["ODS 11", "ODS 17"], descripcion: "Talleres, apoyo familiar y actividades comunitarias.", contacto: "Coordinación General", correo: "Solicitar vía oficina", telefono: "(444) 816-1100", direccion: "Centro, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 17, nombre: "Fundación Música Para La Vida A.C.", sector: "Cultura", ods: ["ODS 4", "ODS 11"], descripcion: "Formación musical y desarrollo social mediante el arte.", contacto: "Dirección General", correo: "Solicitar vía oficina", telefono: "(444) 420-7701", direccion: "San Luis Rey, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=San+Luis+Rey,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 18, nombre: "Asociación Mexicana de Ayuda a Niños con Cáncer (AMANC SLP)", sector: "Salud", ods: ["ODS 3", "ODS 10"], descripcion: "Apoya a niñas, niños y adolescentes con cáncer; cuenta con programa de voluntariado.", contacto: "Coordinación de Voluntariado", correo: "amancslp@hotmail.com", telefono: "(444) 411-1499", direccion: "Camino a la Presa San José 455, Col. Lomas los Filtros, C.P. 78219, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Camino+a+la+Presa+San+Jose+455,+Los+Filtros,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 19, nombre: "Banco de Alimentos 'De la Mano por San Luis'", sector: "Alimentación", ods: ["ODS 1", "ODS 2"], descripcion: "Rescate y distribución de alimentos, voluntariado y apoyo comunitario.", contacto: "Coordinación de Voluntariado", correo: "contacto@bamxsanluis.org.mx", telefono: "(444) 480-7782", direccion: "Calle Otomíes No. 148, Col. Industrial San Luis, C.P. 78395, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Calle+Otomies+148,+Industrial+San+Luis,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
-      { id: 20, nombre: "Sistema DIF Estatal de San Luis Potosí", sector: "Asistencia social", ods: ["ODS 1", "ODS 3", "ODS 10"], descripcion: "Vincula instituciones de asistencia social, programas comunitarios y apoyo a población vulnerable.", contacto: "Dirección de Gestión y Participación Social", correo: "virginia.zuniga@difslp.gob.mx", telefono: "(444) 151-5000", direccion: "Nicolás Fernando Torre 500, Col. Burócrata, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Nicolas+Fernando+Torre+500,+Col.+Burocrata,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" }
-    ];
+  // Tabs
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabOrganizaciones = $('tabOrganizaciones');
+  const tabMentores = $('tabMentores');
+  const tabAdmin = $('tabAdmin');
 
-    const defaultMentores = [
-      { id: 1, nombre: "Ulises Martínez", grupo: "Scouter Gpo 12", cum: "CUM-012", correo: "ulises@scouts.mx", telefono: "4444396966", experiencia: ["Recursos Humanos", "Talleres de Liderazgo", "Gestor de Proyectos", "Deportes"], descripcion: "Scouter con amplia experiencia en formación de líderes scouts, gestión de proyectos comunitarios y actividades deportivas. He coordinado más de 15 proyectos sociales en la región." }
-    ];
+  // Contadores
+  const pendientesCount = $('pendientesCount');
+  const pdfsCount = $('pdfsCount');
+  const orgsCount = $('orgsCount');
 
-    // ===== CARGAR DATOS DESDE localStorage =====
-    function cargarDatos() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          const data = JSON.parse(saved);
-          return {
-            organizations: data.organizations || defaultOrganizations,
-            mentores: data.mentores || defaultMentores,
-            mentoresPendientes: data.mentoresPendientes || [],
-            pdfsGenerados: data.pdfsGenerados || []
-          };
-        }
-      } catch (e) {
-        console.warn('Error al cargar datos de localStorage:', e);
-      }
-      return {
-        organizations: defaultOrganizations,
-        mentores: defaultMentores,
-        mentoresPendientes: [],
-        pdfsGenerados: []
-      };
-    }
+  // Login
+  const loginOverlay = $('loginOverlay');
+  const loginForm = $('loginForm');
+  const loginPassword = $('loginPassword');
+  const loginError = $('loginError');
+  const btnCerrarLogin = $('btnCerrarLogin');
 
-    // ===== GUARDAR DATOS EN localStorage =====
-    function guardarDatos() {
-      try {
-        const data = {
-          organizations: organizations,
-          mentores: mentores,
-          mentoresPendientes: mentoresPendientes,
-          pdfsGenerados: pdfsGenerados
-        };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      } catch (e) {
-        console.warn('Error al guardar datos en localStorage:', e);
-      }
-    }
+  // Agregar Org
+  const orgOverlay = $('orgOverlay');
+  const formOrganizacion = $('formOrganizacion');
+  const btnAgregarOrg = $('btnAgregarOrg');
+  const btnCancelarOrg = $('btnCancelarOrg');
+  const btnCerrarOrg = $('btnCerrarOrg');
 
-    // ===== CARGAR DATOS =====
-    const datosGuardados = cargarDatos();
-    let organizations = datosGuardados.organizations;
-    let mentores = datosGuardados.mentores;
-    let mentoresPendientes = datosGuardados.mentoresPendientes;
-    let pdfsGenerados = datosGuardados.pdfsGenerados;
+  // Decision Modal
+  const decisionOverlay = $('decisionOverlay');
+  const btnEnviarAsociacion = $('btnEnviarAsociacion');
+  const btnSoloContinuar = $('btnSoloContinuar');
 
-    // ============================================================
-    // ===== DOM REFS =====
-    // ============================================================
-    const $ = id => document.getElementById(id);
-    const cardsContainer = $('cardsContainer');
-    const mentoresContainer = $('mentoresContainer');
-    const organizacionesContainer = $('organizacionesContainer');
-    const solicitudesContainer = $('solicitudesContainer');
-    const pdfsContainer = $('pdfsContainer');
-    const searchInput = $('searchInput');
-    const searchBtn = $('searchBtn');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const modalOverlay = $('modalOverlay');
-    const closeModalBtn = $('closeModalBtn');
-    const fichaView = $('fichaView');
-    const formView = $('formView');
-    const btnIrFormulario = $('btnIrFormulario');
-    const btnVolverFicha = $('btnVolverFicha');
-    const form = $('formVinculacion');
-    const institucionHidden = $('institucionHidden');
-    const toast = $('toastSuccess');
-    const toastMessage = $('toastMessage');
-    const navActions = $('navActions');
+  // Contacto Modal
+  const contactoOverlay = $('contactoOverlay');
+  const btnCerrarContacto = $('btnCerrarContacto');
+  const contactoCorreo = $('contactoCorreo');
+  const contactoTelefono = $('contactoTelefono');
+  const contactoCorreoValor = $('contactoCorreoValor');
+  const contactoTelefonoValor = $('contactoTelefonoValor');
+  const contactoOrgName = $('contactoOrgName');
 
-    // Tabs
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabOrganizaciones = $('tabOrganizaciones');
-    const tabMentores = $('tabMentores');
-    const tabAdmin = $('tabAdmin');
+  // Mentor Modal
+  const mentorOverlay = $('mentorOverlay');
+  const btnRegistroMentor = $('btnRegistroMentor');
+  const btnCancelarMentor = $('btnCancelarMentor');
+  const btnCerrarMentor = $('btnCerrarMentor');
+  const formMentor = $('formMentor');
 
-    // Contadores
-    const pendientesCount = $('pendientesCount');
-    const pdfsCount = $('pdfsCount');
-    const orgsCount = $('orgsCount');
+  // Ficha
+  const fichaNombre = $('fichaNombre');
+  const fichaSector = $('fichaSector');
+  const fichaDesc = $('fichaDesc');
+  const fichaODS = $('fichaODS');
+  const fichaContacto = $('fichaContacto');
+  const fichaCorreo = $('fichaCorreo');
+  const fichaTelefono = $('fichaTelefono');
+  const fichaDireccion = $('fichaDireccion');
+  const fichaMapa = $('fichaMapa');
 
-    // Login
-    const loginOverlay = $('loginOverlay');
-    const loginForm = $('loginForm');
-    const loginPassword = $('loginPassword');
-    const loginError = $('loginError');
-    const btnCerrarLogin = $('btnCerrarLogin');
+  let currentOrg = null;
+  let currentFilter = 'all';
+  let isAdmin = false;
 
-    // Agregar Org
-    const orgOverlay = $('orgOverlay');
-    const formOrganizacion = $('formOrganizacion');
-    const btnAgregarOrg = $('btnAgregarOrg');
-    const btnCancelarOrg = $('btnCancelarOrg');
-    const btnCerrarOrg = $('btnCerrarOrg');
+  // ============================================================
+  // ===== FUNCIONES TOAST =====
+  // ============================================================
+  function mostrarToast(mensaje, icono = '✔') {
+    toastMessage.textContent = mensaje;
+    toast.querySelector('.check').textContent = icono;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+  }
 
-    // Decision Modal
-    const decisionOverlay = $('decisionOverlay');
-    const btnEnviarAsociacion = $('btnEnviarAsociacion');
-    const btnSoloContinuar = $('btnSoloContinuar');
+  // ============================================================
+  // ===== ADMIN (Login local sin Firebase) =====
+  // ============================================================
+  function mostrarLogin() {
+    loginError.style.display = 'none';
+    loginPassword.value = '';
+    loginOverlay.classList.add('open');
+    setTimeout(() => loginPassword.focus(), 300);
+  }
 
-    // Contacto Modal
-    const contactoOverlay = $('contactoOverlay');
-    const btnCerrarContacto = $('btnCerrarContacto');
-    const contactoCorreo = $('contactoCorreo');
-    const contactoTelefono = $('contactoTelefono');
-    const contactoCorreoValor = $('contactoCorreoValor');
-    const contactoTelefonoValor = $('contactoTelefonoValor');
-    const contactoOrgName = $('contactoOrgName');
+  function cerrarLogin() {
+    loginOverlay.classList.remove('open');
+  }
 
-    // Mentor Modal
-    const mentorOverlay = $('mentorOverlay');
-    const btnRegistroMentor = $('btnRegistroMentor');
-    const btnCancelarMentor = $('btnCancelarMentor');
-    const btnCerrarMentor = $('btnCerrarMentor');
-    const formMentor = $('formMentor');
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const password = loginPassword.value.trim();
 
-    // Ficha
-    const fichaNombre = $('fichaNombre');
-    const fichaSector = $('fichaSector');
-    const fichaDesc = $('fichaDesc');
-    const fichaODS = $('fichaODS');
-    const fichaContacto = $('fichaContacto');
-    const fichaCorreo = $('fichaCorreo');
-    const fichaTelefono = $('fichaTelefono');
-    const fichaDireccion = $('fichaDireccion');
-    const fichaMapa = $('fichaMapa');
-
-    let currentOrg = null;
-    let currentFilter = 'all';
-    let isAdmin = false;
-
-    // ============================================================
-    // ===== FUNCIONES TOAST =====
-    // ============================================================
-    function mostrarToast(mensaje, icono = '✔') {
-      toastMessage.textContent = mensaje;
-      toast.querySelector('.check').textContent = icono;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 4000);
-    }
-
-    // ============================================================
-    // ===== ADMIN =====
-    // ============================================================
-    function mostrarLogin() {
+    if (password === 'ConectaRedSLP') {
+      isAdmin = true;
       loginError.style.display = 'none';
-      loginPassword.value = '';
-      loginOverlay.classList.add('open');
-      setTimeout(() => loginPassword.focus(), 300);
-    }
-
-    function cerrarLogin() {
-      loginOverlay.classList.remove('open');
-    }
-
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const password = loginPassword.value.trim();
-
-      if (password === 'ConectaRedSLP') {
-        isAdmin = true;
-        loginError.style.display = 'none';
-        cerrarLogin();
-        actualizarNav();
-        mostrarToast('Bienvenido, Administrador', '✅');
-        renderizarAdmin();
-      } else {
-        loginError.style.display = 'block';
-        loginPassword.value = '';
-        loginPassword.focus();
-      }
-    });
-
-    btnCerrarLogin.addEventListener('click', cerrarLogin);
-    loginOverlay.addEventListener('click', function(e) {
-      if (e.target === loginOverlay) cerrarLogin();
-    });
-
-    loginPassword.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        loginForm.dispatchEvent(new Event('submit'));
-      }
-    });
-
-    function cerrarSesion() {
-      isAdmin = false;
+      cerrarLogin();
       actualizarNav();
+      mostrarToast('Bienvenido, Administrador', '✅');
+    } else {
+      loginError.style.display = 'block';
+      loginPassword.value = '';
+      loginPassword.focus();
+    }
+  });
+
+  btnCerrarLogin.addEventListener('click', cerrarLogin);
+  loginOverlay.addEventListener('click', function(e) {
+    if (e.target === loginOverlay) cerrarLogin();
+  });
+
+  loginPassword.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      loginForm.dispatchEvent(new Event('submit'));
+    }
+  });
+
+  function cerrarSesion() {
+    isAdmin = false;
+    actualizarNav();
+    document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('visible'));
+    if (document.querySelector('.tab-btn.active')?.dataset.tab === 'admin') {
+      document.querySelector('.tab-btn[data-tab="organizaciones"]')?.click();
+    }
+    mostrarToast('Sesión cerrada', '👋');
+  }
+
+  function actualizarNav() {
+    if (isAdmin) {
+      navActions.innerHTML = `
+        <div class="user-badge">
+          <div class="avatar">R</div>
+          RDJ
+        </div>
+        <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
+      `;
+      document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
+      document.querySelectorAll('.admin-only').forEach(el => el.classList.add('visible'));
+      const adminTab = document.querySelector('.tab-btn[data-tab="admin"]');
+      if (adminTab) adminTab.style.display = 'inline-block';
+    } else {
+      navActions.innerHTML = `
+        <button class="btn-login" id="btnLogin">🔐 RDJ</button>
+      `;
+      document.getElementById('btnLogin').addEventListener('click', mostrarLogin);
       document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('visible'));
-      if (document.querySelector('.tab-btn.active')?.dataset.tab === 'admin') {
-        document.querySelector('.tab-btn[data-tab="organizaciones"]')?.click();
-      }
-      mostrarToast('Sesión cerrada', '👋');
+      const adminTab = document.querySelector('.tab-btn[data-tab="admin"]');
+      if (adminTab) adminTab.style.display = 'none';
+    }
+  }
+
+  // ============================================================
+  // ===== FUNCIONES FIRESTORE =====
+  // ============================================================
+  
+  // Colecciones
+  const ORG_COLLECTION = 'organizaciones';
+  const MENTORES_COLLECTION = 'mentores';
+  const PDFS_COLLECTION = 'pdfs';
+  const SOLICITUDES_COLLECTION = 'solicitudes';
+
+  // Cargar datos desde Firestore con escucha en tiempo real
+  function cargarOrganizacionesFirestore() {
+    const q = query(collection(db, ORG_COLLECTION));
+    onSnapshot(q, (snapshot) => {
+      const orgs = [];
+      snapshot.forEach(doc => {
+        orgs.push({ id: doc.id, ...doc.data() });
+      });
+      // Ordenar por nombre
+      orgs.sort((a, b) => (a.nombre || '').localeCompare(b.nombre || ''));
+      renderCards(orgs);
+      actualizarContadorOrgs(orgs.length);
+      // También actualizar tabla admin si está visible
+      if (isAdmin) renderizarAdminOrgs(orgs);
+    }, (error) => {
+      console.error('Error cargando organizaciones:', error);
+    });
+  }
+
+  function cargarMentoresFirestore() {
+    const q = query(collection(db, MENTORES_COLLECTION), where('estado', '==', 'aprobado'));
+    onSnapshot(q, (snapshot) => {
+      const mentores = [];
+      snapshot.forEach(doc => {
+        mentores.push({ id: doc.id, ...doc.data() });
+      });
+      renderMentores(mentores);
+    }, (error) => {
+      console.error('Error cargando mentores:', error);
+    });
+  }
+
+  function cargarSolicitudesFirestore() {
+    const q = query(collection(db, SOLICITUDES_COLLECTION), where('estado', '==', 'pendiente'));
+    onSnapshot(q, (snapshot) => {
+      const solicitudes = [];
+      snapshot.forEach(doc => {
+        solicitudes.push({ id: doc.id, ...doc.data() });
+      });
+      pendientesCount.textContent = solicitudes.length;
+      if (isAdmin) renderizarAdminSolicitudes(solicitudes);
+    }, (error) => {
+      console.error('Error cargando solicitudes:', error);
+    });
+  }
+
+  function cargarPDFsFirestore() {
+    const q = query(collection(db, PDFS_COLLECTION), orderBy('fechaGeneracion', 'desc'));
+    onSnapshot(q, (snapshot) => {
+      const pdfs = [];
+      snapshot.forEach(doc => {
+        pdfs.push({ id: doc.id, ...doc.data() });
+      });
+      pdfsCount.textContent = pdfs.length;
+      if (isAdmin) renderizarAdminPDFs(pdfs);
+    }, (error) => {
+      console.error('Error cargando PDFs:', error);
+    });
+  }
+
+  function actualizarContadorOrgs(count) {
+    orgsCount.textContent = count;
+  }
+
+  // ============================================================
+  // ===== RENDER TARJETAS =====
+  // ============================================================
+  function renderCards(list) {
+    cardsContainer.innerHTML = '';
+    if (list.length === 0) {
+      cardsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--gris-texto);">No se encontraron organizaciones.</p>';
+      return;
     }
 
-    function actualizarNav() {
-      if (isAdmin) {
-        navActions.innerHTML = `
-          <div class="user-badge">
-            <div class="avatar">R</div>
-            RDJ
+    // Aplicar filtros y búsqueda
+    const query = searchInput.value.toLowerCase().trim();
+    const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+
+    const filtered = list.filter(org => {
+      const matchText = (org.nombre || '').toLowerCase().includes(query) ||
+                        (org.descripcion || '').toLowerCase().includes(query) ||
+                        (org.sector || '').toLowerCase().includes(query) ||
+                        (org.ods || []).some(o => o.toLowerCase().includes(query));
+
+      const matchFilter = activeFilter === 'all' ||
+                          (org.sector || '') === activeFilter ||
+                          (org.ods || []).includes(activeFilter);
+
+      return matchText && matchFilter;
+    });
+
+    if (filtered.length === 0) {
+      cardsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--gris-texto);">No se encontraron organizaciones con los filtros seleccionados.</p>';
+      return;
+    }
+
+    filtered.forEach(org => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.setAttribute('role', 'listitem');
+      card.innerHTML = `
+        <div class="ods-tag">${(org.ods || []).join(' · ')}</div>
+        <h3>${org.nombre || 'Sin nombre'}</h3>
+        <span class="tag">${org.sector || 'Sin sector'}</span>
+        <p class="desc">${org.descripcion || ''}</p>
+        <button class="btn-vinculacion" data-id="${org.id}" aria-label="Ver ficha de ${org.nombre}">Ver ficha y vincular ⚡</button>
+      `;
+      cardsContainer.appendChild(card);
+    });
+
+    document.querySelectorAll('.btn-vinculacion').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const id = this.dataset.id;
+        const org = list.find(o => o.id === id);
+        if (org) openFicha(org);
+      });
+    });
+  }
+
+  // ============================================================
+  // ===== RENDER MENTORES =====
+  // ============================================================
+  function renderMentores(list) {
+    mentoresContainer.innerHTML = '';
+    if (list.length === 0) {
+      mentoresContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--gris-texto);">No hay mentores registrados aún. ¡Sé el primero en registrarte!</p>';
+      return;
+    }
+
+    list.forEach(mentor => {
+      const card = document.createElement('div');
+      card.className = 'card-mentor';
+      card.setAttribute('role', 'listitem');
+      const iniciales = (mentor.nombre || 'M').split(' ').map(n => n[0]).join('');
+      card.innerHTML = `
+        <div class="mentor-header">
+          <div class="mentor-avatar">${iniciales}</div>
+          <div class="mentor-info">
+            <h3>${mentor.nombre || 'Sin nombre'}</h3>
+            <div class="sub">${mentor.grupo || ''} · CUM: ${mentor.cum || ''}</div>
           </div>
-          <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
-        `;
-        document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
-        document.querySelectorAll('.admin-only').forEach(el => el.classList.add('visible'));
-        const adminTab = document.querySelector('.tab-btn[data-tab="admin"]');
-        if (adminTab) adminTab.style.display = 'inline-block';
-      } else {
-        navActions.innerHTML = `
-          <button class="btn-login" id="btnLogin">🔐 RDJ</button>
-        `;
-        document.getElementById('btnLogin').addEventListener('click', mostrarLogin);
-        document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('visible'));
-        const adminTab = document.querySelector('.tab-btn[data-tab="admin"]');
-        if (adminTab) adminTab.style.display = 'none';
-      }
-    }
+        </div>
+        <div class="skills">
+          ${(mentor.experiencia || []).map(exp => `<span>${exp}</span>`).join('')}
+        </div>
+        <p class="desc">${mentor.descripcion || ''}</p>
+        <div class="contact-buttons">
+          <button class="btn-whatsapp" data-telefono="${mentor.telefono || ''}" data-nombre="${mentor.nombre || 'Mentor'}" aria-label="Contactar por WhatsApp">💬 WhatsApp</button>
+          <button class="btn-email-mentor" data-correo="${mentor.correo || ''}" data-nombre="${mentor.nombre || 'Mentor'}" aria-label="Contactar por correo electrónico">✉️ Correo</button>
+        </div>
+      `;
+      mentoresContainer.appendChild(card);
+    });
 
-    // ============================================================
-    // ===== RENDER ADMIN =====
-    // ============================================================
-    function renderizarAdmin() {
-      // Organizaciones
-      orgsCount.textContent = organizations.length;
-      let htmlOrgs = `<table class="admin-table"><thead><tr><th>Nombre</th><th>Sector</th><th>ODS</th><th>Acción</th></tr></thead><tbody>`;
-      organizations.forEach(o => {
-        htmlOrgs += `<tr><td><strong>${o.nombre}</strong></td><td>${o.sector}</td><td>${o.ods.join(', ')}</td><td><button class="btn-accion eliminar" data-id="${o.id}">🗑️ Eliminar</button></td></tr>`;
+    document.querySelectorAll('.btn-whatsapp').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const telefono = this.dataset.telefono;
+        const nombre = this.dataset.nombre;
+        if (telefono) {
+          const mensaje = encodeURIComponent(`Hola ${nombre}, soy un Rover interesado en tu mentoría para un proyecto scout.`);
+          window.open(`https://wa.me/52${telefono}?text=${mensaje}`, '_blank');
+        } else {
+          alert('Este mentor no tiene teléfono registrado.');
+        }
       });
-      htmlOrgs += `</tbody></table>`;
-      organizacionesContainer.innerHTML = htmlOrgs;
+    });
 
-      document.querySelectorAll('.btn-accion.eliminar').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const id = parseInt(this.dataset.id);
-          if (confirm('¿Eliminar esta organización?')) {
-            const idx = organizations.findIndex(o => o.id === id);
-            if (idx !== -1) {
-              organizations.splice(idx, 1);
-              guardarDatos();
-              renderizarAdmin();
-              filterCards();
-              mostrarToast('Organización eliminada', '🗑️');
-            }
+    document.querySelectorAll('.btn-email-mentor').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const correo = this.dataset.correo;
+        const nombre = this.dataset.nombre;
+        if (correo) {
+          const asunto = encodeURIComponent('Interés en mentoría - ConectaRed');
+          const cuerpo = encodeURIComponent(`Hola ${nombre},\n\nSoy un Rover interesado en tu mentoría para un proyecto scout.\n\n¡Gracias!`);
+          window.location.href = `mailto:${correo}?subject=${asunto}&body=${cuerpo}`;
+        } else {
+          alert('Este mentor no tiene correo registrado.');
+        }
+      });
+    });
+  }
+
+  // ============================================================
+  // ===== RENDER ADMIN =====
+  // ============================================================
+  function renderizarAdminOrgs(orgs) {
+    if (!orgs) return;
+    let html = `<table class="admin-table"><thead><tr><th>Nombre</th><th>Sector</th><th>ODS</th><th>Acción</th></tr></thead><tbody>`;
+    orgs.forEach(o => {
+      html += `<tr><td><strong>${o.nombre || 'Sin nombre'}</strong></td><td>${o.sector || ''}</td><td>${(o.ods || []).join(', ')}</td><td><button class="btn-accion eliminar" data-id="${o.id}">🗑️ Eliminar</button></td></tr>`;
+    });
+    html += `</tbody></table>`;
+    organizacionesContainer.innerHTML = html;
+
+    document.querySelectorAll('.btn-accion.eliminar').forEach(btn => {
+      btn.addEventListener('click', async function() {
+        const id = this.dataset.id;
+        if (confirm('¿Eliminar esta organización?')) {
+          try {
+            await deleteDoc(doc(db, ORG_COLLECTION, id));
+            mostrarToast('Organización eliminada', '🗑️');
+          } catch (error) {
+            console.error('Error eliminando:', error);
+            mostrarToast('Error al eliminar', '❌');
           }
-        });
+        }
       });
+    });
+  }
 
-      // Solicitudes pendientes
-      pendientesCount.textContent = mentoresPendientes.length;
-      if (mentoresPendientes.length === 0) {
-        solicitudesContainer.innerHTML = '<p style="color: var(--gris-texto);">No hay solicitudes de mentor pendientes.</p>';
-      } else {
-        let html = `<table class="admin-table"><thead><tr><th>Nombre</th><th>Grupo</th><th>Correo</th><th>Acciones</th></tr></thead><tbody>`;
-        mentoresPendientes.forEach((s, idx) => {
-          html += `<tr><td><strong>${s.nombre}</strong></td><td>${s.grupo}</td><td>${s.correo}</td><td>
-            <button class="btn-accion aprobar" data-idx="${idx}">✅ Aprobar</button>
-            <button class="btn-accion rechazar" data-idx="${idx}">❌ Rechazar</button>
-          </td></tr>`;
-        });
-        html += `</tbody></table>`;
-        solicitudesContainer.innerHTML = html;
+  function renderizarAdminSolicitudes(solicitudes) {
+    if (!solicitudes) return;
+    if (solicitudes.length === 0) {
+      solicitudesContainer.innerHTML = '<p style="color: var(--gris-texto);">No hay solicitudes de mentor pendientes.</p>';
+      return;
+    }
 
-        document.querySelectorAll('.btn-accion.aprobar').forEach(btn => {
-          btn.addEventListener('click', function() {
-            const idx = parseInt(this.dataset.idx);
-            const mentor = mentoresPendientes[idx];
-            if (mentor) {
-              const nuevoMentor = { id: mentores.length + 1, ...mentor };
-              mentores.push(nuevoMentor);
-              mentoresPendientes.splice(idx, 1);
-              guardarDatos();
-              renderizarAdmin();
-              renderMentores(mentores);
-              mostrarToast('Mentor aprobado', '✅');
-            }
-          });
-        });
+    let html = `<table class="admin-table"><thead><tr><th>Nombre</th><th>Grupo</th><th>Correo</th><th>Acciones</th></tr></thead><tbody>`;
+    solicitudes.forEach(s => {
+      html += `<tr><td><strong>${s.nombre || 'Sin nombre'}</strong></td><td>${s.grupo || ''}</td><td>${s.correo || ''}</td><td>
+        <button class="btn-accion aprobar" data-id="${s.id}">✅ Aprobar</button>
+        <button class="btn-accion rechazar" data-id="${s.id}">❌ Rechazar</button>
+      </td></tr>`;
+    });
+    html += `</tbody></table>`;
+    solicitudesContainer.innerHTML = html;
 
-        document.querySelectorAll('.btn-accion.rechazar').forEach(btn => {
-          btn.addEventListener('click', function() {
-            const idx = parseInt(this.dataset.idx);
-            if (confirm('¿Rechazar este mentor?')) {
-              mentoresPendientes.splice(idx, 1);
-              guardarDatos();
-              renderizarAdmin();
-              mostrarToast('Mentor rechazado', '❌');
-            }
-          });
-        });
+    document.querySelectorAll('.btn-accion.aprobar').forEach(btn => {
+      btn.addEventListener('click', async function() {
+        const id = this.dataset.id;
+        try {
+          await updateDoc(doc(db, SOLICITUDES_COLLECTION, id), { estado: 'aprobado' });
+          // También agregar a mentores
+          const solicitudDoc = await getDoc(doc(db, SOLICITUDES_COLLECTION, id));
+          const data = solicitudDoc.data();
+          if (data) {
+            await addDoc(collection(db, MENTORES_COLLECTION), {
+              ...data,
+              estado: 'aprobado',
+              fechaAprobacion: serverTimestamp()
+            });
+          }
+          mostrarToast('Mentor aprobado', '✅');
+        } catch (error) {
+          console.error('Error:', error);
+          mostrarToast('Error al aprobar', '❌');
+        }
+      });
+    });
+
+    document.querySelectorAll('.btn-accion.rechazar').forEach(btn => {
+      btn.addEventListener('click', async function() {
+        const id = this.dataset.id;
+        if (confirm('¿Rechazar este mentor?')) {
+          try {
+            await updateDoc(doc(db, SOLICITUDES_COLLECTION, id), { estado: 'rechazado' });
+            mostrarToast('Mentor rechazado', '❌');
+          } catch (error) {
+            console.error('Error:', error);
+            mostrarToast('Error al rechazar', '❌');
+          }
+        }
+      });
+    });
+  }
+
+  function renderizarAdminPDFs(pdfs) {
+    if (!pdfs) return;
+    if (pdfs.length === 0) {
+      pdfsContainer.innerHTML = '<p style="color: var(--gris-texto);">No hay PDFs generados aún.</p>';
+      return;
+    }
+
+    let html = `<table class="admin-table"><thead><tr><th>Proyecto</th><th>Responsable</th><th>Organización</th><th>Fecha</th></tr></thead><tbody>`;
+    pdfs.forEach(p => {
+      const fecha = p.fechaGeneracion ? new Date(p.fechaGeneracion.seconds * 1000).toLocaleDateString('es-MX') : 'N/A';
+      html += `<tr><td><strong>${p.proyecto || 'Sin nombre'}</strong></td><td>${p.responsable || ''}</td><td>${p.organizacion || ''}</td><td>${fecha}</td></tr>`;
+    });
+    html += `</tbody></table>`;
+    pdfsContainer.innerHTML = html;
+  }
+
+  // ============================================================
+  // ===== FILTROS =====
+  // ============================================================
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      this.setAttribute('aria-pressed', 'true');
+      currentFilter = this.dataset.filter;
+      // Re-renderizar con filtro (los datos ya están cargados)
+      cargarOrganizacionesFirestore();
+    });
+  });
+
+  searchBtn.addEventListener('click', () => cargarOrganizacionesFirestore());
+  searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') cargarOrganizacionesFirestore(); });
+
+  // ============================================================
+  // ===== TABS =====
+  // ============================================================
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      this.classList.add('active');
+      this.setAttribute('aria-selected', 'true');
+
+      const tab = this.dataset.tab;
+      tabOrganizaciones.classList.toggle('active', tab === 'organizaciones');
+      tabMentores.classList.toggle('active', tab === 'mentores');
+      tabAdmin.classList.toggle('active', tab === 'admin');
+
+      if (tab === 'mentores') cargarMentoresFirestore();
+      if (tab === 'admin' && isAdmin) {
+        cargarSolicitudesFirestore();
+        cargarPDFsFirestore();
       }
+    });
+  });
 
-      // PDFs
-      pdfsCount.textContent = pdfsGenerados.length;
-      if (pdfsGenerados.length === 0) {
-        pdfsContainer.innerHTML = '<p style="color: var(--gris-texto);">No hay PDFs generados aún.</p>';
-      } else {
-        let html = `<table class="admin-table"><thead><tr><th>Proyecto</th><th>Responsable</th><th>Organización</th><th>Fecha</th></tr></thead><tbody>`;
-        pdfsGenerados.forEach(p => {
-          const fecha = p.fecha || 'N/A';
-          html += `<tr><td><strong>${p.proyecto}</strong></td><td>${p.responsable}</td><td>${p.organizacion}</td><td>${fecha}</td></tr>`;
-        });
-        html += `</tbody></table>`;
-        pdfsContainer.innerHTML = html;
+  // Ocultar pestaña Admin inicialmente
+  const adminTabBtn = document.querySelector('.tab-btn[data-tab="admin"]');
+  if (adminTabBtn) adminTabBtn.style.display = 'none';
+
+  // ============================================================
+  // ===== MODAL FICHA =====
+  // ============================================================
+  function openFicha(org) {
+    currentOrg = org;
+    fichaNombre.textContent = org.nombre || 'Sin nombre';
+    fichaSector.textContent = org.sector || 'Sin sector';
+    fichaDesc.textContent = org.descripcion || '';
+    fichaODS.textContent = (org.ods || []).join(' · ');
+    fichaContacto.textContent = org.contacto || '-';
+    fichaCorreo.textContent = org.correo || '-';
+    fichaTelefono.textContent = org.telefono || '-';
+    fichaDireccion.textContent = org.direccion || '-';
+    fichaMapa.src = org.mapa || '';
+    institucionHidden.value = org.nombre || '';
+
+    fichaView.classList.remove('hidden');
+    formView.classList.remove('active');
+    modalOverlay.classList.add('open');
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    fichaView.classList.remove('hidden');
+    formView.classList.remove('active');
+  }
+
+  closeModalBtn.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', function(e) {
+    if (e.target === modalOverlay) closeModal();
+  });
+
+  btnIrFormulario.addEventListener('click', function() {
+    fichaView.classList.add('hidden');
+    formView.classList.add('active');
+  });
+
+  btnVolverFicha.addEventListener('click', function() {
+    formView.classList.remove('active');
+    fichaView.classList.remove('hidden');
+  });
+
+  // ============================================================
+  // ===== DECISIONES =====
+  // ============================================================
+  function mostrarDecisiones() { decisionOverlay.classList.add('open'); }
+  function cerrarDecisiones() { decisionOverlay.classList.remove('open'); }
+
+  function mostrarContacto(org) {
+    contactoOrgName.textContent = org.nombre || 'Organización';
+    contactoCorreoValor.textContent = org.correo || '-';
+    contactoTelefonoValor.textContent = org.telefono || '-';
+    contactoOverlay.classList.add('open');
+  }
+
+  btnEnviarAsociacion.addEventListener('click', function() {
+    cerrarDecisiones();
+
+    // Obtener datos del proyecto desde el formulario
+    const proyecto = document.getElementById('proyecto').value.trim() || 'Proyecto sin nombre';
+    const responsable = document.getElementById('responsable').value.trim() || 'Responsable';
+    const objetivo = document.getElementById('objetivo').value.trim() || 'Sin objetivo definido';
+    const actividades = document.getElementById('actividades').value.trim() || 'Sin actividades definidas';
+
+    const orgNombre = currentOrg ? currentOrg.nombre : (institucionHidden.value || 'Organización');
+    const orgCorreo = currentOrg ? currentOrg.correo : '-';
+    const orgTelefono = currentOrg ? currentOrg.telefono : '-';
+
+    // Guardar en variables globales para usar en los eventos
+    window._datosEnvio = {
+      orgNombre,
+      orgCorreo,
+      orgTelefono,
+      proyecto,
+      responsable,
+      objetivo,
+      actividades
+    };
+
+    // Mostrar el modal de contacto
+    contactoOrgName.textContent = orgNombre;
+    contactoCorreoValor.textContent = orgCorreo;
+    contactoTelefonoValor.textContent = orgTelefono;
+    contactoOverlay.classList.add('open');
+  });
+
+  btnSoloContinuar.addEventListener('click', function() {
+    cerrarDecisiones();
+    mostrarToast('¡Proceso completado!', '✅');
+    closeModal();
+    form.reset();
+  });
+
+  btnCerrarContacto.addEventListener('click', function() {
+    contactoOverlay.classList.remove('open');
+  });
+
+  contactoOverlay.addEventListener('click', function(e) {
+    if (e.target === contactoOverlay) contactoOverlay.classList.remove('open');
+  });
+
+  // ===== CONTACTO POR CORREO =====
+  contactoCorreo.addEventListener('click', function() {
+    const datos = window._datosEnvio || {};
+    const email = datos.orgCorreo || '-';
+
+    if (email && !email.includes('Solicitar') && !email.includes('-')) {
+      const asunto = encodeURIComponent(`Propuesta de proyecto: ${datos.proyecto || 'Sin nombre'}`);
+      const cuerpo = encodeURIComponent(
+        `Estimado equipo de ${datos.orgNombre || 'la organización'},\n\n` +
+        `Me dirijo a ustedes a través de la Red de Jóvenes Scouts (ConectaRed) para presentarles una propuesta de colaboración.\n\n` +
+        `📋 DATOS DEL PROYECTO:\n` +
+        `─────────────────────────\n` +
+        `📌 Nombre del proyecto: ${datos.proyecto || 'Sin nombre'}\n` +
+        `👤 Responsable: ${datos.responsable || 'No especificado'}\n` +
+        `🎯 Objetivo principal: ${datos.objetivo || 'No especificado'}\n` +
+        `📝 Actividades propuestas: ${datos.actividades || 'No especificadas'}\n\n` +
+        `─────────────────────────\n` +
+        `Quedamos atentos a su respuesta para coordinar una reunión y conocer más sobre su valiosa labor.\n\n` +
+        `Siempre listos para servir,\n` +
+        `${datos.responsable || 'Equipo ConectaRed'}\n` +
+        `Red de Jóvenes Scouts\n\n` +
+        `---\n` +
+        `Este mensaje fue enviado a través de la plataforma ConectaRed.`
+      );
+
+      // Abrir Gmail con el correo y copia a la Red
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}&cc=red.jovenes.san_luis_potosi@scouts.org.mx&su=${asunto}&body=${cuerpo}`, '_blank');
+
+      mostrarToast('📧 Abriendo Gmail...', '📧');
+      contactoOverlay.classList.remove('open');
+    } else {
+      alert('Esta organización no tiene un correo electrónico público disponible. Por favor, usa la opción de WhatsApp o contacta por teléfono.');
+    }
+  });
+
+  // ===== CONTACTO POR WHATSAPP =====
+  contactoTelefono.addEventListener('click', function() {
+    const datos = window._datosEnvio || {};
+    const telefono = datos.orgTelefono || '';
+
+    let cleanPhone = telefono.replace(/\s/g, '').replace(/[()\-]/g, '');
+
+    // Si es WhatsApp, extraer el número
+    if (telefono.includes('WhatsApp')) {
+      const match = telefono.match(/\d{3}\s*\d{3}\s*\d{4}/);
+      if (match) {
+        cleanPhone = match[0].replace(/\s/g, '');
       }
     }
 
-    // ============================================================
-    // ===== MODAL AGREGAR ORGANIZACIÓN =====
-    // ============================================================
-    btnAgregarOrg.addEventListener('click', function() {
-      orgOverlay.classList.add('open');
-    });
+    if (cleanPhone && cleanPhone.length >= 10) {
+      const mensaje = encodeURIComponent(
+        `Hola, soy ${datos.responsable || 'un Rover'} de la Red de Jóvenes Scouts (ConectaRed).\n\n` +
+        `Estoy interesado en colaborar con ${datos.orgNombre || 'su organización'} en un proyecto scout.\n\n` +
+        `📌 Proyecto: ${datos.proyecto || 'Sin nombre'}\n` +
+        `🎯 Objetivo: ${datos.objetivo || 'No especificado'}\n\n` +
+        `¿Podríamos coordinar una reunión para conocer más sobre su labor y cómo podemos colaborar?\n\n` +
+        `¡Gracias!`
+      );
 
-    btnCerrarOrg.addEventListener('click', function() {
+      window.open(`https://wa.me/52${cleanPhone}?text=${mensaje}`, '_blank');
+
+      mostrarToast('📱 Abriendo WhatsApp...', '📱');
+      contactoOverlay.classList.remove('open');
+    } else {
+      alert('Esta organización no tiene un número de teléfono disponible o no es válido para WhatsApp.');
+    }
+  });
+
+  // ============================================================
+  // ===== MODAL MENTOR =====
+  // ============================================================
+  btnRegistroMentor.addEventListener('click', function() {
+    mentorOverlay.classList.add('open');
+  });
+
+  btnCerrarMentor.addEventListener('click', function() {
+    mentorOverlay.classList.remove('open');
+    formMentor.reset();
+  });
+
+  btnCancelarMentor.addEventListener('click', function() {
+    mentorOverlay.classList.remove('open');
+    formMentor.reset();
+  });
+
+  mentorOverlay.addEventListener('click', function(e) {
+    if (e.target === mentorOverlay) {
+      mentorOverlay.classList.remove('open');
+      formMentor.reset();
+    }
+  });
+
+  formMentor.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById('mentorNombre').value.trim();
+    const grupo = document.getElementById('mentorGrupo').value.trim();
+    const cum = document.getElementById('mentorCum').value.trim();
+    const correo = document.getElementById('mentorCorreo').value.trim();
+    const telefono = document.getElementById('mentorTelefono').value.trim();
+    const select = document.getElementById('mentorExperiencia');
+    const experiencia = Array.from(select.selectedOptions).map(opt => opt.value);
+    const descripcion = document.getElementById('mentorDescripcion').value.trim();
+
+    if (!nombre || !grupo || !cum || !correo || !telefono || experiencia.length === 0 || !descripcion) {
+      alert('Por favor completa todos los campos obligatorios.');
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, SOLICITUDES_COLLECTION), {
+        nombre,
+        grupo,
+        cum,
+        correo,
+        telefono,
+        experiencia,
+        descripcion,
+        estado: 'pendiente',
+        fechaRegistro: serverTimestamp()
+      });
+
+      mentorOverlay.classList.remove('open');
+      formMentor.reset();
+      mostrarToast('¡Solicitud enviada a validación!', '📤');
+    } catch (error) {
+      console.error('Error guardando solicitud:', error);
+      mostrarToast('Error al enviar solicitud', '❌');
+    }
+  });
+
+  // ============================================================
+  // ===== FORMULARIO Y PDF =====
+  // ============================================================
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const proyecto = document.getElementById('proyecto').value.trim();
+    const objetivo = document.getElementById('objetivo').value.trim();
+    const actividades = document.getElementById('actividades').value.trim();
+    const clan = document.getElementById('clan').value.trim();
+    const responsable = document.getElementById('responsable').value.trim();
+    const cum = document.getElementById('cum').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const correo = document.getElementById('correo').value.trim();
+    const fecha = document.getElementById('fecha').value;
+    const institucion = institucionHidden.value || 'Organización';
+    const firmaFile = document.getElementById('firmaResponsable').files[0];
+
+    if (!proyecto || !objetivo || !actividades || !clan || !responsable || !cum || !telefono || !correo || !fecha) {
+      alert('Por favor completa todos los campos obligatorios.');
+      return;
+    }
+
+    // Guardar en Firestore
+    try {
+      await addDoc(collection(db, PDFS_COLLECTION), {
+        proyecto,
+        objetivo,
+        actividades,
+        clan,
+        responsable,
+        cum,
+        telefono,
+        correo,
+        organizacion: institucion,
+        fechaInicio: fecha,
+        fechaGeneracion: serverTimestamp(),
+        estado: 'activo'
+      });
+    } catch (error) {
+      console.error('Error guardando PDF en Firestore:', error);
+    }
+
+    if (typeof window.jspdf !== 'undefined') {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = 210;
+      const margin = 20;
+      let y = 20;
+
+      function addTextLines(text, x, y, fontSize = 11, isBold = false, maxWidth = pageWidth - 2 * margin) {
+        doc.setFontSize(fontSize);
+        doc.setFont(undefined, isBold ? 'bold' : 'normal');
+        const lines = doc.splitTextToSize(text, maxWidth);
+        lines.forEach((line, idx) => {
+          doc.text(line, x, y + (idx * 6.5));
+        });
+        return y + (lines.length * 6.5) + 2;
+      }
+
+      // Encabezado
+      doc.setFillColor(111, 45, 189);
+      doc.rect(0, 0, pageWidth, 12, 'F');
+      doc.setFontSize(14);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Asociación de Scouts de México, A.C.', margin, 9);
+      doc.setFontSize(10);
+      doc.text('Provincia San Luis Potosí', pageWidth - margin - 35, 9);
+
+      const logoY = 15;
+      const logoHeight = 13;
+      const logoWidth = 25;
+      try { doc.addImage('as.jpg', 'JPEG', margin, logoY, logoWidth, logoHeight); } catch(e) {}
+      try { doc.addImage('red slp logo.jpg', 'JPEG', pageWidth/2 - 15, logoY, logoWidth, logoHeight); } catch(e) {}
+      try { doc.addImage('Provincia.jpg', 'JPEG', pageWidth - margin - logoWidth, logoY, logoWidth, logoHeight); } catch(e) {}
+
+      doc.setDrawColor(200, 200, 200);
+      doc.setLineWidth(0.3);
+      doc.line(margin, 31, pageWidth - margin, 31);
+
+      const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      const hoy = new Date();
+      const fechaStr = `San Luis Potosí, S.L.P. A ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
+      doc.setFontSize(11);
+      doc.setTextColor(30);
+      y = addTextLines(fechaStr, pageWidth - margin - 55, 35, 11, false, 55);
+
+      y = addTextLines(`Asunto: Propuesta de colaboración para ${proyecto}`, margin, y + 8, 12, true);
+      y = addTextLines(`Estimada oficina de ${institucion} en San Luis Potosí, por medio de la presente, reciba un cordial saludo.`, margin, y + 4, 11, false);
+
+      y = addTextLines(`Nos permitimos poner a su disposición el talento y la disposición de servicio de la Red de Jóvenes de la Provincia San Luis Potosí, organismo que representa a la juventud de la Asociación de Scouts de México, A.C. en nuestro estado.`, margin, y + 6, 11, false);
+      y = addTextLines(`Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
+
+      y = addTextLines(`• Objetivo principal: ${objetivo}`, margin + 4, y + 4, 11, false);
+      y = addTextLines(`• Actividades propuestas: ${actividades}`, margin + 4, y + 2, 11, false);
+
+      y = addTextLines(`Agradecemos de antemano su atención a esta propuesta, con la seguridad de que nuestra participación contribuirá a fortalecer los lazos comunitarios en beneficio de quienes más lo necesitan.`, margin, y + 6, 11, false);
+      y = addTextLines(`Quedamos atentos a sus comentarios para coordinar una breve reunión y, en su caso, formalizar esta alianza estratégica.`, margin, y + 4, 11, false);
+
+      y = addTextLines(`Siempre listos para servir,`, margin, y + 10, 12, true);
+
+      const leftX = margin;
+      const rightX = pageWidth / 2 + 10;
+      const centerX = pageWidth / 2;
+      const firmaY = y + 6;
+
+      doc.setFontSize(11);
+      doc.setFont(undefined, 'normal');
+      doc.setDrawColor(180, 180, 180);
+      doc.setLineWidth(0.5);
+      doc.line(centerX - 2, firmaY - 4, centerX - 2, firmaY + 38);
+
+      doc.text('_______________________________', leftX, firmaY);
+      try {
+        doc.addImage('rmr.png', 'PNG', leftX + 5, firmaY - 8, 50, 12);
+      } catch(e) {
+        try {
+          doc.addImage('rmr.jpg', 'JPEG', leftX + 5, firmaY - 8, 50, 12);
+        } catch(e2) {
+          doc.text('Rafael Magaña Rangel', leftX, firmaY + 6);
+        }
+      }
+
+      const yFirma = firmaY + 8;
+      doc.text('Rafael Magaña Rangel', leftX, yFirma + 4);
+      doc.text('Relaciones Exteriores – Red de Jóvenes', leftX, yFirma + 10);
+      doc.text('Provincia San Luis Potosí', leftX, yFirma + 16);
+      doc.text('Asociación de Scouts de México, A.C.', leftX, yFirma + 22);
+
+      doc.setTextColor(0, 100, 200);
+      const emailTexto = 'Tel: 4447135378 | Email: red.jovenes.san_luis_potosi@scouts.org.mx';
+      const emailLines = doc.splitTextToSize(emailTexto, 80);
+      emailLines.forEach((line, idx) => { doc.text(line, leftX, yFirma + 28 + (idx * 6.5)); });
+      doc.setTextColor(30);
+
+      doc.text('_______________________________', rightX, firmaY);
+      doc.text(`${responsable} (CUM: ${cum})`, rightX, firmaY + 6);
+      doc.text(`Responsable de Proyecto - Clan: ${clan}`, rightX, firmaY + 12);
+      doc.setTextColor(0, 100, 200);
+      const emailRover = `Tel: ${telefono} | Email: ${correo}`;
+      const roverLines = doc.splitTextToSize(emailRover, 80);
+      roverLines.forEach((line, idx) => { doc.text(line, rightX, firmaY + 18 + (idx * 6.5)); });
+      doc.setTextColor(30);
+
+      const guardarPDF = function() {
+        doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
+        mostrarDecisiones();
+        form.reset();
+        institucionHidden.value = '';
+      };
+
+      if (firmaFile) {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          try { doc.addImage(ev.target.result, 'PNG', rightX + 10, firmaY - 8, 30, 10); } catch(e) {}
+          guardarPDF();
+        };
+        reader.readAsDataURL(firmaFile);
+      } else {
+        guardarPDF();
+      }
+
+    } else {
+      alert('La librería jspdf no se cargó correctamente.');
+    }
+  });
+
+  // ============================================================
+  // ===== MODAL AGREGAR ORGANIZACIÓN =====
+  // ============================================================
+  btnAgregarOrg.addEventListener('click', function() {
+    orgOverlay.classList.add('open');
+  });
+
+  btnCerrarOrg.addEventListener('click', function() {
+    orgOverlay.classList.remove('open');
+    formOrganizacion.reset();
+  });
+
+  btnCancelarOrg.addEventListener('click', function() {
+    orgOverlay.classList.remove('open');
+    formOrganizacion.reset();
+  });
+
+  orgOverlay.addEventListener('click', function(e) {
+    if (e.target === orgOverlay) {
       orgOverlay.classList.remove('open');
       formOrganizacion.reset();
-    });
+    }
+  });
 
-    btnCancelarOrg.addEventListener('click', function() {
-      orgOverlay.classList.remove('open');
-      formOrganizacion.reset();
-    });
+  formOrganizacion.addEventListener('submit', async function(e) {
+    e.preventDefault();
 
-    orgOverlay.addEventListener('click', function(e) {
-      if (e.target === orgOverlay) {
-        orgOverlay.classList.remove('open');
-        formOrganizacion.reset();
-      }
-    });
+    const nombre = document.getElementById('orgNombre').value.trim();
+    const sector = document.getElementById('orgSector').value.trim();
+    const odsInput = document.getElementById('orgODS').value.trim();
+    const descripcion = document.getElementById('orgDescripcion').value.trim();
+    const contacto = document.getElementById('orgContacto').value.trim();
+    const correo = document.getElementById('orgCorreo').value.trim();
+    const telefono = document.getElementById('orgTelefono').value.trim();
+    const direccion = document.getElementById('orgDireccion').value.trim();
+    const mapa = document.getElementById('orgMapa').value.trim();
 
-    formOrganizacion.addEventListener('submit', function(e) {
-      e.preventDefault();
+    if (!nombre || !sector || !descripcion) {
+      alert('Por favor completa los campos obligatorios: Nombre, Sector y Descripción.');
+      return;
+    }
 
-      const nombre = document.getElementById('orgNombre').value.trim();
-      const sector = document.getElementById('orgSector').value.trim();
-      const odsInput = document.getElementById('orgODS').value.trim();
-      const descripcion = document.getElementById('orgDescripcion').value.trim();
-      const contacto = document.getElementById('orgContacto').value.trim();
-      const correo = document.getElementById('orgCorreo').value.trim();
-      const telefono = document.getElementById('orgTelefono').value.trim();
-      const direccion = document.getElementById('orgDireccion').value.trim();
-      const mapa = document.getElementById('orgMapa').value.trim();
+    const ods = odsInput ? odsInput.split(',').map(s => s.trim()).filter(s => s) : [];
 
-      if (!nombre || !sector || !descripcion) {
-        alert('Por favor completa los campos obligatorios: Nombre, Sector y Descripción.');
-        return;
-      }
-
-      const ods = odsInput ? odsInput.split(',').map(s => s.trim()).filter(s => s) : [];
-
-      const nuevaOrg = {
-        id: organizations.length + 1,
+    try {
+      await addDoc(collection(db, ORG_COLLECTION), {
         nombre,
         sector,
         ods,
@@ -2304,487 +2940,30 @@
         correo: correo || '',
         telefono: telefono || '',
         direccion: direccion || '',
-        mapa: mapa || ''
-      };
+        mapa: mapa || '',
+        fechaRegistro: serverTimestamp(),
+        activo: true
+      });
 
-      organizations.push(nuevaOrg);
-      guardarDatos();
       orgOverlay.classList.remove('open');
       formOrganizacion.reset();
-      renderizarAdmin();
-      filterCards();
       mostrarToast('Organización agregada', '🏢');
-    });
-
-    // ============================================================
-    // ===== RENDER TARJETAS =====
-    // ============================================================
-    function renderCards(list) {
-      cardsContainer.innerHTML = '';
-      if (list.length === 0) {
-        cardsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--gris-texto);">No se encontraron organizaciones con los filtros seleccionados.</p>';
-        return;
-      }
-      list.forEach(org => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.setAttribute('role', 'listitem');
-        card.innerHTML = `
-          <div class="ods-tag">${org.ods.join(' · ')}</div>
-          <h3>${org.nombre}</h3>
-          <span class="tag">${org.sector}</span>
-          <p class="desc">${org.descripcion}</p>
-          <button class="btn-vinculacion" data-id="${org.id}" aria-label="Ver ficha de ${org.nombre}">Ver ficha y vincular ⚡</button>
-        `;
-        cardsContainer.appendChild(card);
-      });
-      document.querySelectorAll('.btn-vinculacion').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const id = parseInt(this.dataset.id);
-          const org = organizations.find(o => o.id === id);
-          if (org) openFicha(org);
-        });
-      });
+    } catch (error) {
+      console.error('Error guardando organización:', error);
+      mostrarToast('Error al guardar', '❌');
     }
-
-    // ============================================================
-    // ===== RENDER MENTORES =====
-    // ============================================================
-    function renderMentores(list) {
-      mentoresContainer.innerHTML = '';
-      if (list.length === 0) {
-        mentoresContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--gris-texto);">No hay mentores registrados aún. ¡Sé el primero en registrarte!</p>';
-        return;
-      }
-      list.forEach(mentor => {
-        const card = document.createElement('div');
-        card.className = 'card-mentor';
-        card.setAttribute('role', 'listitem');
-        const iniciales = mentor.nombre.split(' ').map(n => n[0]).join('');
-        card.innerHTML = `
-          <div class="mentor-header">
-            <div class="mentor-avatar">${iniciales}</div>
-            <div class="mentor-info">
-              <h3>${mentor.nombre}</h3>
-              <div class="sub">${mentor.grupo} · CUM: ${mentor.cum}</div>
-            </div>
-          </div>
-          <div class="skills">
-            ${mentor.experiencia.map(exp => `<span>${exp}</span>`).join('')}
-          </div>
-          <p class="desc">${mentor.descripcion}</p>
-          <div class="contact-buttons">
-            <button class="btn-whatsapp" data-telefono="${mentor.telefono}" data-nombre="${mentor.nombre}" aria-label="Contactar por WhatsApp">💬 WhatsApp</button>
-            <button class="btn-email-mentor" data-correo="${mentor.correo}" data-nombre="${mentor.nombre}" aria-label="Contactar por correo electrónico">✉️ Correo</button>
-          </div>
-        `;
-        mentoresContainer.appendChild(card);
-      });
-
-      document.querySelectorAll('.btn-whatsapp').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const telefono = this.dataset.telefono;
-          const nombre = this.dataset.nombre;
-          const mensaje = encodeURIComponent(`Hola ${nombre}, soy un Rover interesado en tu mentoría para un proyecto scout. Me gustaría conocer más sobre tu experiencia y cómo podrías apoyarme. ¡Gracias!`);
-          window.open(`https://wa.me/52${telefono}?text=${mensaje}`, '_blank');
-        });
-      });
-
-      document.querySelectorAll('.btn-email-mentor').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const correo = this.dataset.correo;
-          const nombre = this.dataset.nombre;
-          const asunto = encodeURIComponent('Interés en mentoría - ConectaRed');
-          const cuerpo = encodeURIComponent(`Hola ${nombre},\n\nSoy un Rover interesado en tu mentoría para un proyecto scout. Me gustaría conocer más sobre tu experiencia y cómo podrías apoyarme.\n\n¡Gracias!`);
-          window.location.href = `mailto:${correo}?subject=${asunto}&body=${cuerpo}`;
-        });
-      });
-    }
-
-    // ============================================================
-    // ===== FILTROS =====
-    // ============================================================
-    function filterCards() {
-      const query = searchInput.value.toLowerCase().trim();
-      const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
-
-      const filtered = organizations.filter(org => {
-        const matchText = org.nombre.toLowerCase().includes(query) ||
-                          org.descripcion.toLowerCase().includes(query) ||
-                          org.sector.toLowerCase().includes(query) ||
-                          org.ods.some(o => o.toLowerCase().includes(query));
-
-        const matchFilter = activeFilter === 'all' ||
-                            org.sector === activeFilter ||
-                            org.ods.includes(activeFilter);
-
-        return matchText && matchFilter;
-      });
-      renderCards(filtered);
-    }
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        this.setAttribute('aria-pressed', 'true');
-        currentFilter = this.dataset.filter;
-        filterCards();
-      });
-    });
-
-    searchBtn.addEventListener('click', filterCards);
-    searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') filterCards(); });
-
-    // ============================================================
-    // ===== TABS =====
-    // ============================================================
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        tabBtns.forEach(b => {
-          b.classList.remove('active');
-          b.setAttribute('aria-selected', 'false');
-        });
-        this.classList.add('active');
-        this.setAttribute('aria-selected', 'true');
-
-        const tab = this.dataset.tab;
-        tabOrganizaciones.classList.toggle('active', tab === 'organizaciones');
-        tabMentores.classList.toggle('active', tab === 'mentores');
-        tabAdmin.classList.toggle('active', tab === 'admin');
-
-        if (tab === 'mentores') renderMentores(mentores);
-        if (tab === 'admin' && isAdmin) renderizarAdmin();
-      });
-    });
-
-    // Ocultar pestaña Admin inicialmente
-    const adminTabBtn = document.querySelector('.tab-btn[data-tab="admin"]');
-    if (adminTabBtn) adminTabBtn.style.display = 'none';
-
-    // ============================================================
-    // ===== MODAL FICHA =====
-    // ============================================================
-    function openFicha(org) {
-      currentOrg = org;
-      fichaNombre.textContent = org.nombre;
-      fichaSector.textContent = org.sector;
-      fichaDesc.textContent = org.descripcion;
-      fichaODS.textContent = org.ods.join(' · ');
-      fichaContacto.textContent = org.contacto;
-      fichaCorreo.textContent = org.correo;
-      fichaTelefono.textContent = org.telefono;
-      fichaDireccion.textContent = org.direccion;
-      fichaMapa.src = org.mapa;
-      institucionHidden.value = org.nombre;
-
-      fichaView.classList.remove('hidden');
-      formView.classList.remove('active');
-      modalOverlay.classList.add('open');
-    }
-
-    function closeModal() {
-      modalOverlay.classList.remove('open');
-      fichaView.classList.remove('hidden');
-      formView.classList.remove('active');
-    }
-
-    closeModalBtn.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', function(e) {
-      if (e.target === modalOverlay) closeModal();
-    });
-
-    btnIrFormulario.addEventListener('click', function() {
-      fichaView.classList.add('hidden');
-      formView.classList.add('active');
-    });
-
-    btnVolverFicha.addEventListener('click', function() {
-      formView.classList.remove('active');
-      fichaView.classList.remove('hidden');
-    });
-
-    // ============================================================
-    // ===== DECISIONES =====
-    // ============================================================
-    function mostrarDecisiones() { decisionOverlay.classList.add('open'); }
-    function cerrarDecisiones() { decisionOverlay.classList.remove('open'); }
-
-    function mostrarContacto(org) {
-      contactoOrgName.textContent = org.nombre;
-      contactoCorreoValor.textContent = org.correo;
-      contactoTelefonoValor.textContent = org.telefono;
-      contactoOverlay.classList.add('open');
-    }
-
-    btnEnviarAsociacion.addEventListener('click', function() {
-      cerrarDecisiones();
-      if (currentOrg) {
-        setTimeout(() => mostrarContacto(currentOrg), 300);
-      } else {
-        const nombre = institucionHidden.value || 'Organización';
-        const org = organizations.find(o => o.nombre === nombre);
-        if (org) setTimeout(() => mostrarContacto(org), 300);
-      }
-    });
-
-    btnSoloContinuar.addEventListener('click', function() {
-      cerrarDecisiones();
-      mostrarToast('¡Proceso completado!', '✅');
-      closeModal();
-      form.reset();
-    });
-
-    btnCerrarContacto.addEventListener('click', function() {
-      contactoOverlay.classList.remove('open');
-    });
-
-    contactoOverlay.addEventListener('click', function(e) {
-      if (e.target === contactoOverlay) contactoOverlay.classList.remove('open');
-    });
-
-    contactoCorreo.addEventListener('click', function() {
-      const email = contactoCorreoValor.textContent;
-      if (email && !email.includes('Solicitar')) {
-        window.location.href = `mailto:${email}`;
-      } else {
-        alert('Esta organización no tiene un correo electrónico público disponible.');
-      }
-    });
-
-    contactoTelefono.addEventListener('click', function() {
-      const telefono = contactoTelefonoValor.textContent;
-      let cleanPhone = telefono.replace(/\s/g, '').replace(/[()\-]/g, '');
-      if (cleanPhone.startsWith('444')) {
-        window.location.href = `tel:${cleanPhone}`;
-      } else if (telefono.includes('WhatsApp')) {
-        const match = telefono.match(/\d{3}\s*\d{3}\s*\d{4}/);
-        if (match) window.location.href = `https://wa.me/52${match[0].replace(/\s/g, '')}`;
-      } else {
-        alert('Por favor contacta por teléfono al número indicado.');
-      }
-    });
-
-    // ============================================================
-    // ===== MODAL MENTOR =====
-    // ============================================================
-    btnRegistroMentor.addEventListener('click', function() {
-      mentorOverlay.classList.add('open');
-    });
-
-    btnCerrarMentor.addEventListener('click', function() {
-      mentorOverlay.classList.remove('open');
-      formMentor.reset();
-    });
-
-    btnCancelarMentor.addEventListener('click', function() {
-      mentorOverlay.classList.remove('open');
-      formMentor.reset();
-    });
-
-    mentorOverlay.addEventListener('click', function(e) {
-      if (e.target === mentorOverlay) {
-        mentorOverlay.classList.remove('open');
-        formMentor.reset();
-      }
-    });
-
-    formMentor.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const nombre = document.getElementById('mentorNombre').value.trim();
-      const grupo = document.getElementById('mentorGrupo').value.trim();
-      const cum = document.getElementById('mentorCum').value.trim();
-      const correo = document.getElementById('mentorCorreo').value.trim();
-      const telefono = document.getElementById('mentorTelefono').value.trim();
-      const select = document.getElementById('mentorExperiencia');
-      const experiencia = Array.from(select.selectedOptions).map(opt => opt.value);
-      const descripcion = document.getElementById('mentorDescripcion').value.trim();
-
-      if (!nombre || !grupo || !cum || !correo || !telefono || experiencia.length === 0 || !descripcion) {
-        alert('Por favor completa todos los campos obligatorios.');
-        return;
-      }
-
-      const mentorPendiente = { nombre, grupo, cum, correo, telefono, experiencia, descripcion };
-      mentoresPendientes.push(mentorPendiente);
-      guardarDatos();
-
-      if (isAdmin) renderizarAdmin();
-
-      mentorOverlay.classList.remove('open');
-      formMentor.reset();
-      mostrarToast('¡Solicitud enviada a validación!', '📤');
-    });
-
-    // ============================================================
-    // ===== FORMULARIO Y PDF =====
-    // ============================================================
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const proyecto = document.getElementById('proyecto').value.trim();
-      const objetivo = document.getElementById('objetivo').value.trim();
-      const actividades = document.getElementById('actividades').value.trim();
-      const clan = document.getElementById('clan').value.trim();
-      const responsable = document.getElementById('responsable').value.trim();
-      const cum = document.getElementById('cum').value.trim();
-      const telefono = document.getElementById('telefono').value.trim();
-      const correo = document.getElementById('correo').value.trim();
-      const fecha = document.getElementById('fecha').value;
-      const institucion = institucionHidden.value || 'Organización';
-      const firmaFile = document.getElementById('firmaResponsable').files[0];
-
-      if (!proyecto || !objetivo || !actividades || !clan || !responsable || !cum || !telefono || !correo || !fecha) {
-        alert('Por favor completa todos los campos obligatorios.');
-        return;
-      }
-
-      pdfsGenerados.push({
-        proyecto,
-        responsable,
-        organizacion: institucion,
-        fecha: new Date().toLocaleDateString('es-MX')
-      });
-      guardarDatos();
-
-      if (isAdmin) renderizarAdmin();
-
-      if (typeof window.jspdf !== 'undefined') {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'mm', 'a4');
-        const pageWidth = 210;
-        const margin = 20;
-        let y = 20;
-
-        function addTextLines(text, x, y, fontSize = 11, isBold = false, maxWidth = pageWidth - 2 * margin) {
-          doc.setFontSize(fontSize);
-          doc.setFont(undefined, isBold ? 'bold' : 'normal');
-          const lines = doc.splitTextToSize(text, maxWidth);
-          lines.forEach((line, idx) => {
-            doc.text(line, x, y + (idx * 6.5));
-          });
-          return y + (lines.length * 6.5) + 2;
-        }
-
-        // Encabezado
-        doc.setFillColor(111, 45, 189);
-        doc.rect(0, 0, pageWidth, 12, 'F');
-        doc.setFontSize(14);
-        doc.setTextColor(255, 255, 255);
-        doc.text('Asociación de Scouts de México, A.C.', margin, 9);
-        doc.setFontSize(10);
-        doc.text('Provincia San Luis Potosí', pageWidth - margin - 35, 9);
-
-        const logoY = 15;
-        const logoHeight = 13;
-        const logoWidth = 25;
-        try { doc.addImage('as.jpg', 'JPEG', margin, logoY, logoWidth, logoHeight); } catch(e) {}
-        try { doc.addImage('red slp logo.jpg', 'JPEG', pageWidth/2 - 15, logoY, logoWidth, logoHeight); } catch(e) {}
-        try { doc.addImage('Provincia.jpg', 'JPEG', pageWidth - margin - logoWidth, logoY, logoWidth, logoHeight); } catch(e) {}
-
-        doc.setDrawColor(200, 200, 200);
-        doc.setLineWidth(0.3);
-        doc.line(margin, 31, pageWidth - margin, 31);
-
-        const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-        const hoy = new Date();
-        const fechaStr = `San Luis Potosí, S.L.P. A ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
-        doc.setFontSize(11);
-        doc.setTextColor(30);
-        y = addTextLines(fechaStr, pageWidth - margin - 55, 35, 11, false, 55);
-
-        y = addTextLines(`Asunto: Propuesta de colaboración para ${proyecto}`, margin, y + 8, 12, true);
-        y = addTextLines(`Estimada oficina de ${institucion} en San Luis Potosí, por medio de la presente, reciba un cordial saludo.`, margin, y + 4, 11, false);
-
-        y = addTextLines(`Nos permitimos poner a su disposición el talento y la disposición de servicio de la Red de Jóvenes de la Provincia San Luis Potosí, organismo que representa a la juventud de la Asociación de Scouts de México, A.C. en nuestro estado.`, margin, y + 6, 11, false);
-        y = addTextLines(`Al conocer de cerca la labor de ${institucion}, estamos convencidos de que podemos sumar valor a su comunidad mediante:`, margin, y + 4, 11, false);
-
-        y = addTextLines(`• Objetivo principal: ${objetivo}`, margin + 4, y + 4, 11, false);
-        y = addTextLines(`• Actividades propuestas: ${actividades}`, margin + 4, y + 2, 11, false);
-
-        y = addTextLines(`Agradecemos de antemano su atención a esta propuesta, con la seguridad de que nuestra participación contribuirá a fortalecer los lazos comunitarios en beneficio de quienes más lo necesitan.`, margin, y + 6, 11, false);
-        y = addTextLines(`Quedamos atentos a sus comentarios para coordinar una breve reunión y, en su caso, formalizar esta alianza estratégica.`, margin, y + 4, 11, false);
-
-        y = addTextLines(`Siempre listos para servir,`, margin, y + 10, 12, true);
-
-        const leftX = margin;
-        const rightX = pageWidth / 2 + 10;
-        const centerX = pageWidth / 2;
-        const firmaY = y + 6;
-
-        doc.setFontSize(11);
-        doc.setFont(undefined, 'normal');
-        doc.setDrawColor(180, 180, 180);
-        doc.setLineWidth(0.5);
-        doc.line(centerX - 2, firmaY - 4, centerX - 2, firmaY + 38);
-
-        doc.text('_______________________________', leftX, firmaY);
-        try {
-          doc.addImage('rmr.png', 'PNG', leftX + 5, firmaY - 8, 50, 12);
-        } catch(e) {
-          try {
-            doc.addImage('rmr.jpg', 'JPEG', leftX + 5, firmaY - 8, 50, 12);
-          } catch(e2) {
-            doc.text('Rafael Magaña Rangel', leftX, firmaY + 6);
-          }
-        }
-
-        const yFirma = firmaY + 8;
-        doc.text('Rafael Magaña Rangel', leftX, yFirma + 4);
-        doc.text('Relaciones Exteriores – Red de Jóvenes', leftX, yFirma + 10);
-        doc.text('Provincia San Luis Potosí', leftX, yFirma + 16);
-        doc.text('Asociación de Scouts de México, A.C.', leftX, yFirma + 22);
-
-        doc.setTextColor(0, 100, 200);
-        const emailTexto = 'Tel: 4447135378 | Email: red.jovenes.san_luis_potosi@scouts.org.mx';
-        const emailLines = doc.splitTextToSize(emailTexto, 80);
-        emailLines.forEach((line, idx) => { doc.text(line, leftX, yFirma + 28 + (idx * 6.5)); });
-        doc.setTextColor(30);
-
-        doc.text('_______________________________', rightX, firmaY);
-        doc.text(`${responsable} (CUM: ${cum})`, rightX, firmaY + 6);
-        doc.text(`Responsable de Proyecto - Clan: ${clan}`, rightX, firmaY + 12);
-        doc.setTextColor(0, 100, 200);
-        const emailRover = `Tel: ${telefono} | Email: ${correo}`;
-        const roverLines = doc.splitTextToSize(emailRover, 80);
-        roverLines.forEach((line, idx) => { doc.text(line, rightX, firmaY + 18 + (idx * 6.5)); });
-        doc.setTextColor(30);
-
-        const guardarPDF = function() {
-          doc.save(`carta_vinculacion_${proyecto.replace(/\s/g,'_')}.pdf`);
-          mostrarDecisiones();
-          form.reset();
-          institucionHidden.value = '';
-        };
-
-        if (firmaFile) {
-          const reader = new FileReader();
-          reader.onload = function(ev) {
-            try { doc.addImage(ev.target.result, 'PNG', rightX + 10, firmaY - 8, 30, 10); } catch(e) {}
-            guardarPDF();
-          };
-          reader.readAsDataURL(firmaFile);
-        } else {
-          guardarPDF();
-        }
-
-      } else {
-        alert('La librería jspdf no se cargó correctamente.');
-      }
-    });
-
-    // ============================================================
-    // ===== INICIO =====
-    // ============================================================
-    renderCards(organizations);
-    renderMentores(mentores);
-    actualizarNav();
-
-    console.log('🚀 ConectaRed cargado correctamente');
-    console.log('📊 Datos guardados en localStorage');
-  })();
+  });
+
+  // ============================================================
+  // ===== INICIO - CARGAR DATOS DE FIRESTORE =====
+  // ============================================================
+  cargarOrganizacionesFirestore();
+  cargarMentoresFirestore();
+  cargarSolicitudesFirestore();
+  cargarPDFsFirestore();
+  actualizarNav();
+
+  console.log('🚀 ConectaRed con Firebase cargado correctamente');
 </script>
 </body>
 </html>
