@@ -388,22 +388,42 @@
       font-weight: 600;
     }
 
-    .card-mentor .btn-contactar {
-      background: var(--naranja);
-      color: white;
-      border: none;
+    .card-mentor .contact-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .card-mentor .contact-buttons button {
       padding: 10px 16px;
       border-radius: 60px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      border: none;
       cursor: pointer;
       transition: 0.2s;
-      margin-top: 8px;
-      box-shadow: 0 4px 8px rgba(246, 139, 44, 0.2);
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
-    .card-mentor .btn-contactar:hover {
-      background: #e07a1e;
-      transform: scale(1.01);
+    .btn-whatsapp {
+      background: #25D366;
+      color: white;
+      box-shadow: 0 4px 8px rgba(37, 211, 102, 0.2);
+    }
+    .btn-whatsapp:hover {
+      background: #1da851;
+      transform: scale(1.02);
+    }
+    .btn-email-mentor {
+      background: var(--morado);
+      color: white;
+      box-shadow: 0 4px 8px rgba(111, 45, 189, 0.2);
+    }
+    .btn-email-mentor:hover {
+      background: #551b99;
+      transform: scale(1.02);
     }
 
     /* ===== BOTÓN PARA REGISTRARSE COMO MENTOR ===== */
@@ -428,6 +448,18 @@
       transform: scale(1.02);
     }
 
+    /* ===== BADGE "PENDIENTE" ===== */
+    .badge-pendiente {
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 40px;
+      display: inline-block;
+      margin-left: 8px;
+    }
+
     @media (max-width: 900px) {
       .grid-cards {
         grid-template-columns: repeat(2, 1fr);
@@ -443,6 +475,9 @@
       .filter-btn {
         font-size: 0.75rem;
         padding: 6px 12px;
+      }
+      .card-mentor .contact-buttons {
+        flex-direction: column;
       }
     }
 
@@ -1209,22 +1244,22 @@
 <div class="mentor-overlay" id="mentorOverlay">
   <div class="mentor-panel">
     <h2>🧭 Registrar como Mentor</h2>
-    <p class="sub">Comparte tus habilidades y experiencia para apoyar a otros Rovers en sus proyectos.</p>
+    <p class="sub">Comparte tus habilidades y experiencia para apoyar a otros Rovers en sus proyectos.<br>Tu registro será validado por el equipo de ConectaRed.</p>
     <form id="formMentor">
       <label>Nombre completo *
-        <input type="text" id="mentorNombre" placeholder="Rafael Magaña" required>
+        <input type="text" id="mentorNombre" placeholder="Ulises Martínez" required>
       </label>
       <label>Grupo / Clan *
-        <input type="text" id="mentorGrupo" placeholder="Gpo 1 / Clan Águila" required>
+        <input type="text" id="mentorGrupo" placeholder="Gpo 12 / Clan Águila" required>
       </label>
       <label>CUM (Clave Única de Membresía) *
         <input type="text" id="mentorCum" placeholder="CUM-12345" required>
       </label>
       <label>Correo de contacto *
-        <input type="email" id="mentorCorreo" placeholder="rafael@scouts.mx" required>
+        <input type="email" id="mentorCorreo" placeholder="ulises@scouts.mx" required>
       </label>
       <label>Teléfono de contacto *
-        <input type="text" id="mentorTelefono" placeholder="4441234567" required>
+        <input type="text" id="mentorTelefono" placeholder="4444396966" required>
       </label>
       <label>Áreas de experiencia (selecciona todas las que apliquen)
         <select id="mentorExperiencia" multiple style="height: 100px;">
@@ -1253,7 +1288,7 @@
 
       <div class="form-actions">
         <button type="button" class="btn-cancelar-mentor" id="btnCancelarMentor">Cancelar</button>
-        <button type="submit" class="btn-registrar-mentor">Registrar como Mentor ✅</button>
+        <button type="submit" class="btn-registrar-mentor">📤 Enviar datos a validar</button>
       </div>
     </form>
   </div>
@@ -1293,12 +1328,13 @@
       { id: 20, nombre: "Sistema DIF Estatal de San Luis Potosí", sector: "Asistencia social", ods: ["ODS 1", "ODS 3", "ODS 10"], descripcion: "Vincula instituciones de asistencia social, programas comunitarios y apoyo a población vulnerable.", contacto: "Dirección de Gestión y Participación Social", correo: "virginia.zuniga@difslp.gob.mx", telefono: "(444) 151-5000", direccion: "Nicolás Fernando Torre 500, Col. Burócrata, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Nicolas+Fernando+Torre+500,+Col.+Burocrata,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" }
     ];
 
-    // ===== BASE DE DATOS DE MENTORES =====
+    // ===== BASE DE DATOS DE MENTORES (SOLO ULISES) =====
     let mentores = [
-      { id: 1, nombre: "Rafael Magaña", grupo: "Gpo 1 / Clan Águila", cum: "CUM-001", correo: "rafael@scouts.mx", telefono: "4447135378", experiencia: ["Recursos Humanos", "Talleres de Liderazgo", "Seguridad Acuática", "Alpinismo y Alta Montaña", "Gestor de Proyectos"], descripcion: "Scout con más de 15 años de experiencia en formación de líderes, gestión de proyectos comunitarios y actividades de alta montaña. He coordinado más de 20 proyectos sociales en la región." },
-      { id: 2, nombre: "María Fernández", grupo: "Clan Sol", cum: "CUM-002", correo: "maria@scouts.mx", telefono: "4441234567", experiencia: ["Educación Ambiental", "Primeros Auxilios", "Trabajo Social"], descripcion: "Especialista en educación ambiental y trabajo comunitario. He liderado programas de reforestación y talleres de primeros auxilios en comunidades rurales." },
-      { id: 3, nombre: "Carlos Méndez", grupo: "Clan Estrella", cum: "CUM-003", correo: "carlos@scouts.mx", telefono: "4449876543", experiencia: ["Tecnología y Programación", "Comunicación y Redes", "Emprendimiento"], descripcion: "Ingeniero en sistemas con experiencia en desarrollo de plataformas digitales para organizaciones sin fines de lucro. He ayudado a más de 10 OSC a digitalizar sus procesos." }
+      { id: 1, nombre: "Ulises Martínez", grupo: "Scouter Gpo 12", cum: "CUM-012", correo: "ulises@scouts.mx", telefono: "4444396966", experiencia: ["Recursos Humanos", "Talleres de Liderazgo", "Gestor de Proyectos", "Deportes"], descripcion: "Scouter con amplia experiencia en formación de líderes scouts, gestión de proyectos comunitarios y actividades deportivas. He coordinado más de 15 proyectos sociales en la región." }
     ];
+
+    // ===== LISTA DE MENTORES PENDIENTES =====
+    let mentoresPendientes = [];
 
     // ===== DOM REFS =====
     const cardsContainer = document.getElementById('cardsContainer');
@@ -1408,17 +1444,32 @@
             ${mentor.experiencia.map(exp => `<span>${exp}</span>`).join('')}
           </div>
           <p style="color: #2f2a3b; font-size: 0.9rem; line-height: 1.5; margin: 4px 0 12px 0;">${mentor.descripcion}</p>
-          <button class="btn-contactar" data-id="${mentor.id}">📧 Contactar Mentor</button>
+          <div class="contact-buttons">
+            <button class="btn-whatsapp" data-telefono="${mentor.telefono}" data-nombre="${mentor.nombre}">💬 WhatsApp</button>
+            <button class="btn-email-mentor" data-correo="${mentor.correo}" data-nombre="${mentor.nombre}">✉️ Correo</button>
+          </div>
         `;
         mentoresContainer.appendChild(card);
       });
-      document.querySelectorAll('.btn-contactar').forEach(btn => {
+
+      // Eventos para WhatsApp
+      document.querySelectorAll('.btn-whatsapp').forEach(btn => {
         btn.addEventListener('click', function() {
-          const id = parseInt(this.dataset.id);
-          const mentor = mentores.find(m => m.id === id);
-          if (mentor) {
-            window.location.href = `mailto:${mentor.correo}?subject=Interés en mentoría - ConectaRed&body=Hola ${mentor.nombre}, me interesaría contar con tu apoyo como mentor para mi proyecto.`;
-          }
+          const telefono = this.dataset.telefono;
+          const nombre = this.dataset.nombre;
+          const mensaje = encodeURIComponent(`Hola ${nombre}, soy un Rover interesado en tu mentoría para un proyecto scout. Me gustaría conocer más sobre tu experiencia y cómo podrías apoyarme. ¡Gracias!`);
+          window.open(`https://wa.me/52${telefono}?text=${mensaje}`, '_blank');
+        });
+      });
+
+      // Eventos para Correo
+      document.querySelectorAll('.btn-email-mentor').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const correo = this.dataset.correo;
+          const nombre = this.dataset.nombre;
+          const asunto = encodeURIComponent('Interés en mentoría - ConectaRed');
+          const cuerpo = encodeURIComponent(`Hola ${nombre},\n\nSoy un Rover interesado en tu mentoría para un proyecto scout. Me gustaría conocer más sobre tu experiencia y cómo podrías apoyarme.\n\n¡Gracias!`);
+          window.location.href = `mailto:${correo}?subject=${asunto}&body=${cuerpo}`;
         });
       });
     }
@@ -1579,7 +1630,7 @@
       }
     });
 
-    // ===== MODAL MENTOR =====
+    // ===== MODAL MENTOR - ENVIAR A VALIDAR =====
     btnRegistroMentor.addEventListener('click', function() {
       mentorOverlay.classList.add('open');
     });
@@ -1613,8 +1664,8 @@
         return;
       }
 
-      const nuevoMentor = {
-        id: mentores.length + 1,
+      // Crear objeto del mentor pendiente
+      const mentorPendiente = {
         nombre,
         grupo,
         cum,
@@ -1624,18 +1675,72 @@
         descripcion
       };
 
-      mentores.push(nuevoMentor);
-      renderMentores(mentores);
+      // Agregar a la lista de pendientes
+      mentoresPendientes.push(mentorPendiente);
 
+      // ===== ENVIAR CORREO DE VALIDACIÓN =====
+      const asunto = encodeURIComponent('Nuevo registro de mentor - ConectaRed');
+      const cuerpo = encodeURIComponent(
+        `Se ha recibido una nueva solicitud de registro como mentor:\n\n` +
+        `📋 DATOS DEL POSTULANTE:\n` +
+        `─────────────────────────\n` +
+        `👤 Nombre: ${nombre}\n` +
+        `🏕️ Grupo/Clan: ${grupo}\n` +
+        `🆔 CUM: ${cum}\n` +
+        `📧 Correo: ${correo}\n` +
+        `📱 Teléfono: ${telefono}\n` +
+        `🛠️ Experiencia: ${experiencia.join(', ')}\n` +
+        `📝 Descripción: ${descripcion}\n\n` +
+        `─────────────────────────\n` +
+        `✅ Para ACEPTAR este mentor, haz clic en el siguiente enlace:\n` +
+        `https://conectared.app/aceptar-mentor?email=${encodeURIComponent(correo)}\n\n` +
+        `❌ Para RECHAZAR este mentor, haz clic en el siguiente enlace:\n` +
+        `https://conectared.app/rechazar-mentor?email=${encodeURIComponent(correo)}\n\n` +
+        `(Simulación: En una implementación real, estos enlaces ejecutarían acciones en el servidor)`
+      );
+
+      // Abrir el correo predeterminado del usuario
+      window.location.href = `mailto:rangeluaslp@gmail.com?subject=${asunto}&body=${cuerpo}`;
+
+      // Cerrar modal y mostrar mensaje
       mentorOverlay.classList.remove('open');
       formMentor.reset();
 
-      toast.textContent = '✅ ¡Te has registrado como mentor exitosamente!';
+      toast.innerHTML = '<span class="check">📤</span><span>¡Solicitud enviada a validación! Recibirás una respuesta por correo electrónico.</span>';
       toast.classList.add('show');
       setTimeout(() => {
         toast.classList.remove('show');
         toast.innerHTML = '<span class="check">✔</span><span>¡Puerta abierta con éxito! El balón está en tu cancha, ¡cambia tu entorno!</span>';
-      }, 4000);
+      }, 5000);
+
+      // ===== SIMULACIÓN: ACEPTAR AUTOMÁTICAMENTE (PARA DEMOSTRACIÓN) =====
+      // En un entorno real, esto se haría desde el servidor al recibir el clic en "Aceptar"
+      // Aquí simulamos que después de 10 segundos se acepta automáticamente para demostración
+      setTimeout(() => {
+        // Verificar si el mentor ya fue agregado (para no duplicar)
+        const yaExiste = mentores.some(m => m.correo === correo);
+        if (!yaExiste) {
+          const nuevoMentor = {
+            id: mentores.length + 1,
+            nombre,
+            grupo,
+            cum,
+            correo,
+            telefono,
+            experiencia,
+            descripcion
+          };
+          mentores.push(nuevoMentor);
+          renderMentores(mentores);
+          // Mostrar notificación
+          toast.innerHTML = '<span class="check">✅</span><span>¡Mentor aprobado y registrado en la plataforma!</span>';
+          toast.classList.add('show');
+          setTimeout(() => {
+            toast.classList.remove('show');
+            toast.innerHTML = '<span class="check">✔</span><span>¡Puerta abierta con éxito! El balón está en tu cancha, ¡cambia tu entorno!</span>';
+          }, 4000);
+        }
+      }, 10000); // 10 segundos de simulación
     });
 
     // ===== FORMULARIO Y GENERACIÓN PDF =====
@@ -1729,7 +1834,16 @@
         doc.line(centerX - 2, firmaY - 4, centerX - 2, firmaY + 38);
 
         doc.text('_______________________________', leftX, firmaY);
-        try { doc.addImage('rmr.jpg', 'JPEG', leftX + 5, firmaY - 8, 50, 12); } catch(e) { doc.text('Rafael Magaña Rangel', leftX, firmaY + 6); }
+        // Firma RMR en PNG
+        try {
+          doc.addImage('rmr.png', 'PNG', leftX + 5, firmaY - 8, 50, 12);
+        } catch(e) {
+          try {
+            doc.addImage('rmr.jpg', 'JPEG', leftX + 5, firmaY - 8, 50, 12);
+          } catch(e2) {
+            doc.text('Rafael Magaña Rangel', leftX, firmaY + 6);
+          }
+        }
 
         const yFirma = firmaY + 8;
         doc.text('Rafael Magaña Rangel', leftX, yFirma + 4);
@@ -1762,7 +1876,7 @@
         if (firmaFile) {
           const reader = new FileReader();
           reader.onload = function(ev) {
-            try { doc.addImage(ev.target.result, 'JPEG', rightX + 10, firmaY - 8, 30, 10); } catch(e) {}
+            try { doc.addImage(ev.target.result, 'PNG', rightX + 10, firmaY - 8, 30, 10); } catch(e) {}
             guardarPDF();
           };
           reader.readAsDataURL(firmaFile);
