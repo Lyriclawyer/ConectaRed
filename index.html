@@ -6,74 +6,161 @@
   <title>ConectaRed · Red de Jóvenes Scouts</title>
   <!-- jspdf CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  
   <style>
-    /* ===== RESET & BASE ===== */
+    /* ============================================================
+       ===== FUENTES E IMPORTACIONES =====
+       ============================================================ */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+
+    /* ============================================================
+       ===== RESET & BASE =====
+       ============================================================ */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    }
-
-    body {
-      background: #f9f7fc;
-      color: #1e1a2b;
-      padding: 0 0 40px 0;
     }
 
     :root {
       --morado: #6F2DBD;
+      --morado-claro: #8B5CF6;
+      --morado-oscuro: #4C1D95;
+      --morado-glow: rgba(111, 45, 189, 0.4);
       --verde-scout: #009A44;
-      --naranja: #f68b2c;
-      --sombra: 0 12px 28px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(111, 45, 189, 0.08);
-      --radio: 16px;
+      --verde-claro: #10B981;
+      --naranja: #F59E0B;
+      --naranja-oscuro: #D97706;
+      --blanco: #FFFFFF;
+      --negro: #0F0A1A;
+      --gris-claro: #F8F6FC;
+      --gris-texto: #6B5B7B;
+      --fondo-gradiente: linear-gradient(135deg, #0F0A1A 0%, #1A0F2E 50%, #2D1B4E 100%);
+      --sombra-card: 0 20px 60px rgba(111, 45, 189, 0.15), 0 8px 24px rgba(0, 0, 0, 0.1);
+      --sombra-hover: 0 30px 80px rgba(111, 45, 189, 0.25), 0 12px 40px rgba(0, 0, 0, 0.15);
+      --border-glow: 0 0 30px rgba(111, 45, 189, 0.2);
+      --radio: 20px;
+      --transition: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .container {
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--fondo-gradiente);
+      color: var(--blanco);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ============================================================
+       ===== FONDO CON PARTÍCULAS =====
+       ============================================================ */
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* ============================================================
+       ===== CONTENEDOR PRINCIPAL =====
+       ============================================================ */
+    .app-wrapper {
+      position: relative;
+      z-index: 1;
       max-width: 1280px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 20px;
     }
 
-    /* ===== NAVBAR ===== */
+    /* ============================================================
+       ===== GLOW ANIMADO (decorativo) =====
+       ============================================================ */
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      animation: orbFloat 8s ease-in-out infinite alternate;
+    }
+
+    .glow-orb--1 {
+      width: 400px;
+      height: 400px;
+      background: rgba(111, 45, 189, 0.15);
+      top: -100px;
+      right: -100px;
+    }
+
+    .glow-orb--2 {
+      width: 300px;
+      height: 300px;
+      background: rgba(245, 158, 11, 0.1);
+      bottom: -50px;
+      left: -50px;
+      animation-delay: 4s;
+    }
+
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, -40px) scale(1.1); }
+    }
+
+    /* ============================================================
+       ===== NAVBAR =====
+       ============================================================ */
     .navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      background: white;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 60px;
       padding: 12px 24px;
-      border-radius: 40px;
-      margin: 20px 0 30px 0;
-      box-shadow: var(--sombra);
-      border: 1px solid rgba(111, 45, 189, 0.08);
-      gap: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+      position: relative;
+      z-index: 10;
+    }
+
+    .navbar:hover {
+      border-color: rgba(111, 45, 189, 0.3);
+      box-shadow: 0 8px 40px rgba(111, 45, 189, 0.1), var(--border-glow);
     }
 
     .logo-group {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 16px;
       flex-wrap: wrap;
     }
 
     .logo-group img {
-      height: 44px;
+      height: 42px;
       width: auto;
       object-fit: contain;
-      transition: transform 0.2s ease;
+      transition: var(--transition);
+      filter: brightness(0.9) saturate(1.2);
     }
+
     .logo-group img:hover {
-      transform: scale(1.02);
+      transform: scale(1.05) rotate(-2deg);
+      filter: brightness(1.1) saturate(1.4);
     }
 
-    .navbar-center {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    /* ===== BOTÓN ADMIN EN NAVBAR ===== */
     .nav-actions {
       display: flex;
       align-items: center;
@@ -82,80 +169,90 @@
     }
 
     .btn-login {
-      background: var(--morado);
+      background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
       border: none;
-      padding: 8px 20px;
+      padding: 10px 28px;
       border-radius: 40px;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.85rem;
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(111, 45, 189, 0.3);
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
+
     .btn-login:hover {
-      background: #551b99;
-      transform: scale(1.02);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.4);
+    }
+
+    .btn-login:active {
+      transform: scale(0.96);
     }
 
     .btn-logout {
-      background: #dc3545;
+      background: linear-gradient(135deg, #EF4444, #DC2626);
       color: white;
       border: none;
-      padding: 8px 20px;
+      padding: 10px 28px;
       border-radius: 40px;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.85rem;
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+      letter-spacing: 0.3px;
     }
+
     .btn-logout:hover {
-      background: #b02a37;
-      transform: scale(1.02);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4);
     }
 
     .user-badge {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: #ede6f5;
-      padding: 4px 14px 4px 10px;
+      gap: 10px;
+      background: rgba(111, 45, 189, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 6px 18px 6px 10px;
       border-radius: 40px;
       font-weight: 600;
       font-size: 0.85rem;
-      color: var(--morado);
+      color: var(--morado-claro);
+      border: 1px solid rgba(111, 45, 189, 0.2);
     }
+
     .user-badge .avatar {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      background: var(--morado);
+      background: linear-gradient(135deg, var(--morado), var(--morado-claro));
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.7rem;
-      font-weight: 700;
+      font-size: 0.75rem;
+      font-weight: 800;
+      box-shadow: 0 0 20px rgba(111, 45, 189, 0.3);
     }
 
-    /* ===== ADMIN ONLY ===== */
-    .admin-only {
-      display: none;
-    }
-    .admin-only.visible {
-      display: block;
-    }
-
-    @media (max-width: 650px) {
+    @media (max-width: 700px) {
       .navbar {
-        justify-content: center;
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
+        border-radius: 30px;
+        padding: 16px 20px;
+      }
+      .logo-group img {
+        height: 32px;
       }
       .logo-group {
         justify-content: center;
-      }
-      .logo-group img {
-        height: 36px;
       }
       .nav-actions {
         width: 100%;
@@ -163,305 +260,467 @@
       }
     }
 
-    /* ===== HERO ===== */
+    /* ============================================================
+       ===== HERO =====
+       ============================================================ */
     .hero {
       text-align: center;
-      padding: 28px 0 10px 0;
+      padding: 40px 0 30px 0;
+      position: relative;
+    }
+
+    .hero .badge-hero {
+      display: inline-block;
+      background: rgba(111, 45, 189, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(111, 45, 189, 0.2);
+      padding: 6px 20px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--morado-claro);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      animation: pulseBadge 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseBadge {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
 
     .hero h1 {
-      font-size: clamp(2.2rem, 8vw, 3.8rem);
-      font-weight: 800;
-      line-height: 1.1;
-      background: linear-gradient(145deg, #3d1a6b, var(--morado));
+      font-size: clamp(2.5rem, 8vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #FFFFFF 0%, var(--morado-claro) 50%, var(--naranja) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       letter-spacing: -0.02em;
-      margin-bottom: 12px;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--naranja), #FCD34D);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .hero p.sub {
       font-size: 1.2rem;
-      color: #3d2e4b;
-      max-width: 720px;
-      margin: 0 auto 28px auto;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 680px;
+      margin: 0 auto 10px auto;
       font-weight: 400;
-      background: rgba(111, 45, 189, 0.04);
-      padding: 12px 24px;
-      border-radius: 60px;
-      backdrop-filter: blur(4px);
+      line-height: 1.7;
+      animation: fadeInUp 0.8s ease 0.2s both;
     }
 
-    /* ===== TABS: ORGANIZACIONES / MENTORES ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       ===== TABS =====
+       ============================================================ */
     .tabs-container {
       display: flex;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin: 24px 0 20px 0;
       flex-wrap: wrap;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 60px;
+      padding: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .tab-btn {
       padding: 12px 28px;
-      border-radius: 60px;
-      border: 2px solid #ddd6e8;
-      background: white;
+      border-radius: 40px;
+      border: none;
+      background: transparent;
       font-weight: 700;
-      font-size: 0.95rem;
-      color: #2f2340;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.5);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition);
+      position: relative;
     }
 
     .tab-btn:hover {
-      border-color: var(--morado);
-      background: #f5f0fa;
+      color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .tab-btn.active {
-      background: var(--morado);
+      background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
-      border-color: var(--morado);
-      box-shadow: 0 4px 12px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
+    }
+
+    .tab-btn.active:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.4);
+    }
+
+    .tab-btn:active {
+      transform: scale(0.95);
     }
 
     .tab-content {
       display: none;
+      animation: fadeInUp 0.4s ease;
     }
     .tab-content.active {
       display: block;
     }
 
-    /* ===== SEARCH & FILTERS ===== */
+    @media (max-width: 550px) {
+      .tabs-container {
+        border-radius: 30px;
+        padding: 4px;
+        gap: 4px;
+      }
+      .tab-btn {
+        padding: 10px 16px;
+        font-size: 0.8rem;
+        border-radius: 30px;
+      }
+    }
+
+    /* ============================================================
+       ===== SEARCH =====
+       ============================================================ */
     .search-section {
-      background: white;
-      padding: 24px 28px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
       border-radius: var(--radio);
-      box-shadow: var(--sombra);
+      padding: 24px 28px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
       margin: 10px 0 30px 0;
+      transition: var(--transition);
+    }
+
+    .search-section:hover {
+      border-color: rgba(111, 45, 189, 0.2);
     }
 
     .search-bar {
       display: flex;
       align-items: center;
-      background: #f1edf7;
+      background: rgba(255, 255, 255, 0.06);
       border-radius: 60px;
-      padding: 6px 6px 6px 20px;
-      margin-bottom: 20px;
-      border: 1px solid transparent;
-      transition: 0.2s;
+      padding: 4px 4px 4px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: var(--transition);
     }
+
     .search-bar:focus-within {
       border-color: var(--morado);
-      background: white;
-      box-shadow: 0 0 0 4px rgba(111, 45, 189, 0.12);
+      box-shadow: 0 0 0 4px rgba(111, 45, 189, 0.15);
+      background: rgba(255, 255, 255, 0.08);
     }
+
     .search-bar input {
       flex: 1;
       border: none;
       background: transparent;
-      padding: 14px 8px;
+      padding: 14px 10px;
       font-size: 1rem;
       outline: none;
-      color: #1e1a2b;
+      color: white;
+      font-family: 'Inter', sans-serif;
     }
+
+    .search-bar input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
     .search-bar button {
-      background: var(--morado);
+      background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       border: none;
       color: white;
       padding: 10px 28px;
       border-radius: 40px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: 0.2s;
-      font-size: 0.95rem;
-      letter-spacing: 0.3px;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
     }
+
     .search-bar button:hover {
-      background: #5a1f9e;
-      transform: scale(0.97);
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
+    }
+
+    .search-bar button:active {
+      transform: scale(0.95);
     }
 
     .filter-buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      margin-top: 6px;
-    }
-    .filter-btn {
-      background: white;
-      border: 1px solid #ddd6e8;
-      padding: 8px 18px;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: #2f2340;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-    .filter-btn:hover {
-      background: var(--morado);
-      color: white;
-      border-color: var(--morado);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px -8px rgba(111, 45, 189, 0.3);
-    }
-    .filter-btn.active {
-      background: var(--morado);
-      color: white;
-      border-color: var(--morado);
+      gap: 8px;
+      margin-top: 16px;
     }
 
-    /* ===== GRID DE TARJETAS ===== */
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .filter-btn:hover {
+      background: rgba(111, 45, 189, 0.15);
+      color: white;
+      border-color: rgba(111, 45, 189, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 16px rgba(111, 45, 189, 0.2);
+    }
+
+    .filter-btn:active {
+      transform: scale(0.92);
+    }
+
+    @media (max-width: 600px) {
+      .search-section { padding: 16px; }
+      .search-bar { flex-wrap: wrap; gap: 8px; background: transparent; padding: 0; }
+      .search-bar input { width: 100%; background: rgba(255,255,255,0.06); border-radius: 40px; padding: 12px 18px; }
+      .search-bar button { width: 100%; justify-content: center; }
+      .filter-btn { font-size: 0.7rem; padding: 6px 12px; }
+    }
+
+    /* ============================================================
+       ===== GRID DE TARJETAS =====
+       ============================================================ */
     .grid-cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-      margin: 32px 0 20px 0;
+      gap: 24px;
+      margin: 24px 0;
     }
 
     .card {
-      background: white;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(20px);
       border-radius: var(--radio);
       padding: 24px 22px 28px;
-      box-shadow: var(--sombra);
-      transition: transform 0.25s ease, box-shadow 0.25s;
-      border: 1px solid #f0ebf7;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: var(--transition);
       display: flex;
       flex-direction: column;
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(111, 45, 189, 0.05), transparent);
+      opacity: 0;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
     .card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 24px 40px -12px rgba(111, 45, 189, 0.22);
-      border-color: #d7c8ed;
+      border-color: rgba(111, 45, 189, 0.3);
+      box-shadow: var(--sombra-hover), var(--border-glow);
+    }
+
+    .card:active {
+      transform: scale(0.97);
     }
 
     .card .ods-tag {
       display: inline-block;
-      background: #e8f0fe;
-      color: #1a5ba8;
+      background: rgba(111, 45, 189, 0.2);
+      color: var(--morado-claro);
       font-weight: 600;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       padding: 3px 12px;
       border-radius: 40px;
       letter-spacing: 0.3px;
-      margin-bottom: 6px;
       align-self: flex-start;
+      margin-bottom: 8px;
+      border: 1px solid rgba(111, 45, 189, 0.1);
     }
 
     .card h3 {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 700;
-      color: #1a0f2b;
-      margin-bottom: 6px;
+      color: white;
+      margin-bottom: 4px;
+      line-height: 1.3;
     }
+
     .card .tag {
       display: inline-block;
-      background: #e4d7f5;
-      color: var(--morado);
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--naranja);
       font-weight: 600;
-      font-size: 0.75rem;
-      padding: 4px 16px;
+      font-size: 0.7rem;
+      padding: 3px 14px;
       border-radius: 40px;
-      letter-spacing: 0.3px;
-      margin-bottom: 12px;
       align-self: flex-start;
+      margin-bottom: 10px;
+      border: 1px solid rgba(245, 158, 11, 0.1);
     }
+
     .card .desc {
-      color: #2f2a3b;
-      line-height: 1.5;
-      margin: 8px 0 16px 0;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      font-size: 0.9rem;
       flex: 1;
-      font-size: 0.95rem;
+      margin-bottom: 14px;
     }
+
     .card .btn-vinculacion {
-      background: var(--verde-scout);
+      background: linear-gradient(135deg, var(--verde-scout), var(--verde-claro));
       color: white;
       border: none;
-      padding: 12px 12px;
+      padding: 12px 16px;
       border-radius: 60px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      margin-top: 8px;
-      box-shadow: 0 4px 8px rgba(0, 154, 68, 0.15);
-    }
-    .card .btn-vinculacion:hover {
-      background: #007d38;
-      transform: scale(1.01);
-      box-shadow: 0 8px 16px rgba(0, 154, 68, 0.25);
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 16px rgba(0, 154, 68, 0.2);
     }
 
-    /* ===== TARJETAS DE MENTORES ===== */
+    .card .btn-vinculacion:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(0, 154, 68, 0.3);
+    }
+
+    .card .btn-vinculacion:active {
+      transform: scale(0.95);
+    }
+
+    @media (max-width: 900px) {
+      .grid-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .grid-cards { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       ===== TARJETAS DE MENTORES =====
+       ============================================================ */
     .card-mentor {
-      background: white;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(20px);
       border-radius: var(--radio);
       padding: 24px 22px 28px;
-      box-shadow: var(--sombra);
-      transition: transform 0.25s ease, box-shadow 0.25s;
-      border: 1px solid #f0ebf7;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: var(--transition);
       display: flex;
       flex-direction: column;
     }
+
     .card-mentor:hover {
       transform: translateY(-8px);
-      box-shadow: 0 24px 40px -12px rgba(111, 45, 189, 0.22);
-      border-color: #d7c8ed;
+      border-color: rgba(111, 45, 189, 0.3);
+      box-shadow: var(--sombra-hover), var(--border-glow);
     }
 
     .card-mentor .mentor-header {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 8px;
     }
 
     .card-mentor .mentor-avatar {
-      width: 50px;
-      height: 50px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
-      background: var(--morado);
+      background: linear-gradient(135deg, var(--morado), var(--morado-claro));
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
-      font-weight: 700;
+      font-size: 1.3rem;
+      font-weight: 800;
       flex-shrink: 0;
+      box-shadow: 0 0 30px rgba(111, 45, 189, 0.2);
+      transition: var(--transition);
+    }
+
+    .card-mentor:hover .mentor-avatar {
+      transform: scale(1.05) rotate(-5deg);
+      box-shadow: 0 0 40px rgba(111, 45, 189, 0.3);
     }
 
     .card-mentor .mentor-info h3 {
       font-size: 1.1rem;
       font-weight: 700;
-      color: #1a0f2b;
+      color: white;
     }
+
     .card-mentor .mentor-info .sub {
       font-size: 0.8rem;
-      color: #73608a;
+      color: rgba(255, 255, 255, 0.4);
     }
 
     .card-mentor .skills {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin: 10px 0 12px 0;
+      margin: 10px 0;
     }
+
     .card-mentor .skills span {
-      background: #ede6f5;
-      color: var(--morado);
+      background: rgba(111, 45, 189, 0.15);
+      color: var(--morado-claro);
       padding: 4px 12px;
       border-radius: 40px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 600;
+      border: 1px solid rgba(111, 45, 189, 0.1);
+    }
+
+    .card-mentor .desc {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 4px 0 12px;
     }
 
     .card-mentor .contact-buttons {
@@ -469,97 +728,119 @@
       gap: 10px;
       margin-top: 8px;
     }
+
     .card-mentor .contact-buttons button {
       padding: 10px 16px;
       border-radius: 60px;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       border: none;
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition);
       flex: 1;
+      font-family: 'Inter', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
     }
-    .btn-whatsapp {
-      background: #25D366;
-      color: white;
-      box-shadow: 0 4px 8px rgba(37, 211, 102, 0.2);
-    }
-    .btn-whatsapp:hover {
-      background: #1da851;
-      transform: scale(1.02);
-    }
-    .btn-email-mentor {
-      background: var(--morado);
-      color: white;
-      box-shadow: 0 4px 8px rgba(111, 45, 189, 0.2);
-    }
-    .btn-email-mentor:hover {
-      background: #551b99;
-      transform: scale(1.02);
+
+    .card-mentor .contact-buttons button:active {
+      transform: scale(0.95);
     }
 
-    /* ===== BOTÓN PARA REGISTRARSE COMO MENTOR ===== */
+    .btn-whatsapp {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: white;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.2);
+    }
+
+    .btn-whatsapp:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
+    }
+
+    .btn-email-mentor {
+      background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
+      color: white;
+      box-shadow: 0 4px 16px rgba(111, 45, 189, 0.2);
+    }
+
+    .btn-email-mentor:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.3);
+    }
+
+    @media (max-width: 600px) {
+      .card-mentor .contact-buttons { flex-direction: column; }
+    }
+
+    /* ============================================================
+       ===== BOTONES =====
+       ============================================================ */
     .btn-registro-mentor {
-      background: var(--morado);
+      background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
       border: none;
-      padding: 16px 32px;
+      padding: 14px 32px;
       border-radius: 60px;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.95rem;
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition);
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 4px 12px rgba(111, 45, 189, 0.3);
-      margin: 10px 0 20px 0;
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
+      font-family: 'Inter', sans-serif;
+      margin: 10px 0 20px;
     }
+
     .btn-registro-mentor:hover {
-      background: #551b99;
-      transform: scale(1.02);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 40px rgba(111, 45, 189, 0.4);
     }
 
-    /* ===== BADGE "PENDIENTE" ===== */
-    .badge-pendiente {
-      background: #fef3c7;
-      color: #92400e;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 40px;
-      display: inline-block;
-      margin-left: 8px;
+    .btn-registro-mentor:active {
+      transform: scale(0.95);
     }
 
-    /* ===== ADMIN PANEL ===== */
+    /* ============================================================
+       ===== ADMIN PANEL =====
+       ============================================================ */
     .admin-panel {
-      background: white;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(20px);
       border-radius: var(--radio);
-      padding: 24px;
-      box-shadow: var(--sombra);
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
       margin: 20px 0;
     }
 
     .admin-panel h2 {
-      color: var(--morado);
+      color: white;
       font-size: 1.5rem;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
     .admin-panel .badge-count {
-      background: var(--morado);
+      background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
       font-size: 0.7rem;
       padding: 2px 12px;
       border-radius: 40px;
+    }
+
+    .admin-panel h3 {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.1rem;
     }
 
     .admin-table {
@@ -569,20 +850,22 @@
     }
 
     .admin-table th {
-      background: #f5f0fa;
-      color: #2f2340;
-      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.6);
+      padding: 12px 16px;
       text-align: left;
-      font-weight: 700;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .admin-table td {
-      padding: 10px 14px;
-      border-bottom: 1px solid #f0ebf7;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.8);
     }
 
     .admin-table tr:hover td {
-      background: #faf8fc;
+      background: rgba(255, 255, 255, 0.02);
     }
 
     .admin-table .estado {
@@ -593,158 +876,267 @@
       font-weight: 600;
     }
     .admin-table .estado.activo {
-      background: #d4edda;
-      color: #155724;
+      background: rgba(0, 154, 68, 0.2);
+      color: var(--verde-claro);
     }
     .admin-table .estado.pendiente {
-      background: #fff3cd;
-      color: #856404;
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--naranja);
     }
 
     .btn-accion {
-      padding: 4px 14px;
+      padding: 5px 14px;
       border-radius: 40px;
       border: none;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.75rem;
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
     }
+
+    .btn-accion:active {
+      transform: scale(0.92);
+    }
+
     .btn-accion.aprobar {
-      background: var(--verde-scout);
+      background: linear-gradient(135deg, var(--verde-scout), var(--verde-claro));
       color: white;
     }
     .btn-accion.aprobar:hover {
-      background: #007d38;
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(0, 154, 68, 0.3);
     }
+
     .btn-accion.rechazar {
-      background: #dc3545;
+      background: linear-gradient(135deg, #EF4444, #DC2626);
       color: white;
     }
     .btn-accion.rechazar:hover {
-      background: #b02a37;
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
     }
+
     .btn-accion.eliminar {
-      background: #6c757d;
-      color: white;
+      background: rgba(239, 68, 68, 0.15);
+      color: #EF4444;
+      border: 1px solid rgba(239, 68, 68, 0.1);
     }
     .btn-accion.eliminar:hover {
-      background: #5a6268;
+      background: rgba(239, 68, 68, 0.25);
     }
 
     .btn-agregar {
-      background: var(--verde-scout);
+      background: linear-gradient(135deg, var(--verde-scout), var(--verde-claro));
       color: white;
       border: none;
-      padding: 8px 20px;
+      padding: 8px 22px;
       border-radius: 40px;
       font-weight: 700;
       cursor: pointer;
-      margin-bottom: 12px;
-      transition: 0.2s;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
     }
+
     .btn-agregar:hover {
-      background: #007d38;
-      transform: scale(1.02);
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(0, 154, 68, 0.3);
     }
 
-    @media (max-width: 900px) {
-      .grid-cards {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    .btn-agregar:active {
+      transform: scale(0.95);
     }
+
+    .admin-only { display: none; }
+    .admin-only.visible { display: block; }
+
     @media (max-width: 600px) {
-      .grid-cards {
-        grid-template-columns: 1fr;
-      }
-      .filter-buttons {
-        gap: 6px;
-      }
-      .filter-btn {
-        font-size: 0.75rem;
-        padding: 6px 12px;
-      }
-      .card-mentor .contact-buttons {
-        flex-direction: column;
-      }
-      .admin-table {
-        font-size: 0.7rem;
-      }
-      .admin-table th,
-      .admin-table td {
-        padding: 6px 8px;
-      }
+      .admin-panel { padding: 16px; }
+      .admin-table { font-size: 0.7rem; }
+      .admin-table th, .admin-table td { padding: 8px 10px; }
     }
 
-    /* ===== MODAL LOGIN ===== */
-    .login-overlay {
+    /* ============================================================
+       ===== MODALES =====
+       ============================================================ */
+    .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(10, 5, 20, 0.5);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 2000;
+      z-index: 1000;
       visibility: hidden;
       opacity: 0;
-      transition: opacity 0.3s ease, visibility 0.3s;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
       padding: 20px;
     }
-    .login-overlay.open {
+
+    .modal-overlay.open {
       visibility: visible;
       opacity: 1;
     }
 
-    .login-panel {
-      background: white;
+    .modal-panel {
+      background: rgba(20, 12, 35, 0.95);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       width: 100%;
-      max-width: 400px;
-      border-radius: 24px;
-      padding: 32px 28px;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
-      animation: fadeUp 0.3s ease;
+      max-width: 700px;
+      max-height: 90vh;
+      border-radius: 28px;
+      padding: 28px 32px;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), var(--border-glow);
+      overflow-y: auto;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .login-panel h2 {
+    .modal-overlay.open .modal-panel {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: sticky;
+      top: 0;
+      float: right;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.5);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .modal-close:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: #EF4444;
+      transform: rotate(90deg);
+    }
+
+    .modal-panel h2 {
+      color: white;
       font-size: 1.6rem;
-      color: var(--morado);
-      text-align: center;
       margin-bottom: 4px;
     }
 
-    .login-panel .sub {
-      text-align: center;
-      color: #73608a;
-      margin-bottom: 20px;
+    .modal-panel .sub {
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 16px;
     }
 
-    .login-panel label {
+    .modal-panel label {
       font-weight: 600;
       font-size: 0.9rem;
-      color: #2b1d3b;
+      color: rgba(255, 255, 255, 0.7);
       display: flex;
       flex-direction: column;
       gap: 4px;
-      margin-bottom: 14px;
     }
 
-    .login-panel input {
-      padding: 12px 14px;
-      border: 1px solid #d5cbe0;
-      border-radius: 12px;
+    .modal-panel input,
+    .modal-panel textarea,
+    .modal-panel select {
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
       font-size: 0.95rem;
-      background: #fcfafd;
-      transition: 0.2s;
+      background: rgba(255, 255, 255, 0.04);
+      color: white;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
     }
-    .login-panel input:focus {
+
+    .modal-panel input:focus,
+    .modal-panel textarea:focus,
+    .modal-panel select:focus {
       outline: 2px solid var(--morado);
       border-color: transparent;
-      background: white;
+      background: rgba(255, 255, 255, 0.06);
     }
 
-    .login-panel .btn-login-submit {
-      background: var(--morado);
+    .modal-panel input::placeholder,
+    .modal-panel textarea::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-panel textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    .modal-panel .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .modal-panel .form-actions button {
+      padding: 14px 24px;
+      border-radius: 60px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      flex: 1;
+      min-width: 120px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .modal-panel .form-actions button:active {
+      transform: scale(0.95);
+    }
+
+    .btn-volver {
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .btn-volver:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-enviar {
+      background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
+      color: white;
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
+    }
+    .btn-enviar:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.4);
+    }
+
+    .btn-guardar-org {
+      background: linear-gradient(135deg, var(--verde-scout), var(--verde-claro));
+      color: white;
+      box-shadow: 0 4px 20px rgba(0, 154, 68, 0.3);
+    }
+    .btn-guardar-org:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(0, 154, 68, 0.4);
+    }
+
+    .btn-cancelar-org {
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.7);
+    }
+    .btn-cancelar-org:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-login-submit {
+      background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
       border: none;
       padding: 14px;
@@ -752,251 +1144,87 @@
       font-weight: 700;
       font-size: 1rem;
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition);
       width: 100%;
       margin-top: 4px;
-    }
-    .login-panel .btn-login-submit:hover {
-      background: #551b99;
-      transform: scale(1.01);
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
     }
 
-    .login-panel .btn-cerrar-login {
+    .btn-login-submit:hover {
+      transform: scale(1.01);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.4);
+    }
+
+    .btn-login-submit:active {
+      transform: scale(0.97);
+    }
+
+    .btn-cerrar-login {
       background: transparent;
-      color: #73608a;
+      color: rgba(255, 255, 255, 0.4);
       border: none;
       padding: 10px;
       font-weight: 600;
       cursor: pointer;
       width: 100%;
       margin-top: 6px;
+      font-family: 'Inter', sans-serif;
     }
-    .login-panel .btn-cerrar-login:hover {
-      color: #2b1d3b;
+
+    .btn-cerrar-login:hover {
+      color: rgba(255, 255, 255, 0.7);
     }
 
     .login-error {
-      color: #dc3545;
+      color: #EF4444;
       font-size: 0.85rem;
       text-align: center;
       margin-top: 8px;
       display: none;
     }
 
-    /* ===== MODAL AGREGAR ORGANIZACIÓN ===== */
-    .org-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 5, 20, 0.5);
-      backdrop-filter: blur(4px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1800;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.3s ease, visibility 0.3s;
-      padding: 20px;
-    }
-    .org-overlay.open {
-      visibility: visible;
-      opacity: 1;
-    }
+    /* ============================================================
+       ===== FICHA =====
+       ============================================================ */
+    .ficha-view { display: block; }
+    .ficha-view.hidden { display: none; }
 
-    .org-panel {
-      background: white;
-      width: 100%;
-      max-width: 540px;
-      border-radius: 24px;
-      padding: 28px 32px;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
-      animation: fadeUp 0.3s ease;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .org-panel h2 {
-      font-size: 1.5rem;
-      color: var(--morado);
-      margin-bottom: 4px;
-    }
-
-    .org-panel .sub {
-      color: #3d3250;
-      margin-bottom: 16px;
-      font-size: 0.9rem;
-    }
-
-    .org-panel form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .org-panel label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #2b1d3b;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .org-panel input,
-    .org-panel textarea {
-      padding: 10px 14px;
-      border: 1px solid #d5cbe0;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      background: #fcfafd;
-      transition: 0.2s;
-    }
-    .org-panel input:focus,
-    .org-panel textarea:focus {
-      outline: 2px solid var(--morado);
-      border-color: transparent;
-      background: white;
-    }
-    .org-panel textarea {
-      min-height: 60px;
-      resize: vertical;
-    }
-
-    .org-panel .form-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 8px;
-      flex-wrap: wrap;
-    }
-    .org-panel .form-actions button {
-      padding: 12px 20px;
-      border-radius: 60px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: 0.2s;
-      flex: 1;
-    }
-    .btn-cancelar-org {
-      background: #ece6f3;
-      color: var(--morado);
-    }
-    .btn-cancelar-org:hover {
-      background: #ddd2ea;
-    }
-    .btn-guardar-org {
-      background: var(--verde-scout);
-      color: white;
-      box-shadow: 0 4px 12px rgba(0, 154, 68, 0.3);
-    }
-    .btn-guardar-org:hover {
-      background: #007d38;
-      transform: scale(1.02);
-    }
-
-    /* ===== MODAL PRINCIPAL ===== */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 5, 20, 0.45);
-      backdrop-filter: blur(6px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.3s ease, visibility 0.3s;
-      padding: 20px;
-    }
-    .modal-overlay.open {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    .modal-panel {
-      background: white;
-      width: 100%;
-      max-width: 780px;
-      max-height: 92vh;
-      border-radius: 28px;
-      padding: 28px 32px 32px;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2);
-      overflow-y: auto;
-      position: relative;
-      transition: all 0.3s ease;
-    }
-
-    .modal-close {
-      position: sticky;
-      top: 0;
-      float: right;
-      background: #f0ebf7;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      font-size: 1.6rem;
-      cursor: pointer;
-      color: #3d2a55;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      margin-bottom: 10px;
-    }
-    .modal-close:hover {
-      background: var(--morado);
-      color: white;
-      transform: rotate(90deg);
-    }
-
-    /* Ficha */
-    .ficha-view {
-      display: block;
-      animation: fadeUp 0.3s ease;
-    }
-    .ficha-view.hidden {
-      display: none;
-    }
-
-    .ficha-view h2 {
-      font-size: 1.9rem;
-      color: var(--morado);
-      margin-bottom: 4px;
-      line-height: 1.2;
-    }
     .ficha-view .sector-tag {
       display: inline-block;
-      background: #e4d7f5;
-      color: var(--morado);
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--naranja);
       font-weight: 600;
       font-size: 0.8rem;
       padding: 4px 18px;
       border-radius: 40px;
-      margin: 4px 0 14px 0;
+      margin: 4px 0 14px;
+      border: 1px solid rgba(245, 158, 11, 0.1);
     }
+
     .ficha-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px 24px;
-      margin: 16px 0 18px 0;
+      margin: 16px 0 18px;
     }
+
     .ficha-grid .item {
       display: flex;
       flex-direction: column;
     }
+
     .ficha-grid .item label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 700;
       text-transform: uppercase;
-      color: #73608a;
+      color: rgba(255, 255, 255, 0.3);
       letter-spacing: 0.5px;
     }
+
     .ficha-grid .item span {
       font-size: 0.95rem;
-      color: #1e142b;
+      color: rgba(255, 255, 255, 0.9);
       word-break: break-word;
     }
 
@@ -1005,9 +1233,10 @@
       height: 200px;
       border-radius: 16px;
       overflow: hidden;
-      margin: 12px 0 18px 0;
-      border: 1px solid #e2d9ed;
+      margin: 12px 0 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
+
     .mapa-container iframe {
       width: 100%;
       height: 100%;
@@ -1015,159 +1244,122 @@
     }
 
     .btn-accion-grande {
-      background: var(--naranja);
+      background: linear-gradient(135deg, var(--naranja), var(--naranja-oscuro));
       color: white;
       border: none;
       padding: 16px 24px;
       border-radius: 60px;
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition);
       width: 100%;
-      box-shadow: 0 4px 12px rgba(246, 139, 44, 0.3);
-      margin-top: 8px;
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+      font-family: 'Inter', sans-serif;
     }
+
     .btn-accion-grande:hover {
-      background: #e07a1e;
       transform: scale(1.01);
+      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4);
     }
 
-    /* Formulario */
-    .form-view {
-      display: none;
-      animation: fadeUp 0.3s ease;
-    }
-    .form-view.active {
-      display: block;
+    .btn-accion-grande:active {
+      transform: scale(0.97);
     }
 
-    .form-view h2 {
-      font-size: 1.7rem;
-      color: var(--morado);
-      margin-bottom: 4px;
-    }
-    .form-view .sub {
-      color: #3f3250;
-      margin-bottom: 20px;
-      border-left: 4px solid var(--naranja);
-      padding-left: 16px;
-    }
+    .form-view { display: none; }
+    .form-view.active { display: block; }
 
-    .form-view form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .form-view label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #2b1d3b;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .form-view input,
-    .form-view textarea,
-    .form-view select {
-      padding: 12px 14px;
-      border: 1px solid #d5cbe0;
-      border-radius: 14px;
-      font-size: 0.95rem;
-      background: #fcfafd;
-      transition: 0.2s;
-    }
-    .form-view input:focus,
-    .form-view textarea:focus,
-    .form-view select:focus {
-      outline: 2px solid var(--morado);
-      border-color: transparent;
-      background: white;
-    }
-    .form-view textarea {
-      min-height: 70px;
-      resize: vertical;
-    }
-    .form-view input[type="file"] {
-      padding: 8px 6px;
-      background: white;
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 12px;
-      flex-wrap: wrap;
-    }
-    .form-actions button {
-      padding: 14px 24px;
-      border-radius: 60px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: 0.2s;
-      flex: 1;
-      min-width: 120px;
-    }
-    .btn-volver {
-      background: #ece6f3;
-      color: var(--morado);
-    }
-    .btn-volver:hover {
-      background: #ddd2ea;
-    }
-    .btn-enviar {
-      background: var(--morado);
-      color: white;
-      box-shadow: 0 4px 12px rgba(111, 45, 189, 0.3);
-    }
-    .btn-enviar:hover {
-      background: #551b99;
-      transform: scale(1.01);
-    }
-
-    /* ===== MODAL DE DECISIÓN POST-PDF ===== */
-    .decision-overlay {
+    /* ============================================================
+       ===== TOAST =====
+       ============================================================ */
+    .toast-success {
       position: fixed;
-      inset: 0;
-      background: rgba(10, 5, 20, 0.5);
-      backdrop-filter: blur(4px);
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      background: rgba(20, 12, 35, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 18px 32px;
+      border-radius: 60px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), var(--border-glow);
       display: flex;
-      justify-content: center;
       align-items: center;
-      z-index: 1500;
-      visibility: hidden;
+      gap: 16px;
+      font-weight: 600;
+      color: white;
+      z-index: 2000;
       opacity: 0;
-      transition: opacity 0.3s ease, visibility 0.3s;
-      padding: 20px;
-    }
-    .decision-overlay.open {
-      visibility: visible;
-      opacity: 1;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
     }
 
+    .toast-success.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .toast-success .check {
+      background: linear-gradient(135deg, var(--verde-scout), var(--verde-claro));
+      color: white;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       ===== RESPONSIVE AJUSTES =====
+       ============================================================ */
+    @media (max-width: 600px) {
+      .modal-panel { padding: 20px 16px; max-height: 96vh; }
+      .ficha-grid { grid-template-columns: 1fr; gap: 8px; }
+      .mapa-container { height: 160px; }
+      .form-actions { flex-direction: column; }
+      .form-actions button { flex: unset; width: 100%; }
+      .decision-panel { padding: 24px 20px; }
+      .contacto-panel { padding: 24px 20px; }
+      .contacto-item { flex-direction: column; text-align: center; gap: 8px; }
+      .mentor-panel { padding: 24px 20px; }
+      .org-panel { padding: 24px 20px; }
+      .login-panel { padding: 24px 20px; }
+      .toast-success { padding: 14px 20px; font-size: 0.85rem; }
+      .toast-success .check { width: 28px; height: 28px; font-size: 0.9rem; }
+    }
+
+    /* ============================================================
+       ===== DECISION MODAL =====
+       ============================================================ */
     .decision-panel {
-      background: white;
-      width: 100%;
+      background: rgba(20, 12, 35, 0.95);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       max-width: 520px;
       border-radius: 28px;
-      padding: 32px 36px 36px;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+      padding: 32px 36px;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), var(--border-glow);
       text-align: center;
-      animation: fadeUp 0.3s ease;
+      width: 100%;
     }
 
     .decision-panel h2 {
+      color: var(--verde-claro);
       font-size: 1.8rem;
-      color: var(--verde-scout);
       margin-bottom: 8px;
     }
 
     .decision-panel p {
-      color: #3d3250;
+      color: rgba(255, 255, 255, 0.6);
       margin-bottom: 24px;
       font-size: 1rem;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .decision-buttons {
@@ -1183,74 +1375,62 @@
       font-size: 1rem;
       border: none;
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .decision-buttons button:active {
+      transform: scale(0.95);
     }
 
     .btn-enviar-asociacion {
-      background: var(--morado);
+      background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
       color: white;
-      box-shadow: 0 4px 12px rgba(111, 45, 189, 0.3);
+      box-shadow: 0 4px 20px rgba(111, 45, 189, 0.3);
     }
     .btn-enviar-asociacion:hover {
-      background: #551b99;
       transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(111, 45, 189, 0.4);
     }
 
     .btn-solo-continuar {
-      background: #ece6f3;
-      color: var(--morado);
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.7);
     }
     .btn-solo-continuar:hover {
-      background: #ddd2ea;
-      transform: scale(1.02);
+      background: rgba(255, 255, 255, 0.1);
     }
 
-    /* ===== MODAL DE CONTACTO ===== */
-    .contacto-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 5, 20, 0.5);
-      backdrop-filter: blur(4px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1600;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.3s ease, visibility 0.3s;
-      padding: 20px;
-    }
-    .contacto-overlay.open {
-      visibility: visible;
-      opacity: 1;
-    }
-
+    /* ============================================================
+       ===== CONTACTO MODAL =====
+       ============================================================ */
     .contacto-panel {
-      background: white;
-      width: 100%;
+      background: rgba(20, 12, 35, 0.95);
+      backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       max-width: 480px;
       border-radius: 28px;
-      padding: 32px 36px 36px;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
+      padding: 32px 36px;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), var(--border-glow);
       text-align: center;
-      animation: fadeUp 0.3s ease;
+      width: 100%;
     }
 
     .contacto-panel h2 {
+      color: white;
       font-size: 1.4rem;
-      color: var(--morado);
       margin-bottom: 4px;
     }
 
     .contacto-panel .org-name {
       font-size: 1rem;
       font-weight: 600;
-      color: #1a0f2b;
+      color: var(--morado-claro);
       margin-bottom: 16px;
     }
 
     .contacto-panel .sub {
-      color: #3d3250;
+      color: rgba(255, 255, 255, 0.4);
       margin-bottom: 20px;
       font-size: 0.9rem;
     }
@@ -1260,17 +1440,18 @@
       align-items: center;
       gap: 16px;
       padding: 16px 20px;
-      background: #f5f0fa;
+      background: rgba(255, 255, 255, 0.04);
       border-radius: 16px;
       margin-bottom: 12px;
       text-align: left;
-      transition: 0.2s;
+      transition: var(--transition);
       cursor: pointer;
-      border: 1px solid transparent;
+      border: 1px solid rgba(255, 255, 255, 0.04);
     }
+
     .contacto-item:hover {
-      border-color: var(--morado);
-      background: #ede6f5;
+      border-color: rgba(111, 45, 189, 0.2);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .contacto-item .icono {
@@ -1286,245 +1467,84 @@
       font-size: 0.7rem;
       font-weight: 700;
       text-transform: uppercase;
-      color: #73608a;
+      color: rgba(255, 255, 255, 0.3);
       letter-spacing: 0.3px;
     }
     .contacto-item .info .valor {
       font-size: 1rem;
       font-weight: 600;
-      color: #1e142b;
+      color: white;
       word-break: break-all;
     }
 
     .btn-cerrar-contacto {
-      background: #ece6f3;
-      color: var(--morado);
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.6);
       padding: 12px 24px;
       border-radius: 60px;
       font-weight: 700;
       border: none;
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition);
       margin-top: 8px;
       width: 100%;
+      font-family: 'Inter', sans-serif;
     }
+
     .btn-cerrar-contacto:hover {
-      background: #ddd2ea;
-    }
-
-    /* ===== MODAL REGISTRO MENTOR ===== */
-    .mentor-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 5, 20, 0.5);
-      backdrop-filter: blur(4px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1700;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.3s ease, visibility 0.3s;
-      padding: 20px;
-    }
-    .mentor-overlay.open {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    .mentor-panel {
-      background: white;
-      width: 100%;
-      max-width: 520px;
-      border-radius: 28px;
-      padding: 32px 36px 36px;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
-      animation: fadeUp 0.3s ease;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .mentor-panel h2 {
-      font-size: 1.6rem;
-      color: var(--morado);
-      margin-bottom: 4px;
-    }
-
-    .mentor-panel .sub {
-      color: #3d3250;
-      margin-bottom: 20px;
-      font-size: 0.95rem;
-    }
-
-    .mentor-panel form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .mentor-panel label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #2b1d3b;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .mentor-panel input,
-    .mentor-panel textarea,
-    .mentor-panel select {
-      padding: 12px 14px;
-      border: 1px solid #d5cbe0;
-      border-radius: 14px;
-      font-size: 0.95rem;
-      background: #fcfafd;
-      transition: 0.2s;
-    }
-    .mentor-panel input:focus,
-    .mentor-panel textarea:focus,
-    .mentor-panel select:focus {
-      outline: 2px solid var(--morado);
-      border-color: transparent;
-      background: white;
-    }
-    .mentor-panel textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    .mentor-panel .form-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 8px;
-      flex-wrap: wrap;
-    }
-    .mentor-panel .form-actions button {
-      padding: 14px 24px;
-      border-radius: 60px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: 0.2s;
-      flex: 1;
-    }
-    .btn-cancelar-mentor {
-      background: #ece6f3;
-      color: var(--morado);
-    }
-    .btn-cancelar-mentor:hover {
-      background: #ddd2ea;
-    }
-    .btn-registrar-mentor {
-      background: var(--morado);
-      color: white;
-      box-shadow: 0 4px 12px rgba(111, 45, 189, 0.3);
-    }
-    .btn-registrar-mentor:hover {
-      background: #551b99;
-      transform: scale(1.02);
-    }
-
-    /* Toast */
-    .toast-success {
-      position: fixed;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%) scale(0.9);
-      background: white;
-      padding: 20px 32px;
-      border-radius: 60px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      font-weight: 600;
-      color: #004d2b;
-      border: 1px solid var(--verde-scout);
-      z-index: 2000;
-      opacity: 0;
-      visibility: hidden;
-      transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      pointer-events: none;
-    }
-    .toast-success.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) scale(1);
-    }
-    .toast-success .check {
-      background: var(--verde-scout);
-      color: white;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 600px) {
-      .modal-panel { padding: 20px 16px; max-height: 96vh; }
-      .ficha-grid { grid-template-columns: 1fr; gap: 8px; }
-      .mapa-container { height: 160px; }
-      .form-actions { flex-direction: column; }
-      .form-actions button { flex: unset; width: 100%; }
-      .decision-panel { padding: 24px 20px; }
-      .contacto-panel { padding: 24px 20px; }
-      .contacto-item { flex-direction: column; text-align: center; gap: 8px; }
-      .mentor-panel { padding: 24px 20px; }
-      .org-panel { padding: 24px 20px; }
-      .login-panel { padding: 24px 20px; }
+      background: rgba(255, 255, 255, 0.1);
     }
   </style>
 </head>
 <body>
 
-<div class="container">
+<!-- ===== PARTÍCULAS ===== -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- ===== GLOW ORBS ===== -->
+<div class="glow-orb glow-orb--1"></div>
+<div class="glow-orb glow-orb--2"></div>
+
+<!-- ============================================================
+     ===== CONTENEDOR PRINCIPAL =====
+     ============================================================ -->
+<div class="app-wrapper">
+
   <!-- ===== NAVBAR ===== -->
-  <nav class="navbar">
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
     <div class="logo-group">
       <img src="as.jpg" alt="Scouts de México" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%236F2DBD%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3EAS%3C/text%3E%3C/svg%3E'">
-    </div>
-    <div class="logo-group navbar-center">
       <img src="red slp logo.jpg" alt="Red de Jóvenes SLP" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2244%22%3E%3Crect width=%22120%22 height=%2244%22 fill=%22%23009A44%22/%3E%3Ctext x=%226%22 y=%2230%22 fill=%22white%22 font-size=%2216%22%3ERed%20SLP%3C/text%3E%3C/svg%3E'">
-    </div>
-    <div class="logo-group">
-      <img src="Provincia.jpg" alt="Provincia SLP" class="logo-centenario" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2248%22%3E%3Crect width=%22120%22 height=%2248%22 fill=%22%23f68b2c%22/%3E%3Ctext x=%226%22 y=%2232%22 fill=%22white%22 font-size=%2216%22%3EProvincia%3C/text%3E%3C/svg%3E'">
+      <img src="Provincia.jpg" alt="Provincia SLP" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2248%22%3E%3Crect width=%22120%22 height=%2248%22 fill=%22%23f68b2c%22/%3E%3Ctext x=%226%22 y=%2232%22 fill=%22white%22 font-size=%2216%22%3EProvincia%3C/text%3E%3C/svg%3E'">
     </div>
     <div class="nav-actions" id="navActions">
-      <button class="btn-login" id="btnLogin">🔐 Admin</button>
+      <button class="btn-login" id="btnLogin" aria-label="Iniciar sesión como administrador">🔐 Admin</button>
     </div>
   </nav>
 
   <!-- ===== HERO ===== -->
-  <section class="hero">
-    <h1>Ustedes proponen las ideas,<br>nosotros abrimos las puertas.</h1>
+  <section class="hero" aria-label="Encabezado principal">
+    <div class="badge-hero">✨ Red de Jóvenes · ConectaRed</div>
+    <h1>Ustedes proponen las ideas,<br><span class="highlight">nosotros abrimos las puertas</span></h1>
     <p class="sub">La Red no organiza proyectos, provee las llaves para que los Clanes tomen la iniciativa e impacten su entorno.</p>
   </section>
 
   <!-- ===== TABS ===== -->
-  <div class="tabs-container">
-    <button class="tab-btn active" data-tab="organizaciones">🏢 Organizaciones</button>
-    <button class="tab-btn" data-tab="mentores">🧭 Mentores Scouts</button>
-    <button class="tab-btn admin-only" data-tab="admin" id="tabAdminBtn">🔐 Panel Admin</button>
+  <div class="tabs-container" role="tablist" aria-label="Secciones">
+    <button class="tab-btn active" data-tab="organizaciones" role="tab" aria-selected="true" aria-label="Organizaciones">🏢 Organizaciones</button>
+    <button class="tab-btn" data-tab="mentores" role="tab" aria-selected="false" aria-label="Mentores Scouts">🧭 Mentores Scouts</button>
+    <button class="tab-btn admin-only" data-tab="admin" id="tabAdminBtn" role="tab" aria-selected="false" aria-label="Panel de Administración">🔐 Panel Admin</button>
   </div>
 
   <!-- ===== TAB: ORGANIZACIONES ===== -->
-  <div class="tab-content active" id="tabOrganizaciones">
+  <div class="tab-content active" id="tabOrganizaciones" role="tabpanel">
     <div class="search-section">
       <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Busca por nombre, sector, ODS o palabras clave...">
-        <button id="searchBtn">🔍 Buscar</button>
+        <input type="text" id="searchInput" placeholder="🔍 Busca por nombre, sector, ODS o palabras clave..." aria-label="Búsqueda de organizaciones">
+        <button id="searchBtn" aria-label="Buscar">Buscar</button>
       </div>
-      <div class="filter-buttons" id="filterButtons">
-        <button class="filter-btn active" data-filter="all">🌐 Todas</button>
+      <div class="filter-buttons" id="filterButtons" role="group" aria-label="Filtros">
+        <button class="filter-btn active" data-filter="all" aria-pressed="true">🌐 Todas</button>
         <button class="filter-btn" data-filter="ODS 4">📚 ODS 4 · Educación</button>
         <button class="filter-btn" data-filter="ODS 3">🏥 ODS 3 · Salud</button>
         <button class="filter-btn" data-filter="ODS 10">⚖️ ODS 10 · Desigualdad</button>
@@ -1536,79 +1556,82 @@
         <button class="filter-btn" data-filter="ODS 17">🤝 ODS 17 · Alianzas</button>
       </div>
     </div>
-
-    <div class="grid-cards" id="cardsContainer"></div>
+    <div class="grid-cards" id="cardsContainer" role="list" aria-label="Lista de organizaciones"></div>
   </div>
 
   <!-- ===== TAB: MENTORES ===== -->
-  <div class="tab-content" id="tabMentores">
+  <div class="tab-content" id="tabMentores" role="tabpanel">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
-      <h2 style="color: var(--morado); font-size: 1.5rem;">🧭 Mentores Scouts Disponibles</h2>
-      <button class="btn-registro-mentor" id="btnRegistroMentor">➕ Registrar como Mentor</button>
+      <h2 style="color: white; font-size: 1.5rem;">🧭 Mentores Scouts Disponibles</h2>
+      <button class="btn-registro-mentor" id="btnRegistroMentor" aria-label="Registrarse como mentor">➕ Registrar como Mentor</button>
     </div>
-    <p style="color: #3d3250; margin-bottom: 20px;">Conéctate con Rovers y Scouts con experiencia que pueden guiar tu proyecto.</p>
-    <div class="grid-cards" id="mentoresContainer"></div>
+    <p style="color: rgba(255,255,255,0.5); margin-bottom: 20px;">Conéctate con Rovers y Scouts con experiencia que pueden guiar tu proyecto.</p>
+    <div class="grid-cards" id="mentoresContainer" role="list" aria-label="Lista de mentores"></div>
   </div>
 
   <!-- ===== TAB: ADMIN ===== -->
-  <div class="tab-content admin-only" id="tabAdmin">
+  <div class="tab-content admin-only" id="tabAdmin" role="tabpanel">
     <div class="admin-panel">
       <h2>🔐 Panel de Administración</h2>
 
       <!-- Organizaciones -->
       <div style="margin-bottom: 24px;">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 10px;">
-          <h3 style="color: var(--morado); display: flex; align-items: center; gap: 8px;">
+          <h3 style="color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 8px;">
             🏢 Organizaciones
             <span class="badge-count" id="orgsCount">0</span>
           </h3>
-          <button class="btn-agregar" id="btnAgregarOrg">+ Agregar Organización</button>
+          <button class="btn-agregar" id="btnAgregarOrg" aria-label="Agregar nueva organización">+ Agregar Organización</button>
         </div>
         <div id="organizacionesContainer">
-          <p style="color: #73608a;">Cargando organizaciones...</p>
+          <p style="color: rgba(255,255,255,0.3);">Cargando organizaciones...</p>
         </div>
       </div>
 
       <!-- Solicitudes de Mentores -->
       <div style="margin-bottom: 24px;">
-        <h3 style="color: var(--morado); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <h3 style="color: rgba(255,255,255,0.8); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
           📋 Solicitudes de Mentores Pendientes
           <span class="badge-count" id="pendientesCount">0</span>
         </h3>
         <div id="solicitudesContainer">
-          <p style="color: #73608a;">Cargando solicitudes...</p>
+          <p style="color: rgba(255,255,255,0.3);">Cargando solicitudes...</p>
         </div>
       </div>
 
       <!-- PDFs Generados -->
       <div>
-        <h3 style="color: var(--morado); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+        <h3 style="color: rgba(255,255,255,0.8); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
           📄 PDFs Generados
           <span class="badge-count" id="pdfsCount">0</span>
         </h3>
         <div id="pdfsContainer">
-          <p style="color: #73608a;">Cargando PDFs...</p>
+          <p style="color: rgba(255,255,255,0.3);">Cargando PDFs...</p>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ============================================================
+     ===== MODALES =====
+     ============================================================ -->
+
 <!-- ===== MODAL LOGIN ===== -->
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-panel">
-    <h2>🔐 Iniciar Sesión</h2>
-    <p class="sub">Accede al panel de administración</p>
+<div class="modal-overlay" id="loginOverlay" role="dialog" aria-labelledby="loginTitle" aria-modal="true">
+  <div class="modal-panel" style="max-width: 400px;">
+    <h2 id="loginTitle" style="text-align: center;">🔐 Acceso Admin</h2>
+    <p style="text-align: center; color: rgba(255,255,255,0.4); margin-bottom: 20px;">Usuario: <strong style="color: var(--morado-claro);">RDJ</strong></p>
     <form id="loginForm">
-      <label>
-        Correo electrónico
-        <input type="email" id="loginEmail" placeholder="admin@conectared.mx" value="admin@conectared.mx">
+      <label style="display: none;">
+        Usuario
+        <input type="text" id="loginUser" value="RDJ" readonly style="opacity:0.5; cursor:not-allowed;">
       </label>
       <label>
-        Contraseña
-        <input type="password" id="loginPassword" placeholder="••••••••" value="ConectaRedSLP">
+        Contraseña *
+        <input type="password" id="loginPassword" placeholder="••••••••" required autofocus>
       </label>
-      <div class="login-error" id="loginError">Credenciales incorrectas. Intenta de nuevo.</div>
+      <div class="login-error" id="loginError">❌ Contraseña incorrecta. Intenta de nuevo.</div>
       <button type="submit" class="btn-login-submit">Iniciar Sesión</button>
       <button type="button" class="btn-cerrar-login" id="btnCerrarLogin">Cancelar</button>
     </form>
@@ -1616,9 +1639,10 @@
 </div>
 
 <!-- ===== MODAL AGREGAR ORGANIZACIÓN ===== -->
-<div class="org-overlay" id="orgOverlay">
-  <div class="org-panel">
-    <h2>🏢 Agregar Organización</h2>
+<div class="modal-overlay" id="orgOverlay" role="dialog" aria-labelledby="orgTitle" aria-modal="true">
+  <div class="modal-panel" style="max-width: 540px;">
+    <button class="modal-close" id="btnCerrarOrg" aria-label="Cerrar">✕</button>
+    <h2 id="orgTitle">🏢 Agregar Organización</h2>
     <p class="sub">Completa los datos de la nueva organización</p>
     <form id="formOrganizacion">
       <label>Nombre de la organización *
@@ -1648,36 +1672,87 @@
       <label>URL del mapa (Google Maps embed)
         <input type="text" id="orgMapa" placeholder="https://maps.google.com/maps?q=...">
       </label>
-
       <div class="form-actions">
-        <button type="button" class="btn-cancelar-org" id="btnCancelarOrg">Cancelar</button>
+        <button type="button" class="btn-volver" id="btnCancelarOrg">Cancelar</button>
         <button type="submit" class="btn-guardar-org">💾 Guardar Organización</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- ===== MODAL PRINCIPAL ===== -->
-<div class="modal-overlay" id="modalOverlay">
+<!-- ===== MODAL REGISTRO MENTOR ===== -->
+<div class="modal-overlay" id="mentorOverlay" role="dialog" aria-labelledby="mentorTitle" aria-modal="true">
+  <div class="modal-panel" style="max-width: 520px;">
+    <button class="modal-close" id="btnCerrarMentor" aria-label="Cerrar">✕</button>
+    <h2 id="mentorTitle">🧭 Registrar como Mentor</h2>
+    <p class="sub">Comparte tus habilidades y experiencia. Tu registro será validado por el administrador.</p>
+    <form id="formMentor">
+      <label>Nombre completo *
+        <input type="text" id="mentorNombre" placeholder="Ulises Martínez" required>
+      </label>
+      <label>Grupo / Clan *
+        <input type="text" id="mentorGrupo" placeholder="Scouter Gpo 12" required>
+      </label>
+      <label>CUM (Clave Única de Membresía) *
+        <input type="text" id="mentorCum" placeholder="CUM-12345" required>
+      </label>
+      <label>Correo de contacto *
+        <input type="email" id="mentorCorreo" placeholder="ulises@scouts.mx" required>
+      </label>
+      <label>Teléfono de contacto *
+        <input type="text" id="mentorTelefono" placeholder="4444396966" required>
+      </label>
+      <label>Áreas de experiencia (Ctrl+clic para múltiples)
+        <select id="mentorExperiencia" multiple style="height: 100px;">
+          <option value="Recursos Humanos">Recursos Humanos</option>
+          <option value="Talleres de Liderazgo">Talleres de Liderazgo</option>
+          <option value="Seguridad Acuática">Seguridad Acuática</option>
+          <option value="Alpinismo y Alta Montaña">Alpinismo y Alta Montaña</option>
+          <option value="Gestor de Proyectos">Gestor de Proyectos</option>
+          <option value="Educación Ambiental">Educación Ambiental</option>
+          <option value="Primeros Auxilios">Primeros Auxilios</option>
+          <option value="Tecnología y Programación">Tecnología y Programación</option>
+          <option value="Arte y Cultura">Arte y Cultura</option>
+          <option value="Deportes">Deportes</option>
+          <option value="Emprendimiento">Emprendimiento</option>
+          <option value="Comunicación y Redes">Comunicación y Redes</option>
+          <option value="Gestión de Eventos">Gestión de Eventos</option>
+          <option value="Trabajo Social">Trabajo Social</option>
+          <option value="Psicología">Psicología</option>
+          <option value="Nutrición">Nutrición</option>
+        </select>
+        <span style="font-size: 0.7rem; color: rgba(255,255,255,0.3);">Mantén presionado Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones</span>
+      </label>
+      <label>Breve descripción de tu experiencia *
+        <textarea id="mentorDescripcion" placeholder="Cuéntanos sobre tu experiencia y cómo puedes ayudar..." required></textarea>
+      </label>
+      <div class="form-actions">
+        <button type="button" class="btn-volver" id="btnCancelarMentor">Cancelar</button>
+        <button type="submit" class="btn-enviar">📤 Enviar solicitud a validar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== MODAL PRINCIPAL (Ficha + Formulario) ===== -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
   <div class="modal-panel">
-    <button class="modal-close" id="closeModalBtn">✕</button>
+    <button class="modal-close" id="closeModalBtn" aria-label="Cerrar">✕</button>
 
     <!-- Vista Ficha -->
     <div class="ficha-view" id="fichaView">
       <h2 id="fichaNombre">Nombre</h2>
       <span class="sector-tag" id="fichaSector">Sector</span>
       <div class="ficha-grid">
-        <div class="item"><label>Qué hace</label><span id="fichaDesc">Descripción</span></div>
-        <div class="item"><label>ODS Relacionados</label><span id="fichaODS">ODS</span></div>
-        <div class="item"><label>Contacto sugerido</label><span id="fichaContacto">Contacto</span></div>
-        <div class="item"><label>Correo</label><span id="fichaCorreo">correo@ejemplo.com</span></div>
-        <div class="item"><label>Teléfono</label><span id="fichaTelefono">(444) 123-4567</span></div>
-        <div class="item" style="grid-column: 1 / -1;"><label>Dirección</label><span id="fichaDireccion">Dirección</span></div>
+        <div class="item"><label>Qué hace</label><span id="fichaDesc">-</span></div>
+        <div class="item"><label>ODS Relacionados</label><span id="fichaODS">-</span></div>
+        <div class="item"><label>Contacto sugerido</label><span id="fichaContacto">-</span></div>
+        <div class="item"><label>Correo</label><span id="fichaCorreo">-</span></div>
+        <div class="item"><label>Teléfono</label><span id="fichaTelefono">-</span></div>
+        <div class="item" style="grid-column: 1 / -1;"><label>Dirección</label><span id="fichaDireccion">-</span></div>
       </div>
-      <div class="mapa-container" id="mapaContainer">
-        <iframe id="fichaMapa" src="" allowfullscreen loading="lazy"></iframe>
-      </div>
-      <button class="btn-accion-grande" id="btnIrFormulario">Tomar Iniciativa y Llenar Formulario de Vinculación ⚡</button>
+      <div class="mapa-container"><iframe id="fichaMapa" src="" allowfullscreen loading="lazy" title="Ubicación de la organización"></iframe></div>
+      <button class="btn-accion-grande" id="btnIrFormulario">Tomar Iniciativa y Llenar Formulario ⚡</button>
     </div>
 
     <!-- Vista Formulario -->
@@ -1712,11 +1787,10 @@
         <label>Fecha tentativa de inicio *
           <input type="date" id="fecha" required>
         </label>
-        <label>Sube una imagen de tu firma (Firma del Responsable del Proyecto)
+        <label>Sube una imagen de tu firma (opcional)
           <input type="file" id="firmaResponsable" accept="image/*">
         </label>
         <input type="hidden" id="institucionHidden" value="">
-
         <div class="form-actions">
           <button type="button" class="btn-volver" id="btnVolverFicha">← Volver a ficha</button>
           <button type="submit" class="btn-enviar">Enviar y Generar Carta 📄</button>
@@ -1726,110 +1800,131 @@
   </div>
 </div>
 
-<!-- ===== MODAL DE DECISIÓN ===== -->
-<div class="decision-overlay" id="decisionOverlay">
+<!-- ===== MODAL DECISIÓN ===== -->
+<div class="modal-overlay" id="decisionOverlay" role="dialog" aria-labelledby="decisionTitle" aria-modal="true">
   <div class="decision-panel">
-    <h2>✅ ¡PDF Generado!</h2>
+    <h2 id="decisionTitle">✅ ¡PDF Generado!</h2>
     <p>Tu carta de vinculación ha sido creada exitosamente.<br>¿Qué deseas hacer ahora?</p>
     <div class="decision-buttons">
-      <button class="btn-enviar-asociacion" id="btnEnviarAsociacion">📧 Enviar formato a la organización</button>
+      <button class="btn-enviar-asociacion" id="btnEnviarAsociacion">📧 Enviar a la organización</button>
       <button class="btn-solo-continuar" id="btnSoloContinuar">➡️ Solo continuar</button>
     </div>
   </div>
 </div>
 
-<!-- ===== MODAL DE CONTACTO ===== -->
-<div class="contacto-overlay" id="contactoOverlay">
+<!-- ===== MODAL CONTACTO ===== -->
+<div class="modal-overlay" id="contactoOverlay" role="dialog" aria-labelledby="contactoTitle" aria-modal="true">
   <div class="contacto-panel">
-    <h2>📨 Enviar a la organización</h2>
-    <div class="org-name" id="contactoOrgName">Nombre de la organización</div>
+    <h2 id="contactoTitle">📨 Enviar a la organización</h2>
+    <div class="org-name" id="contactoOrgName">-</div>
     <p class="sub">Elige el medio por el cual deseas enviar tu formato de vinculación:</p>
-
-    <div class="contacto-item" id="contactoCorreo">
+    <div class="contacto-item" id="contactoCorreo" role="button" tabindex="0" aria-label="Enviar por correo electrónico">
       <div class="icono">📧</div>
       <div class="info">
         <div class="label">Correo electrónico</div>
-        <div class="valor" id="contactoCorreoValor">correo@ejemplo.com</div>
+        <div class="valor" id="contactoCorreoValor">-</div>
       </div>
     </div>
-
-    <div class="contacto-item" id="contactoTelefono">
+    <div class="contacto-item" id="contactoTelefono" role="button" tabindex="0" aria-label="Contactar por teléfono">
       <div class="icono">📱</div>
       <div class="info">
         <div class="label">Teléfono / WhatsApp</div>
-        <div class="valor" id="contactoTelefonoValor">(444) 123-4567</div>
+        <div class="valor" id="contactoTelefonoValor">-</div>
       </div>
     </div>
-
     <button class="btn-cerrar-contacto" id="btnCerrarContacto">✕ Cerrar</button>
   </div>
 </div>
 
-<!-- ===== MODAL REGISTRO MENTOR ===== -->
-<div class="mentor-overlay" id="mentorOverlay">
-  <div class="mentor-panel">
-    <h2>🧭 Registrar como Mentor</h2>
-    <p class="sub">Comparte tus habilidades y experiencia para apoyar a otros Rovers en sus proyectos.<br>Tu registro será validado por el administrador.</p>
-    <form id="formMentor">
-      <label>Nombre completo *
-        <input type="text" id="mentorNombre" placeholder="Ulises Martínez" required>
-      </label>
-      <label>Grupo / Clan *
-        <input type="text" id="mentorGrupo" placeholder="Scouter Gpo 12" required>
-      </label>
-      <label>CUM (Clave Única de Membresía) *
-        <input type="text" id="mentorCum" placeholder="CUM-12345" required>
-      </label>
-      <label>Correo de contacto *
-        <input type="email" id="mentorCorreo" placeholder="ulises@scouts.mx" required>
-      </label>
-      <label>Teléfono de contacto *
-        <input type="text" id="mentorTelefono" placeholder="4444396966" required>
-      </label>
-      <label>Áreas de experiencia (selecciona todas las que apliquen)
-        <select id="mentorExperiencia" multiple style="height: 100px;">
-          <option value="Recursos Humanos">Recursos Humanos</option>
-          <option value="Talleres de Liderazgo">Talleres de Liderazgo</option>
-          <option value="Seguridad Acuática">Seguridad Acuática</option>
-          <option value="Alpinismo y Alta Montaña">Alpinismo y Alta Montaña</option>
-          <option value="Gestor de Proyectos">Gestor de Proyectos</option>
-          <option value="Educación Ambiental">Educación Ambiental</option>
-          <option value="Primeros Auxilios">Primeros Auxilios</option>
-          <option value="Tecnología y Programación">Tecnología y Programación</option>
-          <option value="Arte y Cultura">Arte y Cultura</option>
-          <option value="Deportes">Deportes</option>
-          <option value="Emprendimiento">Emprendimiento</option>
-          <option value="Comunicación y Redes">Comunicación y Redes</option>
-          <option value="Gestión de Eventos">Gestión de Eventos</option>
-          <option value="Trabajo Social">Trabajo Social</option>
-          <option value="Psicología">Psicología</option>
-          <option value="Nutrición">Nutrición</option>
-        </select>
-        <span style="font-size: 0.75rem; color: #73608a;">Mantén presionado Ctrl (Windows) o Cmd (Mac) para seleccionar múltiples opciones</span>
-      </label>
-      <label>Breve descripción de tu experiencia y cómo puedes ayudar *
-        <textarea id="mentorDescripcion" placeholder="Cuéntanos sobre tu experiencia, proyectos en los que has participado y cómo puedes apoyar a otros Rovers..." required></textarea>
-      </label>
-
-      <div class="form-actions">
-        <button type="button" class="btn-cancelar-mentor" id="btnCancelarMentor">Cancelar</button>
-        <button type="submit" class="btn-registrar-mentor">📤 Enviar solicitud a validar</button>
-      </div>
-    </form>
-  </div>
-</div>
-
 <!-- ===== TOAST ===== -->
-<div class="toast-success" id="toastSuccess">
+<div class="toast-success" id="toastSuccess" role="alert" aria-live="polite">
   <span class="check">✔</span>
-  <span>¡Puerta abierta con éxito! El balón está en tu cancha, ¡cambia tu entorno!</span>
+  <span id="toastMessage">¡Puerta abierta con éxito!</span>
 </div>
 
+<!-- ============================================================
+     ===== JAVASCRIPT =====
+     ============================================================ -->
 <script>
   (function() {
     "use strict";
 
-    // ===== BASE DE DATOS DE ORGANIZACIONES CON ODS =====
+    // ============================================================
+    // ===== PARTÍCULAS (Fondo animado) =====
+    // ============================================================
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouseX = 0;
+    let mouseY = 0;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.opacity = Math.random() * 0.5 + 0.2;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        // Efecto mouse
+        const dx = mouseX - this.x;
+        const dy = mouseY - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          const force = (150 - dist) / 150 * 0.02;
+          this.x += dx * force;
+          this.y += dy * force;
+        }
+
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 120; i++) {
+      particles.push(new Particle());
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
+
+    // ============================================================
+    // ===== DATOS =====
+    // ============================================================
     const organizations = [
       { id: 1, nombre: "Cáritas San Luis Potosí Oficinas Centrales", sector: "Asistencia social", ods: ["ODS 1", "ODS 2", "ODS 10"], descripcion: "Programas de alimentación, salud, desarrollo comunitario y apoyo a personas vulnerables.", contacto: "Dirección General o Coordinación de Voluntariado", correo: "Solicitar vía oficina central", telefono: "(444) 812-2351", direccion: "Álvaro Obregón 626, Zona Centro, C.P. 78000, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Alvaro+Obregon+626,+Zona+Centro,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
       { id: 2, nombre: "Casa de la Caridad Hogar del Migrante Mons. Luis Morales Reyes", sector: "Migración", ods: ["ODS 10", "ODS 16"], descripcion: "Alberga y brinda apoyo integral a personas migrantes.", contacto: "Dirección General", correo: "Solicitar vía recepción", telefono: "(444) 815-6225", direccion: "Juan Álvarez No. 210, Barrio de Tlaxcala, C.P. 78038, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Juan+Alvarez+210,+Barrio+de+Tlaxcala,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" },
@@ -1853,134 +1948,150 @@
       { id: 20, nombre: "Sistema DIF Estatal de San Luis Potosí", sector: "Asistencia social", ods: ["ODS 1", "ODS 3", "ODS 10"], descripcion: "Vincula instituciones de asistencia social, programas comunitarios y apoyo a población vulnerable.", contacto: "Dirección de Gestión y Participación Social", correo: "virginia.zuniga@difslp.gob.mx", telefono: "(444) 151-5000", direccion: "Nicolás Fernando Torre 500, Col. Burócrata, San Luis Potosí, S.L.P.", mapa: "https://maps.google.com/maps?q=Nicolas+Fernando+Torre+500,+Col.+Burocrata,+San+Luis+Potosi&t=&z=15&ie=UTF8&iwloc=&output=embed" }
     ];
 
-    // ===== BASE DE DATOS DE MENTORES =====
     let mentores = [
       { id: 1, nombre: "Ulises Martínez", grupo: "Scouter Gpo 12", cum: "CUM-012", correo: "ulises@scouts.mx", telefono: "4444396966", experiencia: ["Recursos Humanos", "Talleres de Liderazgo", "Gestor de Proyectos", "Deportes"], descripcion: "Scouter con amplia experiencia en formación de líderes scouts, gestión de proyectos comunitarios y actividades deportivas. He coordinado más de 15 proyectos sociales en la región." }
     ];
 
-    // ===== LISTA DE MENTORES PENDIENTES (para admin) =====
     let mentoresPendientes = [];
-
-    // ===== LISTA DE PDFs GENERADOS (para admin) =====
     let pdfsGenerados = [];
-
-    // ===== ESTADO DE ADMIN =====
     let isAdmin = false;
 
+    // ============================================================
     // ===== DOM REFS =====
-    const cardsContainer = document.getElementById('cardsContainer');
-    const mentoresContainer = document.getElementById('mentoresContainer');
-    const organizacionesContainer = document.getElementById('organizacionesContainer');
-    const solicitudesContainer = document.getElementById('solicitudesContainer');
-    const pdfsContainer = document.getElementById('pdfsContainer');
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
+    // ============================================================
+    const $ = id => document.getElementById(id);
+    const cardsContainer = $('cardsContainer');
+    const mentoresContainer = $('mentoresContainer');
+    const organizacionesContainer = $('organizacionesContainer');
+    const solicitudesContainer = $('solicitudesContainer');
+    const pdfsContainer = $('pdfsContainer');
+    const searchInput = $('searchInput');
+    const searchBtn = $('searchBtn');
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const fichaView = document.getElementById('fichaView');
-    const formView = document.getElementById('formView');
-    const btnIrFormulario = document.getElementById('btnIrFormulario');
-    const btnVolverFicha = document.getElementById('btnVolverFicha');
-    const form = document.getElementById('formVinculacion');
-    const institucionHidden = document.getElementById('institucionHidden');
-    const toast = document.getElementById('toastSuccess');
-    const navActions = document.getElementById('navActions');
+    const modalOverlay = $('modalOverlay');
+    const closeModalBtn = $('closeModalBtn');
+    const fichaView = $('fichaView');
+    const formView = $('formView');
+    const btnIrFormulario = $('btnIrFormulario');
+    const btnVolverFicha = $('btnVolverFicha');
+    const form = $('formVinculacion');
+    const institucionHidden = $('institucionHidden');
+    const toast = $('toastSuccess');
+    const toastMessage = $('toastMessage');
+    const navActions = $('navActions');
 
     // Tabs
     const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabOrganizaciones = document.getElementById('tabOrganizaciones');
-    const tabMentores = document.getElementById('tabMentores');
-    const tabAdmin = document.getElementById('tabAdmin');
+    const tabOrganizaciones = $('tabOrganizaciones');
+    const tabMentores = $('tabMentores');
+    const tabAdmin = $('tabAdmin');
 
     // Contadores
-    const pendientesCount = document.getElementById('pendientesCount');
-    const pdfsCount = document.getElementById('pdfsCount');
-    const orgsCount = document.getElementById('orgsCount');
+    const pendientesCount = $('pendientesCount');
+    const pdfsCount = $('pdfsCount');
+    const orgsCount = $('orgsCount');
 
     // Login
-    const loginOverlay = document.getElementById('loginOverlay');
-    const loginForm = document.getElementById('loginForm');
-    const loginEmail = document.getElementById('loginEmail');
-    const loginPassword = document.getElementById('loginPassword');
-    const loginError = document.getElementById('loginError');
-    const btnCerrarLogin = document.getElementById('btnCerrarLogin');
+    const loginOverlay = $('loginOverlay');
+    const loginForm = $('loginForm');
+    const loginPassword = $('loginPassword');
+    const loginError = $('loginError');
+    const btnCerrarLogin = $('btnCerrarLogin');
 
     // Agregar Org
-    const orgOverlay = document.getElementById('orgOverlay');
-    const formOrganizacion = document.getElementById('formOrganizacion');
-    const btnAgregarOrg = document.getElementById('btnAgregarOrg');
-    const btnCancelarOrg = document.getElementById('btnCancelarOrg');
+    const orgOverlay = $('orgOverlay');
+    const formOrganizacion = $('formOrganizacion');
+    const btnAgregarOrg = $('btnAgregarOrg');
+    const btnCancelarOrg = $('btnCancelarOrg');
+    const btnCerrarOrg = $('btnCerrarOrg');
 
     // Decision Modal
-    const decisionOverlay = document.getElementById('decisionOverlay');
-    const btnEnviarAsociacion = document.getElementById('btnEnviarAsociacion');
-    const btnSoloContinuar = document.getElementById('btnSoloContinuar');
+    const decisionOverlay = $('decisionOverlay');
+    const btnEnviarAsociacion = $('btnEnviarAsociacion');
+    const btnSoloContinuar = $('btnSoloContinuar');
 
     // Contacto Modal
-    const contactoOverlay = document.getElementById('contactoOverlay');
-    const btnCerrarContacto = document.getElementById('btnCerrarContacto');
-    const contactoCorreo = document.getElementById('contactoCorreo');
-    const contactoTelefono = document.getElementById('contactoTelefono');
-    const contactoCorreoValor = document.getElementById('contactoCorreoValor');
-    const contactoTelefonoValor = document.getElementById('contactoTelefonoValor');
-    const contactoOrgName = document.getElementById('contactoOrgName');
+    const contactoOverlay = $('contactoOverlay');
+    const btnCerrarContacto = $('btnCerrarContacto');
+    const contactoCorreo = $('contactoCorreo');
+    const contactoTelefono = $('contactoTelefono');
+    const contactoCorreoValor = $('contactoCorreoValor');
+    const contactoTelefonoValor = $('contactoTelefonoValor');
+    const contactoOrgName = $('contactoOrgName');
 
     // Mentor Modal
-    const mentorOverlay = document.getElementById('mentorOverlay');
-    const btnRegistroMentor = document.getElementById('btnRegistroMentor');
-    const btnCancelarMentor = document.getElementById('btnCancelarMentor');
-    const formMentor = document.getElementById('formMentor');
+    const mentorOverlay = $('mentorOverlay');
+    const btnRegistroMentor = $('btnRegistroMentor');
+    const btnCancelarMentor = $('btnCancelarMentor');
+    const btnCerrarMentor = $('btnCerrarMentor');
+    const formMentor = $('formMentor');
 
     // Ficha
-    const fichaNombre = document.getElementById('fichaNombre');
-    const fichaSector = document.getElementById('fichaSector');
-    const fichaDesc = document.getElementById('fichaDesc');
-    const fichaODS = document.getElementById('fichaODS');
-    const fichaContacto = document.getElementById('fichaContacto');
-    const fichaCorreo = document.getElementById('fichaCorreo');
-    const fichaTelefono = document.getElementById('fichaTelefono');
-    const fichaDireccion = document.getElementById('fichaDireccion');
-    const fichaMapa = document.getElementById('fichaMapa');
+    const fichaNombre = $('fichaNombre');
+    const fichaSector = $('fichaSector');
+    const fichaDesc = $('fichaDesc');
+    const fichaODS = $('fichaODS');
+    const fichaContacto = $('fichaContacto');
+    const fichaCorreo = $('fichaCorreo');
+    const fichaTelefono = $('fichaTelefono');
+    const fichaDireccion = $('fichaDireccion');
+    const fichaMapa = $('fichaMapa');
 
     let currentOrg = null;
     let currentFilter = 'all';
 
     // ============================================================
-    // ===== FUNCIONES DE ADMIN =====
+    // ===== FUNCIONES TOAST =====
     // ============================================================
+    function mostrarToast(mensaje, icono = '✔') {
+      toastMessage.textContent = mensaje;
+      toast.querySelector('.check').textContent = icono;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    }
 
-    // Login
+    // ============================================================
+    // ===== ADMIN =====
+    // ============================================================
     function mostrarLogin() {
       loginError.style.display = 'none';
+      loginPassword.value = '';
       loginOverlay.classList.add('open');
+      setTimeout(() => loginPassword.focus(), 300);
     }
 
     function cerrarLogin() {
       loginOverlay.classList.remove('open');
-      loginError.style.display = 'none';
     }
 
     loginForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      const email = loginEmail.value.trim();
       const password = loginPassword.value.trim();
 
-      // Credenciales fijas para admin
-      if (email === 'admin@conectared.mx' && password === 'ConectaRedSLP') {
+      if (password === 'ConectaRedSLP') {
         isAdmin = true;
         loginError.style.display = 'none';
         cerrarLogin();
         actualizarNav();
-        mostrarToast('✅', 'Bienvenido, Administrador');
+        mostrarToast('Bienvenido, Administrador', '✅');
+        renderizarAdmin();
       } else {
         loginError.style.display = 'block';
+        loginPassword.value = '';
+        loginPassword.focus();
       }
     });
 
     btnCerrarLogin.addEventListener('click', cerrarLogin);
     loginOverlay.addEventListener('click', function(e) {
       if (e.target === loginOverlay) cerrarLogin();
+    });
+
+    // Enter en el campo de contraseña
+    loginPassword.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        loginForm.dispatchEvent(new Event('submit'));
+      }
     });
 
     function cerrarSesion() {
@@ -1990,7 +2101,7 @@
       if (document.querySelector('.tab-btn.active')?.dataset.tab === 'admin') {
         document.querySelector('.tab-btn[data-tab="organizaciones"]')?.click();
       }
-      mostrarToast('👋', 'Sesión cerrada correctamente');
+      mostrarToast('Sesión cerrada', '👋');
     }
 
     function actualizarNav() {
@@ -2004,21 +2115,18 @@
         `;
         document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
         document.querySelectorAll('.admin-only').forEach(el => el.classList.add('visible'));
-        renderizarAdmin();
+        // Mostrar pestaña Admin
+        const adminTab = document.querySelector('.tab-btn[data-tab="admin"]');
+        if (adminTab) adminTab.style.display = 'inline-block';
       } else {
         navActions.innerHTML = `
           <button class="btn-login" id="btnLogin">🔐 Admin</button>
         `;
         document.getElementById('btnLogin').addEventListener('click', mostrarLogin);
         document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('visible'));
+        const adminTab = document.querySelector('.tab-btn[data-tab="admin"]');
+        if (adminTab) adminTab.style.display = 'none';
       }
-    }
-
-    function mostrarToast(icono, mensaje) {
-      toast.querySelector('.check').textContent = icono;
-      toast.querySelector('span:last-child').textContent = mensaje;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
     // ============================================================
@@ -2043,7 +2151,7 @@
               organizations.splice(idx, 1);
               renderizarAdmin();
               filterCards();
-              mostrarToast('🗑️', 'Organización eliminada');
+              mostrarToast('Organización eliminada', '🗑️');
             }
           }
         });
@@ -2052,7 +2160,7 @@
       // Solicitudes pendientes
       pendientesCount.textContent = mentoresPendientes.length;
       if (mentoresPendientes.length === 0) {
-        solicitudesContainer.innerHTML = '<p style="color: #73608a;">No hay solicitudes de mentor pendientes.</p>';
+        solicitudesContainer.innerHTML = '<p style="color: rgba(255,255,255,0.3);">No hay solicitudes de mentor pendientes.</p>';
       } else {
         let html = `<table class="admin-table"><thead><tr><th>Nombre</th><th>Grupo</th><th>Correo</th><th>Acciones</th></tr></thead><tbody>`;
         mentoresPendientes.forEach((s, idx) => {
@@ -2069,15 +2177,12 @@
             const idx = parseInt(this.dataset.idx);
             const mentor = mentoresPendientes[idx];
             if (mentor) {
-              const nuevoMentor = {
-                id: mentores.length + 1,
-                ...mentor
-              };
+              const nuevoMentor = { id: mentores.length + 1, ...mentor };
               mentores.push(nuevoMentor);
               mentoresPendientes.splice(idx, 1);
               renderizarAdmin();
               renderMentores(mentores);
-              mostrarToast('✅', 'Mentor aprobado correctamente');
+              mostrarToast('Mentor aprobado', '✅');
             }
           });
         });
@@ -2088,7 +2193,7 @@
             if (confirm('¿Rechazar este mentor?')) {
               mentoresPendientes.splice(idx, 1);
               renderizarAdmin();
-              mostrarToast('❌', 'Mentor rechazado');
+              mostrarToast('Mentor rechazado', '❌');
             }
           });
         });
@@ -2097,7 +2202,7 @@
       // PDFs
       pdfsCount.textContent = pdfsGenerados.length;
       if (pdfsGenerados.length === 0) {
-        pdfsContainer.innerHTML = '<p style="color: #73608a;">No hay PDFs generados aún.</p>';
+        pdfsContainer.innerHTML = '<p style="color: rgba(255,255,255,0.3);">No hay PDFs generados aún.</p>';
       } else {
         let html = `<table class="admin-table"><thead><tr><th>Proyecto</th><th>Responsable</th><th>Organización</th><th>Fecha</th></tr></thead><tbody>`;
         pdfsGenerados.forEach(p => {
@@ -2114,6 +2219,11 @@
     // ============================================================
     btnAgregarOrg.addEventListener('click', function() {
       orgOverlay.classList.add('open');
+    });
+
+    btnCerrarOrg.addEventListener('click', function() {
+      orgOverlay.classList.remove('open');
+      formOrganizacion.reset();
     });
 
     btnCancelarOrg.addEventListener('click', function() {
@@ -2166,28 +2276,28 @@
       formOrganizacion.reset();
       renderizarAdmin();
       filterCards();
-      mostrarToast('🏢', 'Organización agregada correctamente');
+      mostrarToast('Organización agregada', '🏢');
     });
 
     // ============================================================
-    // ===== RENDER TARJETAS DE ORGANIZACIONES =====
+    // ===== RENDER TARJETAS =====
     // ============================================================
     function renderCards(list) {
       cardsContainer.innerHTML = '';
       if (list.length === 0) {
-        cardsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #73608a;">No se encontraron organizaciones con los filtros seleccionados.</p>';
+        cardsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: rgba(255,255,255,0.3);">No se encontraron organizaciones con los filtros seleccionados.</p>';
         return;
       }
       list.forEach(org => {
         const card = document.createElement('div');
         card.className = 'card';
-        card.dataset.sector = org.sector;
+        card.setAttribute('role', 'listitem');
         card.innerHTML = `
           <div class="ods-tag">${org.ods.join(' · ')}</div>
           <h3>${org.nombre}</h3>
           <span class="tag">${org.sector}</span>
           <p class="desc">${org.descripcion}</p>
-          <button class="btn-vinculacion" data-id="${org.id}">Ver ficha y vincular ⚡</button>
+          <button class="btn-vinculacion" data-id="${org.id}" aria-label="Ver ficha de ${org.nombre}">Ver ficha y vincular ⚡</button>
         `;
         cardsContainer.appendChild(card);
       });
@@ -2207,12 +2317,13 @@
     function renderMentores(list) {
       mentoresContainer.innerHTML = '';
       if (list.length === 0) {
-        mentoresContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #73608a;">No hay mentores registrados aún. ¡Sé el primero en registrarte!</p>';
+        mentoresContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: rgba(255,255,255,0.3);">No hay mentores registrados aún. ¡Sé el primero en registrarte!</p>';
         return;
       }
       list.forEach(mentor => {
         const card = document.createElement('div');
         card.className = 'card-mentor';
+        card.setAttribute('role', 'listitem');
         const iniciales = mentor.nombre.split(' ').map(n => n[0]).join('');
         card.innerHTML = `
           <div class="mentor-header">
@@ -2225,10 +2336,10 @@
           <div class="skills">
             ${mentor.experiencia.map(exp => `<span>${exp}</span>`).join('')}
           </div>
-          <p style="color: #2f2a3b; font-size: 0.9rem; line-height: 1.5; margin: 4px 0 12px 0;">${mentor.descripcion}</p>
+          <p class="desc">${mentor.descripcion}</p>
           <div class="contact-buttons">
-            <button class="btn-whatsapp" data-telefono="${mentor.telefono}" data-nombre="${mentor.nombre}">💬 WhatsApp</button>
-            <button class="btn-email-mentor" data-correo="${mentor.correo}" data-nombre="${mentor.nombre}">✉️ Correo</button>
+            <button class="btn-whatsapp" data-telefono="${mentor.telefono}" data-nombre="${mentor.nombre}" aria-label="Contactar por WhatsApp">💬 WhatsApp</button>
+            <button class="btn-email-mentor" data-correo="${mentor.correo}" data-nombre="${mentor.nombre}" aria-label="Contactar por correo electrónico">✉️ Correo</button>
           </div>
         `;
         mentoresContainer.appendChild(card);
@@ -2255,7 +2366,7 @@
     }
 
     // ============================================================
-    // ===== FILTROS Y BÚSQUEDA =====
+    // ===== FILTROS =====
     // ============================================================
     function filterCards() {
       const query = searchInput.value.toLowerCase().trim();
@@ -2280,6 +2391,7 @@
       btn.addEventListener('click', function() {
         filterBtns.forEach(b => b.classList.remove('active'));
         this.classList.add('active');
+        this.setAttribute('aria-pressed', 'true');
         currentFilter = this.dataset.filter;
         filterCards();
       });
@@ -2293,29 +2405,28 @@
     // ============================================================
     tabBtns.forEach(btn => {
       btn.addEventListener('click', function() {
-        tabBtns.forEach(b => b.classList.remove('active'));
+        tabBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
         this.classList.add('active');
+        this.setAttribute('aria-selected', 'true');
 
         const tab = this.dataset.tab;
-        if (tab === 'organizaciones') {
-          tabOrganizaciones.classList.add('active');
-          tabMentores.classList.remove('active');
-          tabAdmin.classList.remove('active');
-        } else if (tab === 'mentores') {
-          tabOrganizaciones.classList.remove('active');
-          tabMentores.classList.add('active');
-          tabAdmin.classList.remove('active');
-        } else if (tab === 'admin') {
-          tabOrganizaciones.classList.remove('active');
-          tabMentores.classList.remove('active');
-          tabAdmin.classList.add('active');
-          if (isAdmin) renderizarAdmin();
-        }
+        tabOrganizaciones.classList.toggle('active', tab === 'organizaciones');
+        tabMentores.classList.toggle('active', tab === 'mentores');
+        tabAdmin.classList.toggle('active', tab === 'admin');
+
+        if (tab === 'mentores') renderMentores(mentores);
+        if (tab === 'admin' && isAdmin) renderizarAdmin();
       });
     });
 
+    // Ocultar pestaña Admin inicialmente
+    document.querySelector('.tab-btn[data-tab="admin"]').style.display = 'none';
+
     // ============================================================
-    // ===== MODAL: FICHA =====
+    // ===== MODAL FICHA =====
     // ============================================================
     function openFicha(org) {
       currentOrg = org;
@@ -2359,23 +2470,14 @@
     // ============================================================
     // ===== DECISIONES =====
     // ============================================================
-    function mostrarDecisiones() {
-      decisionOverlay.classList.add('open');
-    }
-
-    function cerrarDecisiones() {
-      decisionOverlay.classList.remove('open');
-    }
+    function mostrarDecisiones() { decisionOverlay.classList.add('open'); }
+    function cerrarDecisiones() { decisionOverlay.classList.remove('open'); }
 
     function mostrarContacto(org) {
       contactoOrgName.textContent = org.nombre;
       contactoCorreoValor.textContent = org.correo;
       contactoTelefonoValor.textContent = org.telefono;
       contactoOverlay.classList.add('open');
-    }
-
-    function cerrarContacto() {
-      contactoOverlay.classList.remove('open');
     }
 
     btnEnviarAsociacion.addEventListener('click', function() {
@@ -2391,16 +2493,17 @@
 
     btnSoloContinuar.addEventListener('click', function() {
       cerrarDecisiones();
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 5000);
+      mostrarToast('¡Proceso completado!', '✅');
       closeModal();
       form.reset();
-      institucionHidden.value = '';
     });
 
-    btnCerrarContacto.addEventListener('click', cerrarContacto);
+    btnCerrarContacto.addEventListener('click', function() {
+      contactoOverlay.classList.remove('open');
+    });
+
     contactoOverlay.addEventListener('click', function(e) {
-      if (e.target === contactoOverlay) cerrarContacto();
+      if (e.target === contactoOverlay) contactoOverlay.classList.remove('open');
     });
 
     contactoCorreo.addEventListener('click', function() {
@@ -2408,7 +2511,7 @@
       if (email && !email.includes('Solicitar')) {
         window.location.href = `mailto:${email}`;
       } else {
-        alert('Esta organización no tiene un correo electrónico público disponible. Por favor, contacta por teléfono o visita sus oficinas.');
+        alert('Esta organización no tiene un correo electrónico público disponible.');
       }
     });
 
@@ -2426,10 +2529,15 @@
     });
 
     // ============================================================
-    // ===== MODAL MENTOR - ENVIAR A VALIDAR =====
+    // ===== MODAL MENTOR =====
     // ============================================================
     btnRegistroMentor.addEventListener('click', function() {
       mentorOverlay.classList.add('open');
+    });
+
+    btnCerrarMentor.addEventListener('click', function() {
+      mentorOverlay.classList.remove('open');
+      formMentor.reset();
     });
 
     btnCancelarMentor.addEventListener('click', function() {
@@ -2464,22 +2572,15 @@
       const mentorPendiente = { nombre, grupo, cum, correo, telefono, experiencia, descripcion };
       mentoresPendientes.push(mentorPendiente);
 
-      // Si el admin está logueado, mostrar en panel
       if (isAdmin) renderizarAdmin();
 
       mentorOverlay.classList.remove('open');
       formMentor.reset();
-
-      toast.innerHTML = '<span class="check">📤</span><span>¡Solicitud enviada a validación! El administrador la revisará.</span>';
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-        toast.innerHTML = '<span class="check">✔</span><span>¡Puerta abierta con éxito! El balón está en tu cancha, ¡cambia tu entorno!</span>';
-      }, 5000);
+      mostrarToast('¡Solicitud enviada a validación!', '📤');
     });
 
     // ============================================================
-    // ===== FORMULARIO Y GENERACIÓN PDF =====
+    // ===== FORMULARIO Y PDF =====
     // ============================================================
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -2501,7 +2602,6 @@
         return;
       }
 
-      // Guardar PDF en el historial (para admin)
       pdfsGenerados.push({
         proyecto,
         responsable,
@@ -2631,7 +2731,7 @@
         }
 
       } else {
-        alert('La librería jspdf no se cargó correctamente. Revisa tu conexión.');
+        alert('La librería jspdf no se cargó correctamente.');
       }
     });
 
